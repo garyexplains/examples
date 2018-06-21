@@ -10,8 +10,7 @@ def bubblesort(list):
                 swapped = False
                 for i in range(len(list)-1):
                         if(list[i] > list[i+1]):
-                                print "Index: " + str(i) + " - Swap " + str(list
-[i]) + " with " + str(list[i+1])
+                                print "Index: " + str(i) + " - Swap " + str(list[i]) + " with " + str(list[i+1])
                                 tmp = list [i]
                                 list[i] = list[i+1]
                                 list[i+1] = tmp
