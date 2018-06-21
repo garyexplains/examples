@@ -18,7 +18,7 @@ element *insert_ordered(element *head, int v) {
         while( (p->next != NULL) && (p->next->value < v) ) {
                 p = p->next;
         }
-        // Now p point to place to insert new element
+        // Now p points to place to insert new element
         element *ne = malloc(sizeof(element));
         ne->value = v;
         ne->next = p->next;
