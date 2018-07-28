@@ -83,7 +83,6 @@ void * doSomeThing(void * arg) {
 }
 
 int main(int argc, char * argv[]) {
-printf("%s\n", argv[0]);
     if(strstr(argv[0], "nothreadtesttool")!=NULL) {
 	gNoThreads = 1;
     }
