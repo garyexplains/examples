@@ -25,15 +25,18 @@
 //
 // Comile with:
 // gcc -lpthread -o threadtesttool threadtesttool.c
+// On Linux, you can compile (optimizations again optional) it with:
+// gcc -O3 -o threadtesttool threadtesttool.c -pthread
 //
 
 //
 // Usage:
-// threadtesttool [[num_threads] num_primes_to_find]
+// Usually you use this together with time to get a measurement. 
+// time ./threadtesttool [[num_threads] num_primes_to_find]
 //
 // OR
 //
-// nothreadtesttool [[num_threads] num_primes_to_find]
+// time ./nothreadtesttool [[num_threads] num_primes_to_find]
 //
 // Note to create "nothreadtesttool" use:
 // ln -s threadtesttool nothreadtesttool
