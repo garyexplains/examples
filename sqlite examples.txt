@@ -7,6 +7,17 @@ INSERT INTO "smartphones" VALUES('Google','Pixel 3a','google.com','California','
 INSERT INTO "smartphones" VALUES('Huawei','P30 Pro','huawei.com','Shenzhen','Kirin 980',8,'Mali-G76 MP10',8,128,'Android 9.0',6.47);
 INSERT INTO "smartphones" VALUES('Huawei','Mate 20 Pro','huawei.com','Shenzhen','Kirin 980',8,'Mali-G76 MP10',8,256,'Android 9.0',6.39);
 
+-- SELECT
+SELECT * FROM smartphones;
+
+SELECT oem,model FROM smartphones;
+
+SELECT oem,model FROM smartphones WHERE Display_Size > 6.0;
+
+SELECT oem,model,processor FROM smartphones WHERE Processor LIKE '%Snap%';
+
+SELECT oem,model FROM smartphones WHERE ram=4;
+
 -- For normalized db
 CREATE TABLE smartphones (OEM text, Model text, Processor text, RAM integer, Storage integer, OS text, Display_Size real);
 INSERT INTO "smartphones" VALUES('OnePlus','7','Snapdragon 855',8,256,'Android 9.0',6.41);
@@ -24,3 +35,6 @@ INSERT INTO "processors" VALUES('Snapdragon 855',8,'Adreno 640');
 INSERT INTO "processors" VALUES('Snapdragon 845',8,'Adreno 630');
 INSERT INTO "processors" VALUES('Snapdragon 670',8,'Adreno 615');
 INSERT INTO "processors" VALUES('Kirin 980',8,'Mali-G76 MP10');
+
+-- SELECT with JOIN
+SELECT oem,model,processor,gpu FROM smartphones JOIN processors USING (processor) WHERE RAM=4;
