@@ -1,0 +1,26 @@
+-- SQLite examples
+CREATE TABLE smartphones (OEM text, Model text, OEM_Website text, OEM_HQ text, Processor text, Cores integer, GPU text, RAM integer, Storage integer, OS text, Display_Size real);
+INSERT INTO "smartphones" VALUES('OnePlus','7','oneplus.net','Shenzhen','Snapdragon 855',8,'Adreno 640',8,256,'Android 9.0',6.41);
+INSERT INTO "smartphones" VALUES('OnePlus','6T','oneplus.net','Shenzhen','Snapdragon 845',8,'Adreno 630',8,256,'Android 9.0',6.41);
+INSERT INTO "smartphones" VALUES('Google','Pixel 3','google.com','California','Snapdragon 845',8,'Adreno 630',4,128,'Android 9.0',5.5);
+INSERT INTO "smartphones" VALUES('Google','Pixel 3a','google.com','California','Snapdragon 670',8,'Adreno 615',4,64,'Android 9.0',5.6);
+INSERT INTO "smartphones" VALUES('Huawei','P30 Pro','huawei.com','Shenzhen','Kirin 980',8,'Mali-G76 MP10',8,128,'Android 9.0',6.47);
+INSERT INTO "smartphones" VALUES('Huawei','Mate 20 Pro','huawei.com','Shenzhen','Kirin 980',8,'Mali-G76 MP10',8,256,'Android 9.0',6.39);
+
+-- For normalized db
+CREATE TABLE smartphones (OEM text, Model text, Processor text, RAM integer, Storage integer, OS text, Display_Size real);
+INSERT INTO "smartphones" VALUES('OnePlus','7','Snapdragon 855',8,256,'Android 9.0',6.41);
+INSERT INTO "smartphones" VALUES('OnePlus','6T','Snapdragon 845',8,256,'Android 9.0',6.41);
+INSERT INTO "smartphones" VALUES('Google','Pixel 3','Snapdragon 845',4,128,'Android 9.0',5.5);
+INSERT INTO "smartphones" VALUES('Google','Pixel 3a','Snapdragon 670',4,64,'Android 9.0',5.6);
+INSERT INTO "smartphones" VALUES('Huawei','P30 Pro','Kirin 980',8,128,'Android 9.0',6.47);
+INSERT INTO "smartphones" VALUES('Huawei','Mate 20 Pro','Kirin 980',8,256,'Android 9.0',6.39);
+CREATE TABLE oems (OEM text, OEM_Website text, OEM_HQ text);
+INSERT INTO "oems" VALUES('OnePlus','oneplus.net','Shenzen');
+INSERT INTO "oems" VALUES('Google','google.com','California');
+INSERT INTO "oems" VALUES('Huawei','huawei.com','Shenzen');
+CREATE TABLE processors (Processor text, Cores integer, GPU text);
+INSERT INTO "processors" VALUES('Snapdragon 855',8,'Adreno 640');
+INSERT INTO "processors" VALUES('Snapdragon 845',8,'Adreno 630');
+INSERT INTO "processors" VALUES('Snapdragon 670',8,'Adreno 615');
+INSERT INTO "processors" VALUES('Kirin 980',8,'Mali-G76 MP10');
