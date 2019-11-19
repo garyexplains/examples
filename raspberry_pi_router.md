@@ -1,5 +1,5 @@
 ## Assumption
-You have Raspian installed on your Pi and that you can connect to it over Ethernet from your primary LAN (_eth0_).
+You have Raspian installed on your Pi and that its primary LAN (_eth0_) is configured to use DHCP. It will likley get its address information from your Internet modem/routers. I assume you can connect to it over _eth0_.
 
 ## Install dnsmasq
 From the command line, run `sudo apt install dnsmasq` to install dnsmasq
