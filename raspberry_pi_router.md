@@ -1,5 +1,5 @@
-# Assumption
-You have Raspian installed on your Pi and that you can connect to it over Ethernet from your primary LAN.
+## Assumption
+You have Raspian installed on your Pi and that you can connect to it over Ethernet from your primary LAN (_eth0_).
 
 ## Install dnsmasq
 From the command line, run `sudo apt install dnsmasq` to install dnsmasq
@@ -24,6 +24,8 @@ Add these lines:
 interface=eth1
 dhcp-range=192.168.7.100,192.168.7.120,255.255.255.0,24h
 ```
+This will define a new DHCP range 192.168.7.x which will be adminsitered by the Pi via _eth1_.
+
 Now start dnsmasq with `sudo systemctl start dnsmasq`
 
 ### Note
@@ -60,38 +62,47 @@ Edit /etc/rc.local with `sudo nano /etc/rc.local` and add this just above "exit 
 iptables-restore < /etc/iptables.ipv4.nat
 ```
 
---------------
-Now the router is work, you can ping 192.168.1.1 and ssh to 192.168.1.x etc
-----------------
+---
+Now the router is working. Connect a wired device to the _eth1_ network. From that device you will have access to the network attached to _eth0_ and _eth1_ and if _eth0_'s network has Internet, you will get Internet access as well.
 
+Now add a third network over Wi-Fi!
+
+----------------
+# hostapd
+
+```
 sudo apt install hostapd
 sudo systemctl stop hostapd
+```
+Edit the configuration file `sudo nano /etc/dhcpcd.conf`. Go to the end of the file and edit it so that it looks like the following:
 
-sudo nano /etc/dhcpcd.conf
-Go to the end of the file and edit it so that it looks like the following:
-
+```
 interface wlan0
     static ip_address=192.168.17.1/24
     nohook wpa_supplicant
+```
+The Wi-Fi network will be 192.168.17.x
 
-sudo service dhcpcd restart
+Now restart the DHCP server with `sudo service dhcpcd restart`
 
-sudo nano /etc/dnsmasq.conf
+Edit the dnsmasq.conf file with `sudo nano /etc/dnsmasq.conf` and add
 
-Add:
+```
 interface=wlan0
 dhcp-range=192.168.17.100,192.168.17.120,255.255.255.0,24h
+```
 
-sudo systemctl reload dnsmasq
+Reload the configuration file with `sudo systemctl reload dnsmasq`
 
-sudo nano /etc/hostapd/hostapd.conf
-
+## hostapd
 To use the 5 GHz band, you can change the operations mode from hw_mode=g to hw_mode=a. Possible values for hw_mode are:
 
 a = IEEE 802.11a (5 GHz)
 b = IEEE 802.11b (2.4 GHz)
 g = IEEE 802.11g (2.4 GHz)
 
+Edit `sudo nano /etc/hostapd/hostapd.conf` and add these line:
+```
 interface=wlan0
 driver=nl80211
 ssid=PiNet
@@ -106,20 +117,22 @@ wpa_passphrase=raspberry
 wpa_key_mgmt=WPA-PSK
 wpa_pairwise=TKIP
 rsn_pairwise=CCMP
+```
 
+_PiNet_ will be the network SSID and the password will be _raspberry_. Change accordingly.
 
 We now need to tell the system where to find this configuration file.
 
-sudo nano /etc/default/hostapd
+Edit this file `sudo nano /etc/default/hostapd` and find the line with #DAEMON_CONF, and replace it with this:
 
-Find the line with #DAEMON_CONF, and replace it with this:
-
+```
 DAEMON_CONF="/etc/hostapd/hostapd.conf"
-
+```
 Now enable and start hostapd:
-
+```
 sudo systemctl unmask hostapd
 sudo systemctl enable hostapd
 sudo systemctl start hostapd
+```
 
-
+You will now have a PiNet Wi-Fi network which has access to the network on _eth0_
