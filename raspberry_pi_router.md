@@ -5,7 +5,7 @@ You have Raspian installed on your Pi and that its primary LAN (_eth0_) is confi
 From the command line, run `sudo apt install dnsmasq` to install dnsmasq. Stop it, for now, with `sudo systemctl stop dnsmasq`
 
 ## Static IP for eth1
-Now set a static IP address for the second ethernet connection (_eth1_). Edit /etc/dhcpcd.conf with `sudo nano /etc/dhcpcd.conf`. Go to the end of the file and edit it so that it looks like the following:
+Now set a static IP address for the second ethernet connection (_eth1_). Edit _/etc/dhcpcd.conf_ with `sudo nano /etc/dhcpcd.conf`. Go to the end of the file and edit it so that it looks like the following:
 ```
 interface eth1
     static ip_address=192.168.7.1/24
@@ -35,9 +35,8 @@ The output will be something like
 ```
 
 ## IP forwarding
-Edit /etc/sysctl.conf and this add line (for persistence)
+Edit _/etc/sysctl.conf_ with `sudo nano /etc/sysctl.conf` and this add line (for persistence)
 
-`sudo nano /etc/sysctl.conf`
 ```
 net.ipv4.ip_forward=1
 ```
@@ -54,7 +53,7 @@ Save the iptables rule.
 ```
 sudo sh -c "iptables-save > /etc/iptables.ipv4.nat"
 ```
-Edit /etc/rc.local with `sudo nano /etc/rc.local` and add this just above "exit 0" to install these rules on boot.
+Edit _/etc/rc.local_ with `sudo nano /etc/rc.local` and add this just above "exit 0" to install these rules on boot.
 
 ```
 iptables-restore < /etc/iptables.ipv4.nat
@@ -67,7 +66,7 @@ Now add a third network over Wi-Fi!
 
 ----------------
 ## Static IP for wlan0
-Now set a static IP address for the Wi-Fi (wlan0). Edit /etc/dhcpcd.conf with `sudo nano /etc/dhcpcd.conf`. Go to the end of the file and add these lines:
+Now set a static IP address for the Wi-Fi (wlan0). Edit _/etc/dhcpcd.conf_ with `sudo nano /etc/dhcpcd.conf`. Go to the end of the file and add these lines:
 ```
 interface wlan0
     static ip_address=192.168.17.1/24
@@ -135,3 +134,6 @@ sudo systemctl start hostapd
 ```
 
 You will now have a PiNet Wi-Fi network which has access to the network on _eth0_
+
+## General note
+If things aren't work as expected after you configutred routing with _eht1_ or after you added Wi-Fi support, the a good old fashinoed reboot will likley fix the problem. In other words, "Have you trieed turning it off and then back on again?"
