@@ -27,7 +27,7 @@ This will define a new DHCP range 192.168.7.x which will be adminsitered by the 
 Now start dnsmasq with `sudo systemctl start dnsmasq`
 
 ### Note
-To see clients connected to eth1 use `cat /var/lib/misc/dnsmasq.leases`
+To see clients connected to _eth1_ use `cat /var/lib/misc/dnsmasq.leases`
 
 The output will be something like
 ```
@@ -95,9 +95,9 @@ Reload the configuration file with `sudo systemctl reload dnsmasq`
 ## Configure hostapd
 To use the 5 GHz band, you can change the operations mode from hw_mode=g to hw_mode=a. Possible values for hw_mode are:
 
-a = IEEE 802.11a (5 GHz)
-b = IEEE 802.11b (2.4 GHz)
-g = IEEE 802.11g (2.4 GHz)
+* a = IEEE 802.11a (5 GHz)
+* b = IEEE 802.11b (2.4 GHz)
+* g = IEEE 802.11g (2.4 GHz)
 
 Edit `sudo nano /etc/hostapd/hostapd.conf` and add these line:
 ```
@@ -136,4 +136,4 @@ sudo systemctl start hostapd
 You will now have a PiNet Wi-Fi network which has access to the network on _eth0_
 
 ## General note
-If things aren't work as expected after you configutred routing with _eht1_ or after you added Wi-Fi support, the a good old fashinoed reboot will likley fix the problem. In other words, "Have you trieed turning it off and then back on again?"
+If things aren't working as expected after you configured routing with eht1 or after you added Wi-Fi support, then a good old fashioned reboot will likely fix the problem. In other words, "Have you trieed turning it off and then back on again?"
