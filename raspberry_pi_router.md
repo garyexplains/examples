@@ -2,9 +2,7 @@
 You have Raspian installed on your Pi and that its primary LAN (_eth0_) is configured to use DHCP. It will likley get its address information from your Internet modem/routers. I assume you can connect to it over _eth0_.
 
 ## Install dnsmasq
-From the command line, run `sudo apt install dnsmasq` to install dnsmasq
-
-Stop it, for now with `sudo systemctl stop dnsmasq`
+From the command line, run `sudo apt install dnsmasq` to install dnsmasq. Stop it, for now, with `sudo systemctl stop dnsmasq`
 
 ## Static IP for eth1
 Now set a static IP address for the second ethernet connection (_eth1_). Edit /etc/dhcpcd.conf with `sudo nano /etc/dhcpcd.conf`. Go to the end of the file and edit it so that it looks like the following:
