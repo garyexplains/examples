@@ -7,7 +7,7 @@ From the command line, run `sudo apt install dnsmasq` to install dnsmasq
 Stop it, for now with `sudo systemctl stop dnsmasq`
 
 ## Static IP for eth1
-Now set a static IP address for the second ethernet connection (eth1). Edit /etc/dhcpcd.conf with `sudo nano /etc/dhcpcd.conf`. Go to the end of the file and edit it so that it looks like the following:
+Now set a static IP address for the second ethernet connection (_eth1_). Edit /etc/dhcpcd.conf with `sudo nano /etc/dhcpcd.conf`. Go to the end of the file and edit it so that it looks like the following:
 ```
 interface eth1
     static ip_address=192.168.7.1/24
@@ -37,7 +37,7 @@ The output will be something like
 ```
 
 ## IP forwarding
-Edit /etc/sysctl.conf and add line (for persistence)
+Edit /etc/sysctl.conf and this add line (for persistence)
 
 `sudo nano /etc/sysctl.conf`
 ```
@@ -78,22 +78,13 @@ interface wlan0
 
 This will give it a static address of _192.168.17.1_
 
-# hostapd
+Now restart the DHCP server with `sudo service dhcpcd restart`
 
+## Install hostapd
 ```
 sudo apt install hostapd
 sudo systemctl stop hostapd
 ```
-Edit the configuration file `sudo nano /etc/dhcpcd.conf`. Go to the end of the file and edit it so that it looks like the following:
-
-```
-interface wlan0
-    static ip_address=192.168.17.1/24
-    nohook wpa_supplicant
-```
-The Wi-Fi network will be 192.168.17.x
-
-Now restart the DHCP server with `sudo service dhcpcd restart`
 
 Edit the dnsmasq.conf file with `sudo nano /etc/dnsmasq.conf` and add
 
@@ -104,7 +95,7 @@ dhcp-range=192.168.17.100,192.168.17.120,255.255.255.0,24h
 
 Reload the configuration file with `sudo systemctl reload dnsmasq`
 
-## hostapd
+## Configure hostapd
 To use the 5 GHz band, you can change the operations mode from hw_mode=g to hw_mode=a. Possible values for hw_mode are:
 
 a = IEEE 802.11a (5 GHz)
