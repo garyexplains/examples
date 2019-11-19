@@ -68,6 +68,16 @@ Now the router is working. Connect a wired device to the _eth1_ network. From th
 Now add a third network over Wi-Fi!
 
 ----------------
+## Static IP for wlan0
+Now set a static IP address for the Wi-Fi (wlan0). Edit /etc/dhcpcd.conf with `sudo nano /etc/dhcpcd.conf`. Go to the end of the file and add these lines:
+```
+interface wlan0
+    static ip_address=192.168.17.1/24
+    nohook wpa_supplicant
+```
+
+This will give it a static address of _192.168.17.1_
+
 # hostapd
 
 ```
