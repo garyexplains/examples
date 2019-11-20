@@ -24,7 +24,7 @@
 
 //
 // Comile with:
-// gcc -lpthread -o threadtesttool threadtesttool.c
+// gcc -pthread -o threadtesttool threadtesttool.c
 //
 
 //
