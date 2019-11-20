@@ -22,7 +22,7 @@ Add these lines:
 interface=eth1
 dhcp-range=192.168.7.100,192.168.7.120,255.255.255.0,24h
 ```
-This will define a new DHCP range 192.168.7.x which will be adminsitered by the Pi via _eth1_.
+This will define a new DHCP range 192.168.7.x which will be administered by the Pi via _eth1_.
 
 Now start dnsmasq with `sudo systemctl start dnsmasq`
 
