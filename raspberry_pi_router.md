@@ -136,4 +136,4 @@ sudo systemctl start hostapd
 You will now have a PiNet Wi-Fi network which has access to the network on _eth0_
 
 ## General note
-If things aren't working as expected after you configured routing with eht1 or after you added Wi-Fi support, then a good old fashioned reboot will likely fix the problem. In other words, "Have you trieed turning it off and then back on again?"
+If things aren't working as expected after you configured routing with eth1 or after you added Wi-Fi support, then a good old fashioned reboot will likely fix the problem. Or in the words of the TV show 'IT Crowd', "Have you tried turning it off and on again?"
