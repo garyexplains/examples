@@ -1,7 +1,7 @@
 # Loops within Pi
-Having watched the Numberphile video "Strings and Loops within Pi" - https://www.youtube.com/watch?v=W20aT14t8Pw , I wrote a program to analyse the first 1,000,000 digits of Pi.
+Having watched the Numberphile video "Strings and Loops within Pi" - https://www.youtube.com/watch?v=W20aT14t8Pw , I wrote a program to analyse the first 1,000,000 digits of Pi. As I follow-up I wrote a program to analyse the first 1,000,000,000 digits.
 
-Here are the complete loops I found between < 1000:
+Here are the complete loops I found between < 1000 in the first 1,000,000,000 digits:
 
 - Num 19 Len: 3 Ans: `19->37->46->19`
 - Num: 37 Len: 3 Ans: `37->46->19->37`
@@ -53,7 +53,7 @@ Here are the others < 1000:
 - Num: 511 Len: 30 Ans: `511->394->526->612->219->716->39->43->23->16->40->70->96->180->3664->24717->15492->84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169-> Infinite loop: 40`
 - Num: 526 Len: 28 Ans: `526->612->219->716->39->43->23->16->40->70->96->180->3664->24717->15492->84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169-> Infinite loop: 40`
 - Num: 545 Len: 24 Ans: `545->4338->23->16->40->70->96->180->3664->24717->15492->84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169-> Infinite loop: 40`
-Num: 612 Len: 27 Ans: `612->219->716->39->43->23->16->40->70->96->180->3664->24717->15492->84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169-> Infinite loop: 40`
+- Num: 612 Len: 27 Ans: `612->219->716->39->43->23->16->40->70->96->180->3664->24717->15492->84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169-> Infinite loop: 40`
 - Num: 615 Len: 7 Ans: `615->1029->8196->197->37->46->19-> Infinite loop: 37`
 - Num: 706 Len: 21 Ans: `706->96->180->3664->24717->15492->84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169->40->70-> Infinite loop: 96`
 - Num: 716 Len: 25 Ans: `716->39->43->23->16->40->70->96->180->3664->24717->15492->84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169-> Infinite loop: 40`
