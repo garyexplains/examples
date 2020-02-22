@@ -65,7 +65,7 @@ Num: 612 Len: 27 Ans: `612->219->716->39->43->23->16->40->70->96->180->3664->247
 - Num: 967 Len: 33 Ans: `967->1400->4365->11353->127494->4220->2371->1925->1166->3993->43->23->16->40->70->96->180->3664->24717->15492->84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169-> Infinite loop: 40`
 
 # Analysis
-Looking at 197 we see:`197->37->46->19-> Infinite loop: 37`. Since 19 is a closed loop of `19->37->46->19` and that 7 is the next digit after 19 at position  37, then 197 starts in the same way, but loops back to 19, not to 197 and there is an infinite loop.
+Looking at 197 we see:`197->37->46->19-> Infinite loop: 37`. Since 19 is a closed loop of `19->37->46->19` and that 7 is the next digit after 19 (at position 37), then 197 starts in the same way, but loops back to 19, not to 197 and is therefore an infinite loop.
 
 # More loops
 From time to time I might run my program for a new range, I won't update this page, but rather just do a raw dump of the results and link to it here.
@@ -75,7 +75,9 @@ Can be found here: https://github.com/garyexplains/examples/blob/master/loopswit
 
 One interesting loop in that collection is: `1971->37->46->19-> Infinite loop: 37`
 
-This is an infinite loop like 197 because 19 is a closed loop.
+1971 is an infinite loop like 197 because 19 is a closed loop.
+
+This would mean that 19716, 197169, 1971693,... are also infinite loops.
 
 # Other resources
 You can check my findings manually here: https://www.angio.net/pi/ or here https://mathigon.org/course/circles/introduction#pi-digits
