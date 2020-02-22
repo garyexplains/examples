@@ -61,6 +61,14 @@ Here are the others < 1000:
 - Num: 943 Len: 25 Ans: `943->399->43->23->16->40->70->96->180->3664->24717->15492->84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169-> Infinite loop: 40`
 - Num: 967 Len: 33 Ans: `967->1400->4365->11353->127494->4220->2371->1925->1166->3993->43->23->16->40->70->96->180->3664->24717->15492->84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169-> Infinite loop: 40`
 
+# More loops
+From time to time I might run my program for a new range, I won't update this page, but rather just do a raw dump of the results and link to it here.
+
+## From 999 to 9999
+Can be found here: https://github.com/garyexplains/examples/blob/master/loopswithpi-from999to9999.md
+
+One interesting loop in that collection is: `1971->37->46->19-> Infinite loop: 37`
+
 # Other resources
 You can check my findings manually here: https://www.angio.net/pi/ or here https://mathigon.org/course/circles/introduction#pi-digits
 
