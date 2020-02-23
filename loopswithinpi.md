@@ -97,6 +97,10 @@ Can be found here: https://github.com/garyexplains/examples/blob/master/loopswit
 
 There are no loops in the range 99999 to 9999999 when searching Pi with 1,000,000,000 digits.
 
+This means that `84198` is the highest loop I have found:
+
+- Num: 84198 Len: 20 Ans: `84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169->40->70->96->180->3664->24717->15492->84198`
+
 # Loops ending in 1
 Since 1 is a self-locating number within Pi, when a sequence hits 1 it becomes a loop. Here are the number sequences, < 1000, that end in a 1 loop:
 
