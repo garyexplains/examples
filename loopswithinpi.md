@@ -19,6 +19,9 @@ Here are the complete loops I found between < 1000 in the first 1,000,000,000 di
 
 ### Highest
  - Num: 84198 Len: 20 Ans: `84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169->40->70->96->180->3664->24717->15492->84198`
+ 
+### Observations
+Note that 84198 is the highest number in any of the loops. Also note that besides 19, 47, and 36, all loops go through `->40->70->96->`
 
 # Infinite loops
 From this I also noted that some loops are infinite, in that they loop back into a previous part of the sequence and therefore loop
