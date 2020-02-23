@@ -12,7 +12,15 @@ Here are the complete loops I found between < 1000 in the first 1,000,000,000 di
 - Num: 169 Len: 20 Ans: `169->40->70->96->180->3664->24717->15492->84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169`
 - Num: 180 Len: 20 Ans: `180->3664->24717->15492->84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169->40->70->96->180`
 
-## Infinite loops
+## Current records
+
+### Lowest
+ - Num 19 Len: 3 Ans: `19->37->46->19`
+
+### Highest
+ - Num: 84198 Len: 20 Ans: `84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169->40->70->96->180->3664->24717->15492->84198`
+
+# Infinite loops
 From this I also noted that some loops are infinite, in that they loop back into a previous part of the sequence and therefore loop
 around and around without an exit condition, an infinite loop.
 
