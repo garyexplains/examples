@@ -23,6 +23,16 @@ Here are the complete loops I found between < 1000 in the first 1,000,000,000 di
 ### Observations
 Note that 84198 is the highest number in any of the loops. Also note that besides 19, 47, and 36, all loops go through `->40->70->96->`
 
+This means that the loop for 169 and the loop for 84198 are the same loop, just shifted with a different start and end place.
+ - `84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169->40->70->96->180->3664->24717->15492->84198`
+ - `169->40->70->96->180->3664->24717->15492->84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169`
+
+#### Risky Hypothesis
+There are only two chains in Pi:
+
+ - `46->19->37->46`
+ - `169->40->70->96->180->3664->24717->15492->84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169`
+
 # Infinite loops
 From this I also noted that some loops are infinite, in that they loop back into a previous part of the sequence and therefore loop
 around and around without an exit condition, an infinite loop.
