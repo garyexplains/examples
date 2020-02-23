@@ -29,11 +29,13 @@ This means that the loop for 169 and the loop for 84198 are the same loop, just 
  - `84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169->40->70->96->180->3664->24717->15492->84198`
  - `169->40->70->96->180->3664->24717->15492->84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169`
 
-#### Risky Hypothesis
-There are only two chains in Pi:
+#### Hypothesis
+There are only two chains in Pi < 711939213.
 
  - `46->19->37->46`
  - `169->40->70->96->180->3664->24717->15492->84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169`
+ 
+More details on 711939213 below.
 
 # Infinite loops
 From this I also noted that some loops are infinite, in that they loop back into a previous part of the sequence and therefore loop
