@@ -34,7 +34,9 @@ Here is a risky hypothesis: There are only two chains in Pi < 711939213.
 
  - `46->19->37->46`
  - `169->40->70->96->180->3664->24717->15492->84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169`
- 
+
+Picking 711939213 is partially arbitrary since it is a loop terminator like 1 and not a loop like `169->40->70->96->180->3664...`
+
 More details on 711939213 below.
 
 # Infinite loops
