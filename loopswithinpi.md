@@ -92,6 +92,51 @@ Can be found here: https://github.com/garyexplains/examples/blob/master/loopswit
 
 Where we see `19716->37->46->19-> Infinite loop: 37` as described above.
 
+# Loops ending in 1
+Since 1 is a self-locating number within Pi, when a sequence hits 1 it becomes a loop. Here are the number sequences, < 1000, that end in a 1 loop:
+
+```
+Num: 14 Len: 2 Ans: 14->1-> Infinite loop: 1
+Num: 21 Len: 4 Ans: 21->93->14->1-> Infinite loop: 1
+Num: 45 Len: 11 Ans: 45->60->127->297->737->299->2643->21->93->14->1-> Infinite loop: 1
+Num: 60 Len: 10 Ans: 60->127->297->737->299->2643->21->93->14->1-> Infinite loop: 1
+Num: 73 Len: 7 Ans: 73->299->2643->21->93->14->1-> Infinite loop: 1
+Num: 93 Len: 3 Ans: 93->14->1-> Infinite loop: 1
+Num: 115 Len: 7 Ans: 115->921->422->1839->9323->14->1-> Infinite loop: 1
+Num: 127 Len: 9 Ans: 127->297->737->299->2643->21->93->14->1-> Infinite loop: 1
+Num: 141 Len: 2 Ans: 141->1-> Infinite loop: 1
+Num: 183 Len: 13 Ans: 183->490->907->542->700->306->115->921->422->1839->9323->14->1-> Infinite loop: 1
+Num: 211 Len: 4 Ans: 211->93->14->1-> Infinite loop: 1
+Num: 264 Len: 5 Ans: 264->21->93->14->1-> Infinite loop: 1
+Num: 286 Len: 8 Ans: 286->73->299->2643->21->93->14->1-> Infinite loop: 1
+Num: 297 Len: 8 Ans: 297->737->299->2643->21->93->14->1-> Infinite loop: 1
+Num: 299 Len: 6 Ans: 299->2643->21->93->14->1-> Infinite loop: 1
+Num: 306 Len: 8 Ans: 306->115->921->422->1839->9323->14->1-> Infinite loop: 1
+Num: 333 Len: 18 Ans: 333->1698->25318->33479->45671->88095->40332->4592->60->127->297->737->299->2643->21->93->14->1-> Infinite loop: 1
+Num: 422 Len: 5 Ans: 422->1839->9323->14->1-> Infinite loop: 1
+Num: 459 Len: 11 Ans: 459->60->127->297->737->299->2643->21->93->14->1-> Infinite loop: 1
+Num: 464 Len: 8 Ans: 464->1159->921->422->1839->9323->14->1-> Infinite loop: 1
+Num: 490 Len: 12 Ans: 490->907->542->700->306->115->921->422->1839->9323->14->1-> Infinite loop: 1
+Num: 495 Len: 9 Ans: 495->464->1159->921->422->1839->9323->14->1-> Infinite loop: 1
+Num: 514 Len: 5 Ans: 514->2117->93->14->1-> Infinite loop: 1
+Num: 542 Len: 10 Ans: 542->700->306->115->921->422->1839->9323->14->1-> Infinite loop: 1
+Num: 557 Len: 12 Ans: 557->1101->2779->15008->15375->202762->107788->780706->96071->53594->141->1-> Infinite loop: 1
+Num: 607 Len: 9 Ans: 607->286->73->299->2643->21->93->14->1-> Infinite loop: 1
+Num: 609 Len: 10 Ans: 609->127->297->737->299->2643->21->93->14->1-> Infinite loop: 1
+Num: 656 Len: 6 Ans: 656->514->2117->93->14->1-> Infinite loop: 1
+Num: 665 Len: 5 Ans: 665->211->93->14->1-> Infinite loop: 1
+Num: 700 Len: 9 Ans: 700->306->115->921->422->1839->9323->14->1-> Infinite loop: 1
+Num: 714 Len: 11 Ans: 714->609->127->297->737->299->2643->21->93->14->1-> Infinite loop: 1
+Num: 737 Len: 7 Ans: 737->299->2643->21->93->14->1-> Infinite loop: 1
+Num: 874 Len: 11 Ans: 874->1949->495->464->1159->921->422->1839->9323->14->1-> Infinite loop: 1
+Num: 902 Len: 12 Ans: 902->714->609->127->297->737->299->2643->21->93->14->1-> Infinite loop: 1
+Num: 907 Len: 11 Ans: 907->542->700->306->115->921->422->1839->9323->14->1-> Infinite loop: 1
+Num: 921 Len: 6 Ans: 921->422->1839->9323->14->1-> Infinite loop: 1
+Num: 932 Len: 3 Ans: 932->14->1-> Infinite loop: 1
+Num: 937 Len: 12 Ans: 937->45->60->127->297->737->299->2643->21->93->14->1-> Infinite loop: 1
+Num: 996 Len: 12 Ans: 996->459->60->127->297->737->299->2643->21->93->14->1-> Infinite loop: 1
+```
+
 # Other observations
 Looking at the sequence A057680 "Self-locating strings within Pi: numbers n such that the string n is at position n (after the decimal point) in decimal digits of Pi" - `1, 16470, 44899, 79873884, 711939213, 36541622473, 45677255610, 62644957128, 656430109694`
 
