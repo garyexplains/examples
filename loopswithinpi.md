@@ -70,7 +70,7 @@ Looking at 197 we see:`197->37->46->19-> Infinite loop: 37`. Since 19 is a close
 # Difference between the 1,000,000 digit search and the 1,000,000,000 digit search
 Pi is loaded into memory for the 1,000,000 digit search, whereas it remains on disk for the 1,000,000,000 digit search. The 1,000,000 is faster because of the size of the search set and the difference in speed between memory and disk.
 
-Searching 1,000,000,000 digitis yeilded no extra results, however it did extend the tail length of unsolved loops. Using 2 as an example:
+Searching 1,000,000,000 digitis tends not to provide extra results, however it did provide two more infinite loops during the search between 999 and 9999 (namely 3708 and 7299). See links below. Such searches also extend the tail length of unsolved loops. Using 2 as an example:
 
 - For 1,000,000 digits: `2->6->7->13->110->174->155->314->2120->5360->24671->119546->193002->240820->274454->153700-> Not found: 153700`
 - For 1,000,000,000 digits: `2->6->7->13->110->174->155->314->2120->5360->24671->119546->193002->240820->274454->153700->1397287->17916598->26245242->8880928->7320921->14726415->42969065->35308126->14978764->68756682->300921774-> Not found: 300921774`
