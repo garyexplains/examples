@@ -1,6 +1,6 @@
 # Loops
 
-There are no loops in the range 99999 to 9999999!!!
+There are no loops in the range 99999 to 9999999 when searching Pi with 1,000,000,000 digits.
 
 # Infinite Loops
 There are 2295 infinite loops (not including 1 loops) in the range 99999 to 9999999. The longest is:
