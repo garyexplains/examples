@@ -92,6 +92,13 @@ Can be found here: https://github.com/garyexplains/examples/blob/master/loopswit
 
 Where we see `19716->37->46->19-> Infinite loop: 37` as described above.
 
+# Other observations
+Looking at the sequence A057680 "Self-locating strings within Pi: numbers n such that the string n is at position n (after the decimal point) in decimal digits of Pi" - `1, 16470, 44899, 79873884, 711939213, 36541622473, 45677255610, 62644957128, 656430109694`
+
+Ignoring 1, we see that 16470, 44899 and 79873884 all have occurances before their self-locating version. 16470 appears at 1602 before it appears at 16470. This means it can't terminate a loop like 1. Likewise 44899 appears at 13714, 15399, and 41604 before it appears at 44899. So it can not terminate a loop like 1. Also, 79873884 occurs at position 46267046 before it appears at 79873884. So it can't terminate a loop like 1.
+
+However, 711939213 first appears at 711939213. This means it has the potential to terminate a loop like 1. Sadly, 711939213 does not appear again in the first 1,000,000,000 digits of Pi. There is scope here for further searching on a bigger dataset.
+
 # Other resources
 You can check my findings manually here: https://www.angio.net/pi/ or here https://mathigon.org/course/circles/introduction#pi-digits
 
