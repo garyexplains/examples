@@ -14,7 +14,7 @@ Here are the complete loops I found between < 1000 in the first 1,000,000,000 di
 
 **Note** that 40, 70, 96, 168, and 180 are all the same chain with just different start points and end points. 19, 37, and 46 are also a complete chain.
 
-## Current records
+## Current limits and a risky hypothesis
 
 ### Lowest
  - Num 19 Len: 3 Ans: `19->37->46->19`
@@ -29,7 +29,7 @@ This means that the loop for 169 and the loop for 84198 are the same loop, just 
  - `84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169->40->70->96->180->3664->24717->15492->84198`
  - `169->40->70->96->180->3664->24717->15492->84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169`
 
-#### Risky Hypothesis
+### Risky Hypothesis
 Here is a risky hypothesis: There are only two chains in Pi < 711939213.
 
  - `46->19->37->46`
