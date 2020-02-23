@@ -120,7 +120,7 @@ Where we see `19716->37->46->19-> Infinite loop: 37` as described above.
 # From 99999 to 9999999
 Can be found here: https://github.com/garyexplains/examples/blob/master/loopswithpi-from99999to9999999.md
 
-There are no loops in the range 99999 to 9999999 when searching Pi with 1,000,000,000 digits.
+There are no loops in the range 99999 to 9999999 when searching Pi with 1,000,000 digits.
 
 This means that `84198` is the highest loop I have found:
 
