@@ -12,6 +12,8 @@ Here are the complete loops I found between < 1000 in the first 1,000,000,000 di
 - Num: 169 Len: 20 Ans: `169->40->70->96->180->3664->24717->15492->84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169`
 - Num: 180 Len: 20 Ans: `180->3664->24717->15492->84198->65489->3725->16974->41702->3788->5757->1958->14609->62892->44745->9385->169->40->70->96->180`
 
+**Note** that 40, 70, 96, 168, and 180 are all the same chain with just different start points and end points. 19, 37, and 46 are also a complete chain.
+
 ## Current records
 
 ### Lowest
