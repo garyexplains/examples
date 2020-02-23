@@ -90,6 +90,8 @@ This would mean that 19716, 197169, 1971693,... are also infinite loops.
 ## From 9999 to 99999
 Can be found here: https://github.com/garyexplains/examples/blob/master/loopswithpi-from9999to99999.md
 
+Where we see `19716->37->46->19-> Infinite loop: 37` as described above.
+
 # Other resources
 You can check my findings manually here: https://www.angio.net/pi/ or here https://mathigon.org/course/circles/introduction#pi-digits
 
