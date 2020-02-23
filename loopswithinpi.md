@@ -95,6 +95,8 @@ Where we see `19716->37->46->19-> Infinite loop: 37` as described above.
 # From 99999 to 9999999
 Can be found here: https://github.com/garyexplains/examples/blob/master/loopswithpi-from99999to9999999.md
 
+There are no loops in the range 99999 to 9999999 when searching Pi with 1,000,000,000 digits.
+
 # Loops ending in 1
 Since 1 is a self-locating number within Pi, when a sequence hits 1 it becomes a loop. Here are the number sequences, < 1000, that end in a 1 loop:
 
