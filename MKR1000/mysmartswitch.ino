@@ -8,6 +8,9 @@
 #include <WiFi101.h>
 
 #include "arduino_secrets.h"
+// the IP address for the smart switch
+IPAddress ip(192, 168, 1, 222);
+
 ///////please enter your sensitive data in the Secret tab/arduino_secrets.h
 char ssid[] = SECRET_SSID;        // your network SSID (name)
 char pass[] = SECRET_PASS;    // your network password (use for WPA, or use as key for WEP)
@@ -24,26 +27,32 @@ enum request_type {
 };
 
 int status = WL_IDLE_STATUS;
-#define RELAY_PIN 7
+#define RELAY_PIN1 7
+#define RELAY_PIN2 8
 
 WiFiServer server(80);
 
 void setup() {
   // Very first thing is to configure the relay and make sure it is off
-  pinMode(RELAY_PIN, OUTPUT);
-  digitalWrite(RELAY_PIN, HIGH);
+  pinMode(RELAY_PIN1, OUTPUT);
+  digitalWrite(RELAY_PIN1, HIGH);
+  pinMode(RELAY_PIN2, OUTPUT);
+  digitalWrite(RELAY_PIN2, HIGH);
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, HIGH);
 
-  //Initialize serial and wait for port to open:
+  //Initialize serial
   Serial.begin(9600);
-  
+
   // check for the presence of the shield:
   if (WiFi.status() == WL_NO_SHIELD) {
     Serial.println("WiFi shield not present");
     // don't continue:
     while (true);
   }
+
+  // Configure a static IP address
+  WiFi.config(ip);
 
   // attempt to connect to WiFi network:
   while (status != WL_CONNECTED) {
@@ -63,7 +72,7 @@ void setup() {
 void send_header(WiFiClient client) {
   client.println("HTTP/1.1 200 OK");
   client.println("Content-Type: text/html");
-  client.println("Connection: close");  
+  client.println("Connection: close");
   client.println();
 }
 
@@ -178,11 +187,13 @@ void loop() {
     Serial.println("client disconnected");
 
     if (rt == on) {
-      digitalWrite(RELAY_PIN, LOW);
+      digitalWrite(RELAY_PIN1, LOW);
+      digitalWrite(RELAY_PIN2, LOW);
       digitalWrite(LED_BUILTIN, HIGH);
       Serial.println("ON");
     } else if (rt == off) {
-      digitalWrite(RELAY_PIN, HIGH);
+      digitalWrite(RELAY_PIN1, HIGH);
+      digitalWrite(RELAY_PIN2, HIGH);
       digitalWrite(LED_BUILTIN, LOW);
       Serial.println("OFF");
     }
