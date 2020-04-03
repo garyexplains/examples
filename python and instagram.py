@@ -11,7 +11,6 @@ def rotate_by_exif(image):
                 break
 
         exif=dict(image._getexif().items())
-        print("exif[orientation]", exif[orientation])
         if exif[orientation] == 3:
             image=image.rotate(180, expand=True)
         elif exif[orientation] == 6:
@@ -90,7 +89,6 @@ outfileblur = root + "_sqblur" + ext
 outfilef1 = root + "_sqf1" + ext
 outfilef2 = root + "_sqf2" + ext
 outfilef3 = root + "_sqf3" + ext
-print(infile, outfiletrim)
 
 # Open the file and print its size
 im = Image.open(infile)
