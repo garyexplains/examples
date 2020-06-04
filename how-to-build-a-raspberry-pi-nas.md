@@ -13,12 +13,29 @@ This guide concentrates on the NAS parts of the overall system build, therefore 
 4. Set the board to boot to the command line and not the desktop (to save memory on smaller boards).
 
 ## Set the host name.
+You need to change the hostname of your board from the default so that you can uniquely identify it on your network.
+````
+sudo raspi-config
+````
+
+Goto 
 
 ## Install SAMBA
-Install - sudo apt install samba
-(Modify smb.conf to use WINS settings from DHCP - YES)
+Use SAMBA to share your files over the network. SAMBA is an open-source re-implementation of the SMB networking protocol (AKA Windows networking). To install SAMBA use:
+````
+sudo apt install samba
+````
 
 ## Prep the hard drive
+Now we can prepare, partition, format, and mount the hard drive.
+
++ **WARNING: ALL THE DATA WILL BE LOST ON THIS HARD DRIVE**
++ **WARNING: PROCEED WITH CAUTION**
++ **WARNING: IF YOU HAVE DATA ON THIS DRIVE THAT YOU NEED THEN STOP NOW**
+
+Connect the drive to your board. Find the name of the drive using 'lsblk'. It will likely be /dev/sda, but double-check and verify you have the correct drive name.
+
+You may find that the drive has been auto mounted, you need to unmount it. Do a 'df -h' to see if it is mounted then, if needed, 'sudo umount /dev/sda'
 
 Prep the hard drive
 Find it (lsblk)
