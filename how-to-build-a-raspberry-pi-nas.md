@@ -65,8 +65,19 @@ o
 n
 p
 1
+[ENTER]
+[ENTER]
 w
 ```
+Key:
+
++ o - create a new empty DOS partition table
++ n - add a new partition
++ p - primary or extended, p for primary
++ 1 - partition number
++ \[ENTER] - first sector, use default
++ \[ENTER] - last sector, use default
++ w - write table to disk and exit
 
 Now create the filesystem:
 
