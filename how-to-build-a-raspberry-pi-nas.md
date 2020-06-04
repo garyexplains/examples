@@ -18,6 +18,14 @@ If you need help with _vi_ or with the Linux commandline then please check these
 + [Linux Directories Explained - including /etc /home /var /proc /usr](https://youtu.be/PEaixsvzRUk)
 + [10 Linux Terminal Commands for Beginners](https://youtu.be/CpTfQ-q6MPU)
 
+### Power matters
+You need to be sure about how you connect a hard drive to the Raspberry Pi. Some hard drives draw the power directly from the USB port and depending on the drive and the model of Pi board then the power drawn maybe too much. Using an external hard drive with its own power supply is the best option or at least use a powered USB hub.
+
+More information here:
+
+[Raspberry Pi Power FAQ](https://www.raspberrypi.org/documentation/faqs/#pi-power)
+[External storage configuration](https://www.raspberrypi.org/documentation/configuration/external-storage.md)
+
 ## Set the host name.
 You need to change the hostname of your board from the default so that you can uniquely identify it on your network.
 ```
