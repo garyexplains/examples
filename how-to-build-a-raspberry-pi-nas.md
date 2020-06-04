@@ -23,8 +23,8 @@ You need to be sure about how you connect a hard drive to the Raspberry Pi. Some
 
 More information here:
 
-[Raspberry Pi Power FAQ](https://www.raspberrypi.org/documentation/faqs/#pi-power)
-[External storage configuration](https://www.raspberrypi.org/documentation/configuration/external-storage.md)
++ [Raspberry Pi Power FAQ](https://www.raspberrypi.org/documentation/faqs/#pi-power)
++ [External storage configuration](https://www.raspberrypi.org/documentation/configuration/external-storage.md)
 
 ## Set the host name.
 You need to change the hostname of your board from the default so that you can uniquely identify it on your network.
