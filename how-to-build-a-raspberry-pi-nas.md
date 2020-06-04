@@ -145,7 +145,7 @@ sudo smbpasswd -a gary
 Set the password as promotped.
 
 ## All done!
-Restart the samba service (or reboot) using `sudo service smbd restart` and you should have access to _\\mypi0nas_ via Windows Explorer. If that doesn't work try the static IP address you set, e.g. _\\192.168.1.42_
+Restart the samba service (or reboot) using `sudo service smbd restart` and you should have access to _\\\\mypi0nas_ via Windows Explorer. If that doesn't work try the static IP address you set, e.g. _\\\\192.168.1.42_
 
 
 ## Spin down when IDLE
