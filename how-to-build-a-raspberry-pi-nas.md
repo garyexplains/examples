@@ -32,7 +32,7 @@ You need to change the hostname of your board from the default so that you can u
 sudo raspi-config
 ```
 
-Goto "2 Network Options" and then "N1 Hostname". Set the host name (e.g. 'mypi0nas', exit from _raspi-config_ using "< FINISH >" and then reboot as prompted.
+Goto "2 Network Options" and then "N1 Hostname". Set the host name (e.g. 'mypi0nas', exit from _raspi-config_ using \<FINISH> and then reboot as prompted.
 
 ## Install SAMBA
 Use SAMBA to share your files over the network. SAMBA is an open-source re-implementation of the SMB networking protocol (AKA Windows networking). To install SAMBA use:
