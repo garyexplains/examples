@@ -34,3 +34,11 @@ subleq_g3() took 14.41s
 * subleq() takes twice as long using Microsoft's compiler.
 * subleq3() seems to help, but it still isn't as fast
 * subleq_g3() is faster on Microsoft, but it shouldn't be!!!
+
+## Results using Apple clang 11.0.3
+Note: This was run on different hardware so the absolute times aren't comparable to the two sets above.
+```
+subleq() took 19.86s
+subleq3() took 19.83s
+subleq_g3() took 19.86s
+```
