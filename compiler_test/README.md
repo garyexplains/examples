@@ -12,4 +12,5 @@ It would be great if other people could try this code on Windows, Linux, macOS, 
 or workaround because at the moment it is invalidating my new benchmark as the compilers are introducing an unreasonable margin of error.
 
 Thanks, Gary.
+---
 PS. No, I am not interested in your comments about coding style or how you would have formatted or arranged the code. This is JUST here to highlight the problem. Even optimizations which produce better results across ALL compilers are of little interest to me, to be honest, what I am interested in is finding out if others are seeing the same performance difference between Windows/Visual Studio and other compilers.
