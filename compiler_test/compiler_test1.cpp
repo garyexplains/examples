@@ -4,7 +4,12 @@
 // Compile on Linux with:
 // g++ -O3 compiler_test1.cpp -o compiler_test1
 //
-// Compile on Windows with Visual Studio with:
+// OR
+//
+// gcc -O3 compiler_test1.cpp -o compiler_test1
+//
+// Compile on Windows with Visual Studio using
+// Native Tools Command Prompt for VS
 // cl /O2 compiler_test1.cpp
 //
 
@@ -118,6 +123,7 @@ void process_subleq_program() {
   const char *p = subleq_program;
   clock_t start, stop;
 
+  // Load the SUBLEQ program
   i = 0;
   while (sscanf(p, "%d%n", &dataSet[i], &bytesread) > 0) {
     p += bytesread;
@@ -131,12 +137,26 @@ void process_subleq_program() {
   printf("subleq() took %2.2fs\n",
          (float)(stop - start) / (float)CLOCKS_PER_SEC);
 
+  // Reload the SUBLEQ program
+  i = 0;
+  while (sscanf(p, "%d%n", &dataSet[i], &bytesread) > 0) {
+    p += bytesread;
+    i++;
+  }
+
   // Call the "optimzied" version
   start = clock();
   subleq3();
   stop = clock();
   printf("subleq3() took %2.2fs\n",
          (float)(stop - start) / (float)CLOCKS_PER_SEC);
+
+  // Reload the SUBLEQ program
+  i = 0;
+  while (sscanf(p, "%d%n", &dataSet[i], &bytesread) > 0) {
+    p += bytesread;
+    i++;
+  }
 
   // Call the false "optimzied" version
   start = clock();
