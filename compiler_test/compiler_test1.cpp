@@ -138,6 +138,7 @@ void process_subleq_program() {
          (float)(stop - start) / (float)CLOCKS_PER_SEC);
 
   // Reload the SUBLEQ program
+  p = subleq_program;
   i = 0;
   while (sscanf(p, "%d%n", &dataSet[i], &bytesread) > 0) {
     p += bytesread;
@@ -152,6 +153,7 @@ void process_subleq_program() {
          (float)(stop - start) / (float)CLOCKS_PER_SEC);
 
   // Reload the SUBLEQ program
+  p = subleq_program;
   i = 0;
   while (sscanf(p, "%d%n", &dataSet[i], &bytesread) > 0) {
     p += bytesread;
