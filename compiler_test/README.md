@@ -4,7 +4,7 @@ While developing my new benchmark, dubbed Speed Test G PC, I noticed that the re
 
 I made a video about it here: https://youtu.be/8e7IdHG5fhQ
 
-The problem seems to be the Visual Studio C/C++ compiler. Specifically, I am using "Microsoft (R) C/C++ Optimizing Compiler Version 19.24.28314 for x64"
+The problem seems to be the Visual Studio C/C++ compiler. Specifically, I am using "Microsoft (R) C/C++ Optimizing Compiler Version 19.24.28314 for x64". I am also seeing similar behavior when Visual Studio cross-compiles for Windows on Arm (i.e. ARM64).
 
 Here is some source code which on my machine highlights the problem.
 
