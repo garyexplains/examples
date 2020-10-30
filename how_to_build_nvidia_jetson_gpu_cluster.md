@@ -119,7 +119,7 @@ Edit `simpleMPI.cpp` and alter `int blockSize = 256;` to:
 int blockSize = 384 / commSize;
 ```
 
-This change means that each node will get sent less data, depending on the number of nodes (which is MPI terms in help in the variable `commSize`).
+This change means that each node will get sent less data, depending on the number of nodes (which is MPI terms in held in the variable `commSize`).
 
 Run `make` to build the binary. A copy of the binary `simpleMPI` must be present on each node with the same path and filename.
 
