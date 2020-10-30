@@ -32,7 +32,7 @@ Each board should be in the same physical network, within the same subnet. The e
 ## Prerequisite software
 Install the prerequisite software on **every** node
 ```
-sudo apt-get update; sudo apt-get -y install openssh-server git htop python3-pip python-pip nano 
+sudo apt-get update; sudo apt-get -y install openssh-server git htop python3-pip python-pip nano mpich mpi-default-dev
 ```
 
 ## Install jtop (optional)
