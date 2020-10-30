@@ -125,4 +125,6 @@ Run `make` to build the binary. A copy of the binary `simpleMPI` must be present
 
 ## To run it on the cluster
 Use this command on the controller node.
-`mpiexec --hostfile clusterfile ./simpleMPI
+```
+mpiexec --hostfile clusterfile ./simpleMPI
+```
