@@ -23,34 +23,40 @@ Make sure you use the same user account name across all the boards.
 ## Network
 Each board should be in the same physical network, within the same subnet. The easiest option is to use fixed IP addresses like:
 
-```192.168.1.51
+```
+192.168.1.51
 192.168.1.52
 192.168.1.53
 192.168.1.54
 ```
 ## Prerequiste software
 Install the prerequiste software on **every** node
-```sudo apt-get update; sudo apt-get -y install openssh-server git htop python3-pip python-pip nano 
+```
+sudo apt-get update; sudo apt-get -y install openssh-server git htop python3-pip python-pip nano 
 ```
 
 ## Generate your ssh keys
 Generate your ssh keys on the controller node. Run the command and follow the prompts.
 
-```ssh-keygen
 ```
-Then, for every node in your cluster (Replace IP-ADDRESS with IP of each node):
-```ssh-copy-id IP-ADDRESS
+ssh-keygen
+```
+Then, for every node in your cluster (Replace <IP-ADDRESS> with IP of each node):
+```
+ssh-copy-id <IP-ADDRESS>
 ```
 e.g. `ssh-copy-id 192.168.1.51`
 
 ## Cluster file
 Create a cluster file on the controller node. One line per cluster.
-```192.168.1.51
+```
+192.168.1.51
 192.168.1.52
 etc
 ```
 You can do this in an editor like vim or nano, or use a command like this:
-```cat > clusterfile << _EOF_
+```
+cat > clusterfile << _EOF_
 192.168.1.51
 192.168.1.52
 192.168.1.53
@@ -59,7 +65,8 @@ _EOF_
 ```
 ## /etc/hosts
 On each node make sure all other nodes are listed in /etc/hosts with their right hostnames, e.g.
-```192.168.1.51   node1
+```
+192.168.1.51   node1
 192.168.1.52   node2
 192.168.1.53   node3
 192.168.1.54   node4
