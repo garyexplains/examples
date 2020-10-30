@@ -4,7 +4,7 @@ Here are some brief instructions on how to build an NVIDIA GPU Accelerated Super
 These instructions accompany the video TBD.
 
 # Hardware
-You will need at least two Jetson boards. The cheapest is the Jetson Nano 2GB at $59. You will need Ethernet (preferable Gigabit), and a hub/switch.
+You will need at least two Jetson boards. The cheapest is the Jetson Nano 2GB at $59. You will need Ethernet (preferably Gigabit), and a hub/switch.
 For the initial setup, you will also need a monitor, keyboard, and mouse. But these aren't needed once the cluster is configured and running.
 
 https://developer.nvidia.com/embedded/jetson-nano-2gb-developer-kit
@@ -29,10 +29,15 @@ Each board should be in the same physical network, within the same subnet. The e
 192.168.1.53
 192.168.1.54
 ```
-## Prerequiste software
-Install the prerequiste software on **every** node
+## Prerequisite software
+Install the prerequisite software on **every** node
 ```
 sudo apt-get update; sudo apt-get -y install openssh-server git htop python3-pip python-pip nano 
+```
+
+## Install jtop (optional)
+```
+sudo pip3 install jetson_stats
 ```
 
 ## Generate your ssh keys
@@ -82,7 +87,7 @@ https://developer.nvidia.com/blog/introduction-cuda-aware-mpi/
 
 You can find a copy in `/usr/local/cuda/samples/0_Simple/simpleMPI/` on your Jetson board.
 
-Copy the `simpleMPI` directory and its contents to somewhere in your home directory. Edit the make file (`Makefile`) and remove this two lines to stop the binary being copied to a common area in the samples directory. You don't need this now that you have copied the code to a local directory.
+Copy the `simpleMPI` directory and its contents to somewhere in your home directory. Edit the make file (`Makefile`) and remove these two lines to stop the binary from being copied to a common area in the samples directory. You don't need this now that you have copied the code to a local directory.
 
 ```
 $(EXEC) mkdir -p ../../bin/$(TARGET_ARCH)/$(TARGET_OS)/$(BUILD_TYPE)
@@ -94,13 +99,13 @@ To make the workload heavier on the GPU, change `simpleMPIKernel()` in `simpleMP
 ```
 __global__ void simpleMPIKernel(float *input, float *output)
 {
-    int i;
-    int tid = blockIdx.x * blockDim.x + threadIdx.x;
-    output[tid] = input[tid];
-    for(i=0;i<50000;i++) {
-        output[tid] = sqrt(output[tid]);
-        output[tid] = output[tid] * output[tid];
-    }
+    int i;
+    int tid = blockIdx.x * blockDim.x + threadIdx.x;
+    output[tid] = input[tid];
+    for(i=0;i<50000;i++) {
+        output[tid] = sqrt(output[tid]);
+        output[tid] = output[tid] * output[tid];
+    }
 }
 ```
 
@@ -111,6 +116,8 @@ Edit `simpleMPI.cpp` and alter `int blockSize = 256;` to:
 ```
 int blockSize = 384 / commSize;
 ```
+
+This change means that each node will get sent less data, depending on the number of nodes (which is MPI terms in help in the variable `commSize`).
 
 Run `make` to build the binary. A copy of the binary `simpleMPI` must be present on each node with the same path and filename.
 
