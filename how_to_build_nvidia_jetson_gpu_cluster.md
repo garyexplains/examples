@@ -81,9 +81,11 @@ On each node make sure all other nodes are listed in /etc/hosts with their right
 ```
 
 # The MPI & CUDA program
-The video demonstrates running a CUDA aware workload on each node in the cluster. The program is based on the simpleMPI example from NVIDIA:
+The video demonstrates running a CUDA aware workload on each node in the cluster. Here is a good overview of how that works: https://developer.nvidia.com/blog/introduction-cuda-aware-mpi/
 
-https://developer.nvidia.com/blog/introduction-cuda-aware-mpi/
+The program is based on the simpleMPI example from NVIDIA:
+
+https://docs.nvidia.com/cuda/cuda-samples/index.html#simplempi
 
 You can find a copy in `/usr/local/cuda/samples/0_Simple/simpleMPI/` on your Jetson board.
 
