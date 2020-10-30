@@ -1,13 +1,13 @@
-Introduction
+# Introduction
 
 Here are some brief instructions on how to build an NVIDIA GPU Accelerated Supercomputer using Jetson boards like the Jetson Nano and the Jetson Xavier.
 These instructions accompany the video TBD.
 
-Hardware
+# Hardware
 You will need at least two Jetson boards. The cheapest is the Jetson Nano 2GB at $59. You will need Ethernet (preferable Gigabit), and a hub/switch.
 For the initial setup, you will also need a monitor, keyboard, and mouse. But these aren't needed once the cluster is configured and running.
 
-Software
+# Software
 You need to be running the same version of the NVIDIA JetPack SDK on each board.
 JetPack includes the OS (Linux, based on Ubuntu) along with CUDA-X accelerated libraries, samples, documentation, and developer tools.
 
