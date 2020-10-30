@@ -63,6 +63,9 @@ cat > clusterfile << _EOF_
 192.168.1.54
 _EOF_
 ```
+
+You might want to copy this file into the simpleMPI directory later. See below.
+
 ## /etc/hosts
 On each node make sure all other nodes are listed in /etc/hosts with their right hostnames, e.g.
 ```
@@ -73,8 +76,44 @@ On each node make sure all other nodes are listed in /etc/hosts with their right
 ```
 
 # The MPI & CUDA program
-A copy of the script must be present on each node with the same path and filename
+The video demonstrates running a CUDA aware workload on each node in the cluster. The program is based on the simpleMPI example from NVIDIA:
 
-## To run it on on cluster
-`mpiexec -hostfile ~/clusterfile python ./primality_cluster_test1.py`
+https://developer.nvidia.com/blog/introduction-cuda-aware-mpi/
 
+You can find a copy in `/usr/local/cuda/samples/0_Simple/simpleMPI/` on your Jetson board.
+
+Copy the `simpleMPI` directory and its contents to somewhere in your home directory. Edit the make file (`Makefile`) and remove this two lines to stop the binary being copied to a common area in the samples directory. You don't need this now that you have copied the code to a local directory.
+
+```
+$(EXEC) mkdir -p ../../bin/$(TARGET_ARCH)/$(TARGET_OS)/$(BUILD_TYPE)
+$(EXEC) cp $@ ../../bin/$(TARGET_ARCH)/$(TARGET_OS)/$(BUILD_TYPE)
+```
+
+To make the workload heavier on the GPU, change `simpleMPIKernel()` in `simpleMPI.cu` to:
+
+```
+__global__ void simpleMPIKernel(float *input, float *output)
+{
+    int i;
+    int tid = blockIdx.x * blockDim.x + threadIdx.x;
+    output[tid] = input[tid];
+    for(i=0;i<50000;i++) {
+        output[tid] = sqrt(output[tid]);
+        output[tid] = output[tid] * output[tid];
+    }
+}
+```
+
+The new code basically adds a loop of 50000 where the square root is taken and then the result doubled each time.
+
+Edit `simpleMPI.cpp` and alter `int blockSize = 256;` to:
+
+```
+int blockSize = 384 / commSize;
+```
+
+Run `make` to build the binary. A copy of the binary `simpleMPI` must be present on each node with the same path and filename.
+
+## To run it on the cluster
+Use this command on the controller node.
+`mpiexec --hostfile clusterfile ./simpleMPI
