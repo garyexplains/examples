@@ -1,3 +1,12 @@
+// Copyright 2019-2020 Gary Sims
+//
+// To get a copy use git or:
+// curl https://raw.githubusercontent.com/garyexplains/examples/master/doublelinkedlist.c --output doublelinkedlist.c
+//
+// To compile use:
+// gcc -O3 -o doublelinkedlist doublelinkedlist.c
+//
+
 #include <stdio.h>
 #include <stdlib.h>
 
