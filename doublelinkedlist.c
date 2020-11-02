@@ -20,7 +20,7 @@ element *insert_ordered(element **head, element **tail, int v) {
 		if(h == NULL)
 			*tail=ne;
 		*head=ne;
-		return;
+		return NULL;
 	}
 	element *p = *head;
 	while( (p->next != NULL) && (p->next->value < v) ) {
@@ -36,7 +36,7 @@ element *insert_ordered(element **head, element **tail, int v) {
 		*tail = ne;
 	else
 		ne->next->prev = ne;
-	return;
+	return NULL;
 }
 
 void print_list(element *head) {
