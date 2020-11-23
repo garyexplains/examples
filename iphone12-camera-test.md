@@ -1,3 +1,10 @@
+# iPhone 12 vs four-year-old-Android-phone blind camera shootout
+I am making a video about the iPhone 12 camera. I am sure the camera on the iPhone 12 will be tested to exhaustion by the various tech sites and tech YouTubers. So I thought I would do something different. I have taken an Android phone, with a good camera, from 4 years ago and done a side-by-side shootout with the iPhone 12. Can you tell which is which? Has camera tech changed much over 4 years?
+
+Caveats: Both phones in auto. HDR is on auto for both devices. Photos are taken directly from the devices. No editing by me. I kept file conversions etc to a minimum. However, inevitably there has been some. There are lots of other features of cameras including video, night/low-light capture, portrait modes, etc, etc, that are not tested here.
+
+Which photos do you prefer A or B. Vote here: 
+
 |Phone A|Phone B|
 |-------|-------|
 |![Phone A 01](http://garyexplains.com/wp-content/uploads/2020/11/PhoneA-01.jpg "Phone A Picture 1") |![Phone B 01](http://garyexplains.com/wp-content/uploads/2020/11/PhoneB-01.jpg "Phone B Picture 1") |
