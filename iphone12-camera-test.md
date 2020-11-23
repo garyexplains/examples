@@ -3,7 +3,7 @@ I am making a video about the iPhone 12 camera. I am sure the camera on the iPho
 
 Caveats: Both phones in auto. HDR is on auto for both devices. Photos are taken directly from the devices. No editing by me. I kept file conversions etc to a minimum. However, inevitably there has been some. There are lots of other features of cameras including video, night/low-light capture, portrait modes, etc, etc, that are not tested here.
 
-**Which photos do you prefer A or B?**. Please vote here: 
+**Which photos do you prefer A or B?**. Please vote here: https://www.youtube.com/post/UgxKP-s5m4g5YHbmAFd4AaABCQ
 
 |Phone A|Phone B|
 |-------|-------|
