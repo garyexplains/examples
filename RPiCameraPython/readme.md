@@ -1,5 +1,4 @@
-Here are the Python examples I used in my video about accessging the Raspberry Pi Camera from within Python.
-
+Here are the Python examples I used in my video https://youtu.be/RPZZZ6FSZuk about accessing the Raspberry Pi Camera from within Python.
 
 Here are some useful links with documentations, examples etc:
 
