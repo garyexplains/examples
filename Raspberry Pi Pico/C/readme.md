@@ -41,7 +41,7 @@ git clone https://github.com/raspberrypi/pico-project-generator.git
 
 ### Generate your project
 
-Note: Make sure you are running the Xserver (see [Open GUI apps on Windows Subsystem for Linux (and on Raspberry Pi](https://www.youtube.com/watch?v=ymV7j003ETA) )
+Note: Make sure you are running the Xserver. See my video [Open GUI apps on Windows Subsystem for Linux (and on Raspberry Pi)](https://www.youtube.com/watch?v=ymV7j003ETA) )
 
 ```
 cd pico-project-generator
