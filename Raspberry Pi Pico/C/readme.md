@@ -1,6 +1,6 @@
 # How to program a Raspberry Pico using WSL in Windows 10
 
-Note: When you see a path like /mnt/c/Users/Gary please replace it with the path to your own user folder on Windows. It is important that you use a folder accessible from Windows (not just WSL) so that you can drag and drop the .uf2 file onto the Pico.
+**Note:** When you see a path like _/mnt/c/Users/Gary_ please replace it with the path to your own user folder on Windows. It is important that you use a folder accessible from Windows (not just WSL) so that you can drag and drop the .uf2 file onto the Pico.
 
 ## In WSL
 ### Get the SDK and the examples
@@ -18,8 +18,24 @@ git clone -b master https://github.com/raspberrypi/pico-examples.git
 ### Get the compilers etc
 ```
 sudo apt update
-sudo apt install cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential
+sudo apt install gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential libssl-dev tk tkinter python3-tk
+```
 
+### Build CMake from source
+The version of CMake that comes with Ubuntu 18.04 LTS needs to be updated to meet the minimum requirements of the Pico build system.
+
+```
+wget https://github.com/Kitware/CMake/releases/download/v3.19.4/cmake-3.19.4.tar.gz
+tar -zxvf cmake-3.19.4.tar.gz
+cd cmake-3.19.4/
+./bootstrap
+make
+sudo make install
+```
+
+### Get the Pico Project Generator
+
+```
 git clone https://github.com/raspberrypi/pico-project-generator.git
 ```
 
