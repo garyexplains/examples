@@ -1,9 +1,9 @@
-#
+/*
 # Make sure to include "pico_multicore" in the "target_link_libraries" in CMakeLists.txt
 # e.g. target_link_libraries(hello_multicore pico_stdlib pico_multicore)
 # Where "hello_multicore" is the name of the project
 # You may need to re-run "cmake .." from the build folder
-#
+*/
 
 #include <stdio.h>
 #include "pico/stdlib.h"
