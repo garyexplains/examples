@@ -33,15 +33,16 @@ https://github.com/dwelch67/raspberrypi-pico
 https://github.com/davidgiven/FUZIX/tree/rpipico/Kernel/platform-rpipico
 
 ## License
-Copyright 2021 Gary Sims
+Copyright (C) 2021 Gary Sims
 
 3-Clause BSD License
+
 SPDX short identifier: BSD-3-Clause
 
 ## Copyrights
 Some portions of code, intentionally or unintentionally, may or may not be attributed to the following people:
 
-Copyright (c) 2017 Scott Nelson: CMCM - https://github.com/scttnlsn/cmcm
+Copyright (C) 2017 Scott Nelson: CMCM - https://github.com/scttnlsn/cmcm
 
 Copyright (C) 2015-2018 National Cheng Kung University, Taiwan: mini-arm-os - https://github.com/jserv/mini-arm-os
 
