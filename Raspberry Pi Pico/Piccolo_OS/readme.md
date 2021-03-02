@@ -1,9 +1,9 @@
 # Piccolo OS
 Piccolo OS is a small multitasking OS for the Raspberry Pi Pico. It is designed primarily as a teaching tool.
-It demonstrates the fundamentals of a multitasking co-operative OS and the Cortex-M0+.
+It demonstrates the fundamentals of a co-operative multitasking OS and the Arm Cortex-M0+.
 
 ## Limitations
-Many! Including lack of per-task memory, mutexes, queues, a file system, networking, a shell, and so on...
+Many! Including lack of per-task memory, multicore support, mutexes, queues, a file system, networking, a shell, and so on...
 
 ## Resources
 https://datasheets.raspberrypi.org/pico/raspberry-pi-pico-c-sdk.pdf
@@ -31,3 +31,18 @@ https://developer.arm.com/documentation/dui0552/a/the-cortex-m3-processor/except
 https://github.com/dwelch67/raspberrypi-pico
 
 https://github.com/davidgiven/FUZIX/tree/rpipico/Kernel/platform-rpipico
+
+## License
+Copyright 2021 Gary Sims
+
+3-Clause BSD License
+SPDX short identifier: BSD-3-Clause
+
+## Copyrights
+Some portions of code, intentionally or unintentionally, may or may not be attributed to the following people:
+
+Copyright (c) 2017 Scott Nelson: CMCM - https://github.com/scttnlsn/cmcm
+
+Copyright (C) 2015-2018 National Cheng Kung University, Taiwan: mini-arm-os - https://github.com/jserv/mini-arm-os
+
+Copyright (C) 2014-2017 Chris Stones: Shovel OS - https://github.com/chris-stones/ShovelOS
