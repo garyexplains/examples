@@ -6,20 +6,24 @@ It demonstrates the fundamentals of a co-operative multitasking OS and the Arm C
 Many! Including lack of per-task memory, multicore support, mutexes, queues, a file system, networking, a shell, and so on...
 
 ## Design
-First to define some terminology. The _kernel_ is the `main()` function (or in this case the `piccolo_start()` which is called by `main()` and never returns. The job of the 
+First to define some terminology. The _kernel_ is the `main()` function (or in this case the `piccolo_start()` which is called by `main()` and never returns.) The job of the 
 kernel is to pick the next task that needs to be run, save the kernel stack, restore the tasks stack and jump to the program counter (PC) last used by the user task.
 
-Piccolo OS uses a set of stacks, one for each task. The stacks are defined in piccolo_os_internals_t along with the number of created tasks, plus the index to the current task.
+A _task_ (i.e. _user task_) is a function that is run by Piccolo in a round-robin fashion along with the other _tasks_. For example, a function that flashes the onboard LED.
+
+To switch from the kernel to a task, Piccolo just needs to save the kernel stack, restore the user stack and jump to the PC that was saved. To switch from a task to the kernel, the opposite happens, in that the user stack is saved, the kernel stack is restored. However, this needs to happen via an interrupt, a SVC.
+
+Piccolo OS uses a set of stacks, one for each task. The stacks are defined in `piccolo_os_internals_t` along with the number of created tasks, plus the index to the current task.
 
 ### piccolo_init()
 `piccolo_init()` initializes the nyumber of created tasks to zero, then calls the standard Pico SDK initialization function `stdio_init_all()`. After reset, the processor is
 in thread (privileged) mode. __piccolo_task_init_stack() switches to handler mode to ensure an appropriate exception return.
 
 ### piccolo_create_task()
-To create a task the iniitial stack frame is created. It needs to mimic what would be saved by hardware and by the software. Once the stack is iniitialed, `__piccolo_pre_switch()` is called to simulate a return from the exception state. The stack is then ready to be used for context switching.
+To create a task the initial stack frame is created. It needs to mimic what would be saved by hardware and by the software. Once the stack is initialized, `__piccolo_pre_switch()` is called to simulate a return from the exception state. The stack is then ready to be used for context switching.
 
 ### piccolo_start()
-This is an infinite loop which picks the next stack (i.e. next task) to use in a round robin fashion. When `piccolo_yield()` or `piccolo_syscall()` is called an exception is raised (a SVC exception), which causes the interrpt handler `isr_svcall` to be called.
+This is an infinite loop that picks the next stack (i.e. next task) to use in a round-robin fashion. When `piccolo_yield()` or `piccolo_syscall()` is called an exception is raised (a SVC exception), which causes the interrupt handler `isr_svcall` to be called.
 
 ### piccolo_yield() / piccolo_syscall()
 This function is very simple:
@@ -49,57 +53,57 @@ When a context switch occurs the status is saved on the stack.
 
 ### Process Stack Pointer
 ```
-        Exception frame saved by the hardware onto stack:
-        +------+
-        | xPSR | 0x01000000 i.e. PSR Thumb bit
-        |  PC  | Pointer to task function
-        |  LR  | 
-        |  R12 | 
-        |  R3  | 
-        |  R2  | 
-        |  R1  | 
-        |  R0  | 
-        +------+
-        Registers saved by the software (isr_svcall):
-        +------+
-        |  LR  | THREAD_PSP i.e. 0xFFFFFFFD
-        |  R7  | 
-        |  R6  | 
-        |  R5  | 
-        |  R4  | 
-        |  R11 | 
-        |  R10 | 
-        |  R9  | 
-        |  R8  | 
-        +------+
+        Exception frame saved by the hardware onto stack:
+        +------+
+        | xPSR | 0x01000000 i.e. PSR Thumb bit
+        |  PC  | Pointer to task function
+        |  LR  | 
+        |  R12 | 
+        |  R3  | 
+        |  R2  | 
+        |  R1  | 
+        |  R0  | 
+        +------+
+        Registers saved by the software (isr_svcall):
+        +------+
+        |  LR  | THREAD_PSP i.e. 0xFFFFFFFD
+        |  R7  | 
+        |  R6  | 
+        |  R5  | 
+        |  R4  | 
+        |  R11 | 
+        |  R10 | 
+        |  R9  | 
+        |  R8  | 
+        +------+
 ```
 
 ### Main Stack Pointer
 ```
-        Exception frame saved by the hardware onto stack:
-        +------+
-        | xPSR | 0x01000000 i.e. PSR Thumb bit
-        |  PC  | Pointer to task function
-        |  LR  | 
-        |  R12 | 
-        |  R3  | 
-        |  R2  | 
-        |  R1  | 
-        |  R0  | 
-        +------+
-        Registers saved by the software (isr_svcall):
-        +------+
-        |  LR  |
-        |  R7  |
-        |  R6  |
-        |  R5  |
-        |  R4  |
-        |  R12 | NB: R12  (i.e IP) is included, unlike user state
-        |  R11 |
-        |  R10 |
-        |  R9  |
-        |  R8  | 
-        +------+
+        Exception frame saved by the hardware onto stack:
+        +------+
+        | xPSR | 0x01000000 i.e. PSR Thumb bit
+        |  PC  | Pointer to task function
+        |  LR  | 
+        |  R12 | 
+        |  R3  | 
+        |  R2  | 
+        |  R1  | 
+        |  R0  | 
+        +------+
+        Registers saved by the software (isr_svcall):
+        +------+
+        |  LR  |
+        |  R7  |
+        |  R6  |
+        |  R5  |
+        |  R4  |
+        |  R12 | NB: R12  (i.e IP) is included, unlike user state
+        |  R11 |
+        |  R10 |
+        |  R9  |
+        |  R8  | 
+        +------+
 ```
 ## Resources
 https://datasheets.raspberrypi.org/pico/raspberry-pi-pico-c-sdk.pdf
