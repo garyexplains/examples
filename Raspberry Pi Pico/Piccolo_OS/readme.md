@@ -5,6 +5,41 @@ It demonstrates the fundamentals of a co-operative multitasking OS and the Arm C
 ## Limitations
 Many! Including lack of per-task memory, multicore support, mutexes, queues, a file system, networking, a shell, and so on...
 
+## Design
+First to define some terminology. The _kernel_ is the `main()` function (or in this case the `piccolo_start()` which is called by `main()` and never returns. The job of the 
+kernel is to pick the next task that needs to be run, save the kernel stack, restore the tasks stack and jump to the program counter (PC) last used by the user task.
+
+Piccolo OS uses a set of stacks, one for each task. The stacks are defined in piccolo_os_internals_t along with the number of created tasks, plus the index to the current task.
+
+### piccolo_init()
+`piccolo_init()` initializes the nyumber of created tasks to zero, then calls the standard Pico SDK initialization function `stdio_init_all()`. After reset, the processor is
+in thread (privileged) mode. __piccolo_task_init_stack() switches to handler mode to ensure an appropriate exception return.
+
+### piccolo_create_task()
+To create a task the iniitial stack frame is created. It needs to mimic what would be saved by hardware and by the software. Once the stack is iniitialed, `__piccolo_pre_switch()` is called to simulate a return from the exception state. The stack is then ready to be used for context switching.
+
+### piccolo_start()
+This is an infinite loop which picks the next stack (i.e. next task) to use in a round robin fashion. When `piccolo_yield()` or `piccolo_syscall()` is called an exception is raised (a SVC exception), which causes the interrpt handler `isr_svcall` to be called.
+
+### piccolo_yield() / piccolo_syscall()
+This function is very simple:
+
+```
+nop
+svc 0
+nop
+bx lr
+```
+
+The SVC instruction causes an exception which is handled by `isr_svcall`.
+
+### isr_svcall()
+This is invoked via the SVC exception. It saves the current user task onto the PSP and then restores the kernel stack. It then returns to the last PC used by the kernel before it was switched out. Control returns to `piccolo_start()` where the next task is selected and the user stack restored and that task continues.
+
+### __piccolo_pre_switch()
+
+### piccolo_sleep()
+
 ## Context Switching
 The Cortex-M0 and Cortex-M0+ processors (also applicable to Cortex-M3/M4/M7) have two Stack Pointers (SPs).
 There are two types of stack, the Main Stack Pointer (MSP) and Process Stack Pointer (PSP).
