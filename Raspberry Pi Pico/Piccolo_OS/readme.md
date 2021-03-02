@@ -32,10 +32,8 @@ https://github.com/dwelch67/raspberrypi-pico
 
 https://github.com/davidgiven/FUZIX/tree/rpipico/Kernel/platform-rpipico
 
-## License
+## License - 3-Clause BSD License
 Copyright (C) 2021 Gary Sims
-
-3-Clause BSD License
 
 SPDX short identifier: BSD-3-Clause
 
