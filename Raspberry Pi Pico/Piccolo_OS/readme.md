@@ -128,9 +128,11 @@ void task1(void) {
 
 Below, {T} means Thread mode, {H} means Handler mode, {I} means Interrupt.
 
+Rememeber that, the _kernel_ is the `main()` function and later `piccolo_start()` (which is called by `main()` and never returns).
+
 The typical sequence of events, from start-up, is:
 
-1. {T} The processor starts in Thread
+1. {T} The processor starts in Thread mode
 2. {T} `piccolo_init()` which calls `__piccolo_task_init()`
  * `__piccolo_task_init()` creates a dummy stack and calls `__piccolo_task_init_stack()`
  * `__piccolo_task_init_stack()` saves the kernel state, i.e. R4 to R12 (which contains the PSR) and the LR (the return address), onto the main stack.
@@ -164,6 +166,72 @@ The typical sequence of events, from start-up, is:
  * {I} It then restores the kernel state from the main stack and returns to the kernel using the LR saved on the main stack.
 22. {H} After the interrupt, processing continues in `piccolo_start();`
 23. Jump to step 19.
+
+### TL;DR
+
+Below, {T} means Thread mode, {H} means Handler mode, {I} means Interrupt.
+
+Rememeber that, the _kernel_ is the `main()` function and later `piccolo_start()` (which is called by `main()` and never returns).
+
+1. {T} The processor starts in Thread mode, switch to Handler mode
+2. {H} Create _task1_
+  * {H} Initialize a stack for the task, including the frames saved by the hardware when an interrupt is called (see Context Switching above).
+  * {H} `__piccolo_pre_switch()` saves the kernel state, onto the main stack; and restores the task state from the process stack (PSP).
+  * {T} Force a return to Thread mode, execution continues using the program counter stored in the PSP.
+  * {T} Execution continues until `piccolo_yield()` is called.
+3. {T} `piccolo_yield()` intentionally calls SVC and forces an interrupt that will be handled by `isr_svcall()`
+4. {I} `isr_svcall()` saves the state of _tasks1_ onto the PSP.  It then restores the kernel state from the main stack and returns to the kernel.
+5. {H} Create _task2_
+  * {H} Initialize a stack for the task, including the frames saved by the hardware when an interrupt is called (see Context Switching above).
+  * {H} `__piccolo_pre_switch()` saves the kernel state, onto the main stack; and restores the task state from the process stack (PSP).
+  * {T} Force a return to Thread mode, execution continues using the program counter stored in the PSP.
+  * {T} Execution continues until `piccolo_yield()` is called.
+6. Now that our tasks are created and running, we call `piccolo_start();` 
+7. {H} Using a simple round-robin algorithm, `piccolo_start();` just picks the next task and calls `__piccolo_pre_switch()` passing the tasks stack as a parameter.
+ * {H} `__piccolo_pre_switch()` saves the kernel state, onto the main stack.
+ * {H} The task state are restored from the task's PSP
+ * {T} Force a return to Thread mode, execution continues using the program counter stored in the PSP.
+ * {T} Execution continues until `piccolo_yield()` is called again.
+8. {T} `piccolo_yield()` intentionally calls SVC and forces an interrupt that will be handled by `isr_svcall()`
+9. {I} `isr_svcall()` saves the state of the task onto its PSP.  It then restores the kernel state from the main stack and returns to the kernel (i.e. `piccolo_start();`)
+10. Go to step 7.
+
+### Still too long
+
+Below, {T} means Thread mode, {H} means Handler mode, {I} means Interrupt.
+
+Rememeber that, the _kernel_ is the `main()` function and later `piccolo_start()` (which is called by `main()` and never returns).
+
+1. {T} The processor starts in Thread mode, switch to Handler mode
+2. {H} Create _task1_
+  * {H} Initialize a stack for it (PSP) then save the kernel state, onto the main stack; and restore the task state from the process stack (PSP).
+  * {T} Force a return to Thread mode, execution continues using the program counter stored in the PSP until `piccolo_yield()` is called.
+3. {T} `piccolo_yield()` intentionally forces an interrupt that saves the state of _tasks1_ onto the PSP and restores the kernel state from the main stack. Execution continues in the kernel.
+4. {H} Create _task2_
+  * {H} Initialize a stack for it (PSP) then save the kernel state, onto the main stack; and restore the task state from the process stack (PSP).
+  * {T} Force a return to Thread mode, execution continues using the program counter stored in the PSP until `piccolo_yield()` is called.
+5. {T} `piccolo_yield()` intentionally forces an interrupt that saves the state of _tasks2_ onto the PSP and restores the kernel state from the main stack. Execution continues in the kernel.
+6. Now that our tasks are created and running, we call `piccolo_start()`
+7. `piccolo_start()` just picks the next task and calls `__piccolo_pre_switch()` to saves the kernel state, onto the main stack; and then restored the next task from the task's PSP
+ * {T} Force a return to Thread mode, execution continues using the program counter stored in the PSP.
+ * {T} Execution continues until `piccolo_yield()` is called again.
+8. `piccolo_yield()` forces an interrupt that saves the state of the task onto its PSP.  It then restores the kernel state from the main stack and returns to the kernel (i.e. `piccolo_start();`)
+10. Go to step 7.
+
+
+### Give me the Tom and Jerry version
+
+Rememeber that, the _kernel_ is the `main()` function and later `piccolo_start()` (which is called by `main()` and never returns).
+
+1. Create _task1_ and start running it using its own stack (PSP). It will run until `piccolo_yield()` is called.
+2. Via an interrupt `piccolo_yield()` will saves the state of _tasks1_ onto its PSP and restore the kernel state from the main stack. Execution continues in the kernel.
+3. Create _task2_ and start running it using its own stack (PSP). It will run until `piccolo_yield()` is called.
+4. Via an interrupt `piccolo_yield()` will saves the state of _tasks2_ onto its PSP and restore the kernel state from the main stack. Execution continues in the kernel.
+5. Now that our tasks are created and running, we call `piccolo_start()`
+6. `piccolo_start()` just picks the next task, saves the kernel state, onto the main stack; and then restores the next task from the task's PSP
+7. Contiunue execting the next task using its own stack until `piccolo_yield()` is called.
+8. Via an interrupt `piccolo_yield()` will saves the state of the current task onto its PSP and restores the kernel state from the main stack. Execution continues in the kernel (i.e. in `piccolo_start()`).
+9. Go to 6.
 
 ## Resources
 https://datasheets.raspberrypi.org/pico/raspberry-pi-pico-c-sdk.pdf
