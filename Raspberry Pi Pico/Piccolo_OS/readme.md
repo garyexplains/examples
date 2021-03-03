@@ -40,14 +40,18 @@ bx lr
 The SVC instruction causes an exception which is handled by `isr_svcall`.
 
 ### isr_svcall()
-This is invoked via the SVC exception. It saves the current user task onto the PSP and then restores the kernel stack. It then returns to the last PC used by the kernel before it was switched out. Control returns to `piccolo_start()` where the next task is selected and the user stack restored and that task continues.
+This is invoked via the SVC exception. It saves the current user task onto the PSP and then restores the kernel stack. It then returns to the last PC used by the kernel before it was switched out. Control returns to the kernel (`main()` or  `piccolo_start()`).
 
 ### __piccolo_pre_switch()
+`__piccolo_pre_switch()` saves the kernel state, i.e. R4 to R12 (which contains the PSR) and the LR (the return address), onto the main stack. Then, the task state (the register R4 to R11 and the LR) are restored from the task's PSP stack. This is in R0, which is used to set the PSP register. The code then jumps to the LR (restored from the PSP).
+
+If the LR is THREAD_PSP (i.e. 0xFFFFFFFD, a special return address recognized by the CPU) then THREAD_PSP forces a return to Thread mode, execution continues using the PSP.
 
 ### piccolo_sleep()
+Since Piccolo OS isn't preemptive, then using the Pico's C/C++ sleep functions will cause execrution to block. `piccolo_sleep()` is a replacement function that calls `piccolo_yield()` while waiting for the specified amount of time to pass.
 
-## Thread mode and Handler mode
-When the processor is running a program it can be either in Thread mode or Handler mode. Thread mode and Handler mode are almost completely the same.
+## Thread mode and Handler mode in the Cortex-M0+
+When the Cortex-M0+ processor is running a program it can be either in Thread mode or Handler mode. Thread mode and Handler mode are almost completely the same.
 The only difference is that Thread mode uses (if desired) the Process Stack Pointer (PSP) rather than the Main Stack Pointer (MSP).
 
 After reset, the processor is in Thread mode.
