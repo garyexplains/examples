@@ -7,11 +7,13 @@ Many! Including lack of per-task memory, multicore support, mutexes, queues, a f
 
 ## Design
 First to define some terminology. The _kernel_ is the `main()` function (or in this case the `piccolo_start()` which is called by `main()` and never returns.) The job of the 
-kernel is to pick the next task that needs to be run, save the kernel stack, restore the tasks stack and jump to the program counter (PC) last used by the user task.
+kernel is to pick the next task that needs to be run, save the kernel stack, restore the task's stack and jump to the program counter (PC) last used by the user task.
 
-A _task_ (i.e. _user task_) is a function that is run by Piccolo in a round-robin fashion along with the other _tasks_. For example, a function that flashes the onboard LED.
+A _task_ (i.e. _user task_) is a function that is run by Piccolo in a round-robin fashion along with the other _tasks_. For example, a function that flashes the onboard LED. Each _task_ has its own stack, separate from the main stack (which is used by the kernel).
 
-To switch from the kernel to a task, Piccolo just needs to save the kernel stack, restore the user stack and jump to the PC that was saved. To switch from a task to the kernel, the opposite happens, in that the user stack is saved, the kernel stack is restored. However, this needs to happen via an interrupt, a SVC.
+So, there are two types of stack, the Main Stack Pointer (MSP) and Process Stack Pointer (PSP). The Process Stack Pointer (PSP) is used by the current task, and the MSP is used by OS Kernel and exception handlers.
+
+To switch from the kernel to a task, Piccolo needs to save the kernel state on the main stack, restore the user state from the process stack, and jump to the task PC that was saved. To switch from a task to the kernel, the opposite happens, in that the user stack is saved, the kernel stack is restored. The task to kernel switch happens via an interrupt, a SVC.
 
 Piccolo OS uses a set of stacks, one for each task. The stacks are defined in `piccolo_os_internals_t` along with the number of created tasks, plus the index to the current task.
 
@@ -43,6 +45,12 @@ This is invoked via the SVC exception. It saves the current user task onto the P
 ### __piccolo_pre_switch()
 
 ### piccolo_sleep()
+
+## Thread mode and Handler mode
+When the processor is running a program it can be either in Thread mode or Handler mode. Thread mode and Handler mode are almost completely the same.
+The only difference is that Thread mode uses (if desired) the Process Stack Pointer (PSP) rather than the Main Stack Pointer (MSP).
+
+After reset, the processor is in Thread mode.
 
 ## Context Switching
 The Cortex-M0 and Cortex-M0+ processors (also applicable to Cortex-M3/M4/M7) have two Stack Pointers (SPs).
@@ -105,6 +113,49 @@ When a context switch occurs the status is saved on the stack.
         |  R8  | 
         +------+
 ```
+
+## Typical sequence of events
+
+Let say you have two tasks, _task1_ and _task2_. All they do is yield control back to the kernel. Like this:
+
+```
+void task1(void) {
+  while (true) {
+    piccolo_yield();
+  }
+}
+```
+
+Below, {T} means Thread mode, {H} means Handler mode, {I} means Interrupt.
+
+The typical sequence of events, from start up, is:
+
+1. {T} The processor starts in Thread
+2. {T} `piccolo_init()` which calls `__piccolo_task_init()`
+  * `__piccolo_task_init()` creates a dummy stack and calls `__piccolo_task_init_stack()`
+  * `__piccolo_task_init_stack()` saves the kernel state, i.e. R4 to R12 (which contains the PSR) and the LR (the return address), onto the main stack.
+  * It then switches to the PSP (which is, in fact, a dummy stack) and triggers an interrupt
+3. {I} `isr_svcall()` handles the interrupt. It saves the current task state (R4 to R11 and the LR) onto the PSP (the dummy stack).
+  * {I} It then restores the kernel state from the main stack and returns to the kernel using the LR saved on the main stack in 2.
+4. {H} After the interrupt, processing continues in `__piccolo_task_init()` and eventually `piccolo_init()` but now in Handler mode.
+5. {H} Next _task1_ is created via `piccolo_create_task(&task1);`
+6. {H} In `__piccolo_os_create_task()` a new stack is initialized for the task, including the frames saved by the hardware when an interrupt is called (see Context Switching above).
+7. {H} Once the stack has been set up, `__piccolo_pre_switch()` is called passing the stack as a parameter.
+8. {H} `__piccolo_pre_switch()` saves the kernel state, i.e. R4 to R12 (which contains the PSR) and the LR (the return address), onto the main stack.
+9. {H} The task state (the register R4 to R11 and the LR) are restored from the stack passed in at step 7. This is in R0.
+10. {H} R0 is set as the PSP and a jump is made to the LR, which is actually THREAD_PSP (i.e. 0xFFFFFFFD, a special return address recognized by the CPU)
+11. {T} THREAD_PSP forces a return to Thread mode, execution continues using the PSP. The PSP has the address of _task1_, as set up in step 6. See `stack[15] = (unsigned int)start;` in `__piccolo_os_create_task()`
+12. {T} _task1_ is just a loop that calls `piccolo_yield()`
+13. {T}`piccolo_yield()` intentionall calls SVC and forces an interrupt that will be handled by `isr_svcall()`
+14. {I} `isr_svcall()` handles the interrupt. It saves the state of _tasks1_ task (R4 to R11 and the LR) onto the PSP belonging _task1_ (see steps 10. and 11.).
+  * {I} It then restores the kernel state from the main stack and returns to the kernel using the LR saved on the main stack in 8.
+15. {H} After the interrupt, processing continues in `main()`
+16. {H} Next _task2_ is created via `piccolo_create_task(&task2);`
+17. Steps 6. to 15. are repeated, but now for _task2_
+18. {H} After the interrupt, processing continues in `main()`. Now that are tasks are created and running, we call `piccolo_start();` 
+
+
+
 ## Resources
 https://datasheets.raspberrypi.org/pico/raspberry-pi-pico-c-sdk.pdf
 
