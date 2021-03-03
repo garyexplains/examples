@@ -146,15 +146,24 @@ The typical sequence of events, from start up, is:
 10. {H} R0 is set as the PSP and a jump is made to the LR, which is actually THREAD_PSP (i.e. 0xFFFFFFFD, a special return address recognized by the CPU)
 11. {T} THREAD_PSP forces a return to Thread mode, execution continues using the PSP. The PSP has the address of _task1_, as set up in step 6. See `stack[15] = (unsigned int)start;` in `__piccolo_os_create_task()`
 12. {T} _task1_ is just a loop that calls `piccolo_yield()`
-13. {T}`piccolo_yield()` intentionall calls SVC and forces an interrupt that will be handled by `isr_svcall()`
+13. {T} `piccolo_yield()` intentionall calls SVC and forces an interrupt that will be handled by `isr_svcall()`
 14. {I} `isr_svcall()` handles the interrupt. It saves the state of _tasks1_ task (R4 to R11 and the LR) onto the PSP belonging _task1_ (see steps 10. and 11.).
   * {I} It then restores the kernel state from the main stack and returns to the kernel using the LR saved on the main stack in 8.
 15. {H} After the interrupt, processing continues in `main()`
 16. {H} Next _task2_ is created via `piccolo_create_task(&task2);`
 17. Steps 6. to 15. are repeated, but now for _task2_
 18. {H} After the interrupt, processing continues in `main()`. Now that are tasks are created and running, we call `piccolo_start();` 
-
-
+19. {H} Using a simple round-robin algorythm, `piccolo_start();` just picks the next task and calls `__piccolo_pre_switch()` passing the tasks stack as a parameter.
+  * {H} `__piccolo_pre_switch()` saves the kernel state, i.e. R4 to R12 (which contains the PSR) and the LR (the return address), onto the main stack.
+  * {H} The task state (the register R4 to R11 and the LR) are restored from the stack passed as the parameter to `__piccolo_pre_switch()`. This is in R0.
+  * {H} R0 is set as the PSP and a jump is made to the LR, which is actually THREAD_PSP (i.e. 0xFFFFFFFD, a special return address recognized by the CPU)
+  * {T} THREAD_PSP forces a return to Thread mode, execution continues using the PSP. The PSP has the address of where to continue in the task. This address was saved into the LR (and saved onto the PSP stack) when the call to `piccolo_yield()` was made.
+  * Execution continues until `piccolo_yield()` is called again.
+20. {T} `piccolo_yield()` intentionall calls SVC and forces an interrupt that will be handled by `isr_svcall()`
+21. {I} `isr_svcall()` handles the interrupt. It saves the state of the current task (R4 to R11 and the LR) onto the PSP belonging to the task.
+  * {I} It then restores the kernel state from the main stack and returns to the kernel using the LR saved on the main stack.
+22. {H} After the interrupt, processing continues in `piccolo_start();`
+23. Jump to step 19.
 
 ## Resources
 https://datasheets.raspberrypi.org/pico/raspberry-pi-pico-c-sdk.pdf
