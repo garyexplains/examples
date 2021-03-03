@@ -63,6 +63,15 @@ The Process Stack Pointer (PSP) is used by the current task, and the MSP is used
 determined by the CONTROL register, a special registers.
 When a context switch occurs the status is saved on the stack.
 
+### Overview
+1. Piccolo OS -> save kernel state on MSP ->
+2. restore TASK1 state from PSP_1 -> TASK1 -> save TASK1 state to PSP_1 ->
+3. restore kernel state from MSP -> Piccolo OS -> save kernel on MSP ->
+4. restore TASK2 state from PSP_2 -> TASK2 -> save TASK2 state to PSP_2 ->
+5. restore kernel state from MSP -> Piccolo OS -> save kernel on MSP ->
+6. restore TASK3 state from PSP_3 -> TASK3 -> save TASK3 state to PSP_3 ->
+7. restore kernel state from MSP -> Go to step 1.
+
 ### Process Stack Pointer
 ```
         Exception frame saved by the hardware onto stack:
