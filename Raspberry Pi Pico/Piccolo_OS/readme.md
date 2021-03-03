@@ -118,6 +118,9 @@ When a context switch occurs the status is saved on the stack.
         +------+
 ```
 
+### R0 to R3
+When the CPU is interrupted, the hardware will store R0 to R3, the PC etc., onto the stack. It is automatic. In a function like `isr_svcall()` that wants to save the whole context then R4 to R11, etc., are saved. This means all the registered are saved. However, you may have noticed that when there is a switch from the _kernel_ to a _task_ via `__piccolo_pre_switch()` then this is software only (no SVC, no interrupt) and so R0 to R3 are not saved. The reason is that the calling ARM calling convention (when you call a function) states that R0 to R3 are scratch registers and you can't rely on their contents after a branch to another bit of code. So R0 to R3 don't need to be saved as the C compiler knows not to rely on the value of those registers after a function call, and invoking `piccolo_yield()` (when the user task is saved to the PSP stack) is a function call!
+
 ## Typical sequence of events
 
 Let say you have two tasks, _task1_ and _task2_. All they do is yield control back to the kernel. Like this:
