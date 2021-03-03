@@ -48,7 +48,7 @@ This is invoked via the SVC exception. It saves the current user task onto the P
 If the LR is THREAD_PSP (i.e. 0xFFFFFFFD, a special return address recognized by the CPU) then THREAD_PSP forces a return to Thread mode, execution continues using the PSP.
 
 ### piccolo_sleep()
-Since Piccolo OS isn't preemptive, then using the Pico's C/C++ sleep functions will cause execrution to block. `piccolo_sleep()` is a replacement function that calls `piccolo_yield()` while waiting for the specified amount of time to pass.
+Since Piccolo OS isn't preemptive, then using the Pico's C/C++ sleep functions will cause execution to block. `piccolo_sleep()` is a replacement function that calls `piccolo_yield()` while waiting for the specified amount of time to pass.
 
 ## Thread mode and Handler mode in the Cortex-M0+
 When the Cortex-M0+ processor is running a program it can be either in Thread mode or Handler mode. Thread mode and Handler mode are almost completely the same.
