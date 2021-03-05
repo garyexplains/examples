@@ -21,6 +21,8 @@ Piccolo OS uses a set of stacks, one for each task. The stacks are defined in `p
 `piccolo_init()` initializes the number of created tasks to zero, then calls the standard Pico SDK initialization function `stdio_init_all()`. After reset, the processor is
 in thread (privileged) mode. __piccolo_task_init_stack() switches to handler mode to ensure an appropriate exception return.
 
+Once `piccolo_init()` has been called the rest of `main()`, and any other functions like `piccolo_start()` will be run in handler mode. This can cause problems with the Pico C/C++ SDK, especially with the timers as they are hardware/interrupt based.
+
 ### piccolo_create_task()
 To create a task the initial stack frame is created. It needs to mimic what would be saved by hardware and by the software. Once the stack is initialized, `__piccolo_pre_switch()` is called to simulate a return from the exception state. The stack is then ready to be used for context switching.
 
@@ -248,6 +250,16 @@ Remember that, the _kernel_ is the `main()` function and later `piccolo_start()`
 7. Continue executing the next task using its own stack until `piccolo_yield()` is called.
 8. Via an interrupt `piccolo_yield()` will saves the state of the current task onto its PSP and restores the kernel state from the main stack. Execution continues in the kernel (i.e. in `piccolo_start()`).
 9. Go to 6.
+
+## Pre-emptive
+At the moment Piccolo OS is co-operative, in that a task will continue to run until `piccolo_yield()` is called.
+
+It should be possible to force a context switch using a timer or an interrupt like SysTick which in turns triggers a PendSV. However, my attempts to implement this have so far failed. I have ported the same code to an STM32 BluePill with a Cortex-M3 and pre-emptive tasking works via SysTick/PendSV.
+
+My initial thoughts are that once `main()` is running in handler mode then the Pico C/C++ SDK doesn't process interrupts as expected. The "traditional" approach is to set the
+interrupt priorities so that the SysTick has a high priority, however my attempts to do that that have so far been without success.
+
+More work is needed.
 
 ## Resources
 https://datasheets.raspberrypi.org/pico/raspberry-pi-pico-c-sdk.pdf
