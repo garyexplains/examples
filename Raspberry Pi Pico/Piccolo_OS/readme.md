@@ -281,11 +281,12 @@ https://github.com/davidgiven/FUZIX/tree/rpipico/Kernel/platform-rpipico
 https://archive.fosdem.org/2018/schedule/event/multitasking_on_cortexm/attachments/slides/2602/export/events/attachments/multitasking_on_cortexm/slides/2602/Slides.pdf
 
 ## License - 3-Clause BSD License
-Copyright (C) 2021 Gary Sims
+Copyright (C) 2021, Gary Sims
+All rights reserved.
 
 SPDX short identifier: BSD-3-Clause
 
-## Copyrights
+## Additional Copyrights
 Some portions of code, intentionally or unintentionally, may or may not be attributed to the following people:
 
 Copyright (C) 2017 Scott Nelson: CMCM - https://github.com/scttnlsn/cmcm
