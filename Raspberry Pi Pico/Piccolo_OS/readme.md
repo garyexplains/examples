@@ -274,7 +274,7 @@ Remember that, the _kernel_ is the `main()` function and later `piccolo_start()`
 ## Pre-emptive
 At the moment Piccolo OS is co-operative, in that a task will continue to run until `piccolo_yield()` is called.
 
-It should be possible to force a context switch using a timer or an interrupt like SysTick which in turns triggers a PendSV. However, my attempts to implement this have so far failed. I have ported the same code to an STM32 BluePill with a Cortex-M3 and pre-emptive tasking works via SysTick/PendSV.
+It should be possible to force a context switch using a timer or an interrupt like SysTick which in turn triggers a PendSV. However, my attempts to implement this have so far failed. I have ported the same code to an STM32 BluePill with a Cortex-M3 and pre-emptive tasking works via SysTick/PendSV.
 
 My initial thoughts are that once `main()` is running in handler mode then the Pico C/C++ SDK doesn't process interrupts as expected. The "traditional" approach is to set the
 interrupt priorities so that the SysTick has a high priority, however my attempts to do that that have so far been without success.
