@@ -5,6 +5,18 @@ It demonstrates the fundamentals of a co-operative multitasking OS and the Arm C
 ## Limitations
 Many! Including lack of per-task memory, multicore support, mutexes, queues, a file system, networking, a shell, and so on...
 
+## Build Instructions
+Make sure you have the Pico C/C++ SDK installed and working on your machine. [Getting started with Raspberry Pi Pico is
+the best place to start.](https://datasheets.raspberrypi.org/pico/getting-started-with-pico.pdf)
+
+You need to have PICO_SDK_PATH defined, e.g. `export PICO_SDK_PATH=/home/pi/pico/pico-sdk/`
+
+Clone the code from the repository. Change directory into `build` and run `cmake -DCMAKE_BUILD_TYPE=Debug ..` (for a debug build) or `cmake ..` (for a release build).
+
+Run `make`
+
+The resulting file `piccolo_os_demo.elf` can be flashed on your Pico in the normal way.
+
 ## Design
 First to define some terminology. The _kernel_ is the `main()` function (and later `piccolo_start()` which is called by `main()` and never returns.) The job of the 
 kernel is to allow for tasks to be created and then, in a round-robin fashion, pick the next task that needs to be run, save the kernel stack, restore the task's stack and jump to the program counter (PC) last used by the user task.
