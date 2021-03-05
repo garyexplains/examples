@@ -5,6 +5,14 @@ It demonstrates the fundamentals of a co-operative multitasking OS and the Arm C
 ## Limitations
 Many! Including lack of per-task memory, multicore support, mutexes, queues, a file system, networking, a shell, and so on...
 
+## A Comma A Day Keeps The Pedants Away
+Since the Internet seems to be full of people with way too much time on their hands, I would just like to kindly shoo away any C/C++ pedants out there.
+Yes, I am sure there are a million different ways to achieve many of the same results. Yes, I am sure there are some fine points of language semantics that could be argued about. Yes, I am sure you have a more efficient way of writing some of the functions.
+
+To be honest, I am not interested.
+
+Having said that, like-minded people who wish to contribute and extend Piccolo OS are welcome. See __Contributing__
+
 ## Build Instructions
 Make sure you have the Pico C/C++ SDK installed and working on your machine. [Getting started with Raspberry Pi Pico is
 the best place to start.](https://datasheets.raspberrypi.org/pico/getting-started-with-pico.pdf)
@@ -272,6 +280,15 @@ My initial thoughts are that once `main()` is running in handler mode then the P
 interrupt priorities so that the SysTick has a high priority, however my attempts to do that that have so far been without success.
 
 More work is needed.
+
+## Contributing
+I would like to keep this basic version of Piccolo OS intact, as a learning tool. I don't plan on expanding it, even to including pre-emptive multi-tasking (see above).
+
+However, if there is interest then a V2.0 could be started which expands on V1.0 to include pre-emptive multitasking, as well as other things like mutexes, queues, per task memory, etc.
+
+If there is interest then I will start a V2.0 repo and start accepting pull requests.
+
+Having said that, please feel free to fork and continue working on Piccolo OS as you see fit.
 
 ## Resources
 https://datasheets.raspberrypi.org/pico/raspberry-pi-pico-c-sdk.pdf
