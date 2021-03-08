@@ -123,17 +123,6 @@ When a context switch occurs the status is saved on the stack.
 
 ### Main Stack Pointer
 ```
-        Exception frame saved by the hardware onto stack:
-        +------+
-        | xPSR | 0x01000000 i.e. PSR Thumb bit
-        |  PC  | Pointer to task function
-        |  LR  | 
-        |  R12 | 
-        |  R3  | 
-        |  R2  | 
-        |  R1  | 
-        |  R0  | 
-        +------+
         Registers saved by the software (isr_svcall):
         +------+
         |  LR  |
@@ -150,7 +139,7 @@ When a context switch occurs the status is saved on the stack.
 ```
 
 ### R0 to R3
-When the CPU is interrupted, the hardware will store R0 to R3, the PC etc., onto the stack. It is automatic. In a function like `isr_svcall()` that wants to save the whole context then R4 to R11, etc., are saved. This means all the registered are saved. However, you may have noticed that when there is a switch from the _kernel_ to a _task_ via `__piccolo_pre_switch()` then this is software only (no SVC, no interrupt) and so R0 to R3 are not saved. The reason is that the calling ARM calling convention (when you call a function) states that R0 to R3 are scratch registers and you can't rely on their contents after a branch to another bit of code. So R0 to R3 don't need to be saved as the C compiler knows not to rely on the value of those registers after a function call, and invoking `piccolo_yield()` (when the user task is saved to the PSP stack) is a function call!
+When the CPU is interrupted, the hardware will store R0 to R3, the PC etc., onto the stack. It is automatic. The interrupt handler `isr_svcall()` needs to save __all__ the registers (the whole context) so it saves R4 to R11, etc. This means all the registered are saved. However, you may have noticed that when there is a switch from the _kernel_ to a _task_ via `__piccolo_pre_switch()` then this is software only (no SVC instruction, no interrupt) and so the kernel's R0 to R3 are not saved on the main stack. The reason is that the calling ARM calling convention (when you call a function) states that R0 to R3 are scratch registers and you can't rely on their contents after a branch to another bit of code. So R0 to R3 don't need to be saved as the C compiler knows not to rely on the value of those registers after a function call, and invoking `__piccolo_pre_switch()` is a function call!
 
 ## Typical sequence of events
 
@@ -164,7 +153,7 @@ void task1(void) {
 }
 ```
 
-Below, {T} means Thread mode, {H} means Handler mode, {I} means Interrupt.
+Below, {T} means Thread mode, {H} means Handler mode, {HI} means Handler mode, but in actual Interrupt handler.
 
 Remember that, the _kernel_ is the `main()` function and later `piccolo_start()` (which is called by `main()` and never returns).
 
@@ -175,8 +164,8 @@ The typical sequence of events, from start-up, is:
  * `__piccolo_task_init()` creates a dummy stack and calls `__piccolo_task_init_stack()`
  * `__piccolo_task_init_stack()` saves the kernel state, i.e. R4 to R12 (which contains the PSR) and the LR (the return address), onto the main stack.
  * It then switches to the PSP (which is, in fact, a dummy stack) and triggers an interrupt
-3. {I} `isr_svcall()` handles the interrupt. It saves the current task state (R4 to R11 and the LR) onto the PSP (the dummy stack).
- * {I} It then restores the kernel state from the main stack and returns to the kernel using the LR saved on the main stack in 2.
+3. {HI} `isr_svcall()` handles the interrupt. It saves the current task state (R4 to R11 and the LR) onto the PSP (the dummy stack).
+ * {HI} It then restores the kernel state from the main stack and returns to the kernel using the LR saved on the main stack in 2.
 4. {H} After the interrupt, processing continues in `__piccolo_task_init()` and eventually `piccolo_init()` but now in Handler mode.
 5. {H} Next _task1_ is created via `piccolo_create_task(&task1);`
 6. {H} In `__piccolo_os_create_task()` a new stack is initialized for the task, including the frames saved by the hardware when an interrupt is called (see Context Switching above).
@@ -187,8 +176,8 @@ The typical sequence of events, from start-up, is:
 11. {T} THREAD_PSP forces a return to Thread mode, execution continues using the PSP. The PSP has the address of _task1_, as set up in step 6. See `stack[15] = (unsigned int)start;` in `__piccolo_os_create_task()`
 12. {T} _task1_ is just a loop that calls `piccolo_yield()`
 13. {T} `piccolo_yield()` intentionally calls SVC and forces an interrupt that will be handled by `isr_svcall()`
-14. {I} `isr_svcall()` handles the interrupt. It saves the state of _tasks1_ task (R4 to R11 and the LR) onto the PSP belonging _task1_ (see steps 10. and 11.).
- * {I} It then restores the kernel state from the main stack and returns to the kernel using the LR saved on the main stack in 8.
+14. {HI} `isr_svcall()` handles the interrupt. It saves the state of _tasks1_ task (R4 to R11 and the LR) onto the PSP belonging _task1_ (see steps 10. and 11.).
+ * {HI} It then restores the kernel state from the main stack and returns to the kernel using the LR saved on the main stack in 8.
 15. {H} After the interrupt, processing continues in `main()`
 16. {H} Next _task2_ is created via `piccolo_create_task(&task2);`
 17. Steps 6. to 15. are repeated, but now for _task2_
@@ -200,14 +189,14 @@ The typical sequence of events, from start-up, is:
  * {T} THREAD_PSP forces a return to Thread mode, execution continues using the PSP. The PSP has the address of where to continue in the task. This address was saved into the LR (and saved onto the PSP stack) when the call to `piccolo_yield()` was made.
  * {T} Execution continues until `piccolo_yield()` is called again.
 20. {T} `piccolo_yield()` intentionally calls SVC and forces an interrupt that will be handled by `isr_svcall()`
-21. {I} `isr_svcall()` handles the interrupt. It saves the state of the current task (R4 to R11 and the LR) onto the PSP belonging to the task.
- * {I} It then restores the kernel state from the main stack and returns to the kernel using the LR saved on the main stack.
+21. {HI} `isr_svcall()` handles the interrupt. It saves the state of the current task (R4 to R11 and the LR) onto the PSP belonging to the task.
+ * {HI} It then restores the kernel state from the main stack and returns to the kernel using the LR saved on the main stack.
 22. {H} After the interrupt, processing continues in `piccolo_start();`
 23. Jump to step 19.
 
 ### TL;DR
 
-Below, {T} means Thread mode, {H} means Handler mode, {I} means Interrupt.
+Below, {T} means Thread mode, {H} means Handler mode, {HI} means Handler mode, but in actual Interrupt handler.
 
 Remember that, the _kernel_ is the `main()` function and later `piccolo_start()` (which is called by `main()` and never returns).
 
@@ -218,7 +207,7 @@ Remember that, the _kernel_ is the `main()` function and later `piccolo_start()`
   * {T} Force a return to Thread mode, execution continues using the program counter stored in the PSP.
   * {T} Execution continues until `piccolo_yield()` is called.
 3. {T} `piccolo_yield()` intentionally calls SVC and forces an interrupt that will be handled by `isr_svcall()`
-4. {I} `isr_svcall()` saves the state of _tasks1_ onto the PSP.  It then restores the kernel state from the main stack and returns to the kernel.
+4. {HI} `isr_svcall()` saves the state of _tasks1_ onto the PSP.  It then restores the kernel state from the main stack and returns to the kernel.
 5. {H} Create _task2_
   * {H} Initialize a stack for the task, including the frames saved by the hardware when an interrupt is called (see Context Switching above).
   * {H} `__piccolo_pre_switch()` saves the kernel state, onto the main stack; and restores the task state from the process stack (PSP).
@@ -231,12 +220,12 @@ Remember that, the _kernel_ is the `main()` function and later `piccolo_start()`
  * {T} Force a return to Thread mode, execution continues using the program counter stored in the PSP.
  * {T} Execution continues until `piccolo_yield()` is called again.
 8. {T} `piccolo_yield()` intentionally calls SVC and forces an interrupt that will be handled by `isr_svcall()`
-9. {I} `isr_svcall()` saves the state of the task onto its PSP.  It then restores the kernel state from the main stack and returns to the kernel (i.e. `piccolo_start();`)
+9. {HI} `isr_svcall()` saves the state of the task onto its PSP.  It then restores the kernel state from the main stack and returns to the kernel (i.e. `piccolo_start();`)
 10. Go to step 7.
 
 ### Still too long
 
-Below, {T} means Thread mode, {H} means Handler mode, {I} means Interrupt.
+Below, {T} means Thread mode, {H} means Handler mode.
 
 Remember that, the _kernel_ is the `main()` function and later `piccolo_start()` (which is called by `main()` and never returns).
 
