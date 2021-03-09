@@ -349,7 +349,7 @@ PSP1 is now ready to be used later to return to Task 1 when needed. Using a simi
 Remember the main stack from earlier? It is still intact, as it was:
 ```
 Main stack (MSP)			
-+---------------+   Saved by __piccolo_pre_switch(), 
++---------------+			Saved by __piccolo_pre_switch(), 
 |  R4-R12,LR    |			LR is back to __piccolo_os_create_task() after call to __piccolo_pre_switch()
 +---------------+
 ```
@@ -374,7 +374,7 @@ Task 1 stack (PSP1)
 `__piccolo_pre_switch()` saves the kernel state on the main stack:
 ```
 Main stack (MSP)			
-+---------------+   Saved by __piccolo_pre_switch(), 
++---------------+			Saved by __piccolo_pre_switch(), 
 |  R4-R12,LR    |			LR is back to __piccolo_os_create_task() after call to __piccolo_pre_switch()
 +---------------+
 ```
@@ -385,7 +385,7 @@ exit handler mode and return to thread mode.
 Task 1 stack (PSP1)
 +---------------+			Saved by hardware on PSP1
 |  R0-R3,LR,PC  |			PC is a pointer to somewhere in the task function, 
-+---------------+   just after the call to piccolo_yield()
++---------------+ 			just after the call to piccolo_yield()
 ```
 It now restores R0 to R3 and uses the PC to carry on execution using PSP1. PC is the pointer to somewhere in the task function, just after the call to `piccolo_yield()`
 
