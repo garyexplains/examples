@@ -353,7 +353,7 @@ Main stack (MSP)
 |  R4-R12,LR    |			LR is back to __piccolo_os_create_task() after call to __piccolo_pre_switch()
 +---------------+
 ```
-`isr_svcall()` restores the kernel state from the main stack and returns to the kernel using the LR. Execution continues in `__piccolo_pre_switch()`, which evetually returns to
+`isr_svcall()` restores the kernel state from the main stack and returns to the kernel using the LR. Execution continues in `__piccolo_pre_switch()`, which eventually returns to
 `piccolo_create_task()` and then `main()`.
 
 ### piccolo_create_task(&task2_func) and ultimatley piccolo_yield()
