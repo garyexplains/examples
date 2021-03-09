@@ -260,6 +260,143 @@ Remember that, the _kernel_ is the `main()` function and later `piccolo_start()`
 8. Via an interrupt `piccolo_yield()` will saves the state of the current task onto its PSP and restores the kernel state from the main stack. Execution continues in the kernel (i.e. in `piccolo_start()`).
 9. Go to 6.
 
+## Keep track of all those stacks!
+Here is a brief look at some of the stacks and switches in and out of handler mode, which should help you visual what is happening with all those stacks!
+
+### piccolo_init()
+
+After call to `piccolo_init()->__piccolo_task_init()->__piccolo_task_init_stack()`
+```
+Main stack (MSP)			
++---------------+
+|  R4-R12,LR    |			Saved by __piccolo_task_init_stack(), LR is back to main()
++---------------+
+```
+`__piccolo_task_init_stack()` switches to using PSP0, the dummy stack from `__piccolo_task_init()`, and then drops into `piccolo_syscall()` which raises an SVC interrupt
+```
+Dummy stack (PSP0)
++---------------+			Saved by isr_svcall() using r0 which is the address of PSP0
+|  R4-R12,LR    |			LR will be 0xFFFFFFFD as this is an exception (interrupt).
++---------------+
+|  R0-R3,LR,PC  |			Saved by hardware on PSP0
++---------------+
+```
+The kernel, that is `main()`, context is restored from the stack, MSP is now empty
+The last instruction is `POP {PC}` which pops off the LR and causes a jump back to the
+kernel, i.e. `main()`
+```
+Main stack (MSP)			
++---------------+
++---------------+
+```
+Back in `main()` now, but the CPU is in handler mode because it has not yet returned from the exception.
+
+The dummy stack is discarded and never used again.
+
+### piccolo_create_task(&task1_func)
+
+Create task1: `piccolo_create_task() -> __piccolo_os_create_task()`
+
+Create an initial process stack PSP1 that mimics the stack from an interrupt call:
+```
+Task 1 stack (PSP1)
++---------------+			As would be saved by software, LR needs to be 0xFFFFFFFD
+|  R4-R12,LR    |					
++---------------+			As would be saved by hardware on PSP1
+|  R0-R3,LR,PC  |			PC is pointer task function (i.e. task1_func)
++---------------+
+```
+Then call `__piccolo_pre_switch(task_stack)` using the newly created stack:
+
+`__piccolo_pre_switch()` saves the kernel state on the main stack:
+```
+Main stack (MSP)			
++---------------+   Saved by __piccolo_pre_switch(), 
+|  R4-R12,LR    |			LR is back to __piccolo_os_create_task() after call to __piccolo_pre_switch()
++---------------+
+```
+Load the state (the registers) for task1 from the stack created above. The address of that stack is in r0.
+Set the PSP register to R0 and then branch to LR. Since LR is 0xFFFFFFFD then this causes the CPU to end
+exit handler mode and return to thread mode.
+```
+Task 1 stack (PSP1)
++---------------+			As would be saved by hardware on PSP1
+|  R0-R3,LR,PC  |			PC is pointer task function (i.e. task1_func)
++---------------+
+```
+It now restores R0 to R3 and uses the PC to carry on execution using PSP1. PC is the pointer to `task1_func()`.
+
+PSP1 is now empty:
+```
+Task 1 stack (PSP1)
++---------------+
++---------------+
+```
+
+### piccolo_yield()
+
+Task 1 will run until it calls `piccolo_yield()`. `piccolo_yield()` intentionally calls SVC and forces an interrupt that will be handled by `isr_svcall()`
+```
+Task 1 stack (PSP1)
++---------------+			Saved by isr_svcall() using r0 which is the address of PSP0
+|  R4-R12,LR    |			LR will be 0xFFFFFFFD as this is an exception (interrupt).
++---------------+
+|  R0-R3,LR,PC  |			Saved by hardware on PSP1
++---------------+
+```
+PSP1 is now ready to be used later to return to Task 1 when needed. Using a similar setup to how Task 1 was created in the first place.
+
+Remember the main stack from earlier? It is still intact, as it was:
+```
+Main stack (MSP)			
++---------------+   Saved by __piccolo_pre_switch(), 
+|  R4-R12,LR    |			LR is back to __piccolo_os_create_task() after call to __piccolo_pre_switch()
++---------------+
+```
+`isr_svcall()` restores the kernel state from the main stack and returns to the kernel using the LR. Execution continues in `__piccolo_pre_switch()`, which evetually returns to
+`piccolo_create_task()` and then `main()`.
+
+### piccolo_create_task(&task2_func) and ultimatley piccolo_yield()
+
+Task 2 and PSP2 are created in exactly the same way as Task 1 and eventually piccolo_yield() the ultimately the execution returns to main() where after all the tasks have been created then `piccolo_start()` is called.
+
+`piccolo_start()` selects the next task and calls `__piccolo_pre_switch()` passing the pointer to the PSP. Let's assume Task 1 is next, so it passed in PSP1.
+
+Remeber the state of PSP?
+```
+Task 1 stack (PSP1)
++---------------+			Saved by isr_svcall() using r0 which is the address of PSP0
+|  R4-R12,LR    |			LR will be 0xFFFFFFFD as this is an exception (interrupt).
++---------------+
+|  R0-R3,LR,PC  |			Saved by hardware on PSP1
++---------------+
+```
+`__piccolo_pre_switch()` saves the kernel state on the main stack:
+```
+Main stack (MSP)			
++---------------+   Saved by __piccolo_pre_switch(), 
+|  R4-R12,LR    |			LR is back to __piccolo_os_create_task() after call to __piccolo_pre_switch()
++---------------+
+```
+It then loads the state (the registers) for task1 from PSP1.
+It sets the PSP register to R0 and then branches to LR. Since LR is 0xFFFFFFFD then this causes the CPU to end
+exit handler mode and return to thread mode.
+```
+Task 1 stack (PSP1)
++---------------+			Saved by hardware on PSP1
+|  R0-R3,LR,PC  |			PC is a pointer to somewhere in the task function, 
++---------------+   just after the call to piccolo_yield()
+```
+It now restores R0 to R3 and uses the PC to carry on execution using PSP1. PC is the pointer to somewhere in the task function, just after the call to `piccolo_yield()`
+
+PSP1 is now empty or in whatever state it was before Task 1 called `piccolo_yield()`
+```
+Task 1 stack (PSP1)
++---------------+
++---------------+
+```
+Execution continues until `piccolo_yield()` is called again.
+
 ## Pre-emptive
 At the moment Piccolo OS is co-operative, in that a task will continue to run until `piccolo_yield()` is called.
 
