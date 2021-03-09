@@ -338,7 +338,7 @@ Task 1 stack (PSP1)
 Task 1 will run until it calls `piccolo_yield()`. `piccolo_yield()` intentionally calls SVC and forces an interrupt that will be handled by `isr_svcall()`
 ```
 Task 1 stack (PSP1)
-+---------------+			Saved by isr_svcall() using r0 which is the address of PSP0
++---------------+			Saved by isr_svcall() using r0 which is the address of PSP1
 |  R4-R12,LR    |			LR will be 0xFFFFFFFD as this is an exception (interrupt).
 +---------------+
 |  R0-R3,LR,PC  |			Saved by hardware on PSP1
@@ -358,14 +358,16 @@ Main stack (MSP)
 
 ### piccolo_create_task(&task2_func) and ultimatley piccolo_yield()
 
-Task 2 and PSP2 are created in exactly the same way as Task 1 and eventually piccolo_yield() the ultimately the execution returns to main() where after all the tasks have been created then `piccolo_start()` is called.
+Task 2 and PSP2 are created in exactly the same way as Task 1. Eventually Task 2 calls `piccolo_yield()`, then ultimately the execution returns to main(). After all the tasks have been created then `piccolo_start()` is called.
+
+### piccolo_start()
 
 `piccolo_start()` selects the next task and calls `__piccolo_pre_switch()` passing the pointer to the PSP. Let's assume Task 1 is next, so it passed in PSP1.
 
 Remeber the state of PSP?
 ```
 Task 1 stack (PSP1)
-+---------------+			Saved by isr_svcall() using r0 which is the address of PSP0
++---------------+			Saved by isr_svcall() using r0 which is the address of PSP1
 |  R4-R12,LR    |			LR will be 0xFFFFFFFD as this is an exception (interrupt).
 +---------------+
 |  R0-R3,LR,PC  |			Saved by hardware on PSP1
