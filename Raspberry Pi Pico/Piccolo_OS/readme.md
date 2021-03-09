@@ -311,7 +311,7 @@ Then call `__piccolo_pre_switch(task_stack)` using the newly created stack:
 `__piccolo_pre_switch()` saves the kernel state on the main stack:
 ```
 Main stack (MSP)			
-+---------------+   Saved by __piccolo_pre_switch(), 
++---------------+			Saved by __piccolo_pre_switch(), 
 |  R4-R12,LR    |			LR is back to __piccolo_os_create_task() after call to __piccolo_pre_switch()
 +---------------+
 ```
