@@ -364,7 +364,7 @@ Task 2 and PSP2 are created in exactly the same way as Task 1. Eventually Task 2
 
 `piccolo_start()` selects the next task and calls `__piccolo_pre_switch()` passing the pointer to the PSP. Let's assume Task 1 is next, so it passed in PSP1.
 
-Remeber the state of PSP?
+Remember the state of PSP?
 ```
 Task 1 stack (PSP1)
 +---------------+			Saved by isr_svcall() using r0 which is the address of PSP1
