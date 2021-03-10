@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/pi/pico/gary/context1/build/CMakeFiles/ELF2UF2Build"
+		},
+		{
+			"file" : "/home/pi/pico/gary/context1/build/CMakeFiles/ELF2UF2Build.rule"
+		},
+		{
+			"file" : "/home/pi/pico/gary/context1/build/CMakeFiles/ELF2UF2Build-complete.rule"
+		},
+		{
+			"file" : "/home/pi/pico/gary/context1/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-install.rule"
+		},
+		{
+			"file" : "/home/pi/pico/gary/context1/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-mkdir.rule"
+		},
+		{
+			"file" : "/home/pi/pico/gary/context1/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-download.rule"
+		},
+		{
+			"file" : "/home/pi/pico/gary/context1/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-update.rule"
+		},
+		{
+			"file" : "/home/pi/pico/gary/context1/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-patch.rule"
+		},
+		{
+			"file" : "/home/pi/pico/gary/context1/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-configure.rule"
+		},
+		{
+			"file" : "/home/pi/pico/gary/context1/build/elf2uf2/src/ELF2UF2Build-stamp/ELF2UF2Build-build.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"ELF2UF2Build"
+		],
+		"name" : "ELF2UF2Build"
+	}
+}
