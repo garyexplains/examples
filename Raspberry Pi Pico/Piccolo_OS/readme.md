@@ -123,7 +123,7 @@ When a context switch occurs the status is saved on the stack.
 
 ### Main Stack Pointer
 ```
-        Registers saved by the software (isr_svcall):
+        Registers saved by the software (__piccolo_pre_switch):
         +------+
         |  LR  |
         |  R7  |
