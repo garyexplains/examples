@@ -12,9 +12,6 @@ class myFSM:
         if name not in self.tok_next:
             self.tok_next[name] = []
         self.tok_next[name].append(tok_next_t(tokens, next_state))
-
-    def set_start(self, name):
-        self.startState = name
         
     def run(self, cargo):
         orig_num = cargo
