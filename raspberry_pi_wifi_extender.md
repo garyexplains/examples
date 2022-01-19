@@ -101,6 +101,13 @@ address=/gw.wlan/192.168.4.1
 Note: Your Raspberry Pi will issue IP addresses between 192.168.4.100 and 192.168.4.200, with a lease time of 24 hours.
 You should be able to reach the Raspberry Pi under the name `gw.wlan`
 
+Note 2: To see clients connected to _wlan1_ use `cat /var/lib/misc/dnsmasq.leases`
+
+The output will be something like
+```
+574256399 00:10:a7:0c:a2:c1 192.168.4.100 OnePlus-6 01:00:10:b7:1c:a2:c1
+```
+
 ### Configure the Access Point server
 ```
 sudo nano /etc/hostapd/hostapd.conf
