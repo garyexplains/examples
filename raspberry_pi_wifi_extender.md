@@ -79,7 +79,7 @@ File contents:
 # Enable IPv4 routing
 net.ipv4.ip_forward=1
 ```
-Now run these two commands to add a firewall rule (masquerade outbound traffic on wlan1) and save it.
+Now run these two commands to add a firewall rule (masquerade outbound traffic on wlan0) and save it.
 ```
 sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
 sudo netfilter-persistent save
