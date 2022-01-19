@@ -79,11 +79,12 @@ File contents:
 # Enable IPv4 routing
 net.ipv4.ip_forward=1
 ```
-Now run these two commands to add a firewall rule and save it.
+Now run these two commands to add a firewall rule (masquerade outbound traffic on wlan1) and save it.
 ```
-sudo iptables -t nat -A POSTROUTING -o wlan1 -j MASQUERADE
+sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
 sudo netfilter-persistent save
 ```
+Note: The rules are stored in `/etc/iptables/rules.v4`.
 
 ### Time to configure the DHCP and DNS for wlan1
 Rename the default configuration file and edit a new one:
