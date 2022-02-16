@@ -79,14 +79,16 @@ Change `192.168.1.45` etc to fit your network setup.
 The client Raspberry Pi will need a root file system to boot from: we will use a copy of the server’s root filesystem and place it in /nfs/<SERIAL> where <SERIAL> is the board's serial number without the leading zeros, e.g. 37b65dae
 
 ```
-sudo mkdir -p /nfs/<SERIAL>
-sudo rsync -xa --progress --exclude /nfs / /nfs/<SERIAL>
+SERIALNUM="37b65dae"
+sudo mkdir -p /nfs/$SERIALNUM
+sudo rsync -xa --progress --exclude /nfs / /nfs/$SERIALNUM
 ```
 
 Delete SSH keys and enable the ssh server
  
 ```
-cd /nfs/<SERIAL>
+SERIALNUM="37b65dae"
+cd /nfs/$SERIALNUM
 sudo mount --bind /dev dev
 sudo mount --bind /sys sys
 sudo mount --bind /proc proc
@@ -106,12 +108,45 @@ echo "192.168.1.45:/tftpboot /boot nfs defaults,vers=4.1,proto=tcp 0 0" | sudo t
 ```
 **You MUST change the serial number to that of your board, and use the correct IP address of the server (e.g. 192.168.1.45)**
         
-Export the /nfs/piboard1 file system created earlier, and the TFTP boot folder.
+Export the root file system created earlier, and the TFTP boot folder.
 
 ```
-echo "/nfs/piboard1 *(rw,sync,no_subtree_check,no_root_squash)" | sudo tee -a /etc/exports
+SERIALNUM="37b65dae"      
+echo "/nfs/$SERIALNUM *(rw,sync,no_subtree_check,no_root_squash)" | sudo tee -a /etc/exports
 echo "/tftpboot *(rw,sync,no_subtree_check,no_root_squash)" | sudo tee -a /etc/exports
 ```
+**You MUST change the serial number to that of your board**
+        
+## TFTP
+```
+SERIALNUM="37b65dae"
+sudo mkdir -p /tftpboot/$SERIALNUM
+sudo chmod 777 /tftpboot
+sudo cp -r /boot/* /tftpboot/$SERIALNUM
+sudo cp /boot/bootcode.bin /tftpboot/
+```
+Write dnsmasq.conf
+```
+cat << EOF | sudo tee /etc/dnsmasq.conf
+port=0
+dhcp-range=$BRD,proxy
+bind-interfaces
+log-dhcp
+enable-tftp
+log-facility=/var/log/dnsmasq
+tftp-root=/tftpboot
+pxe-service=0,"Raspberry Pi Boot"
+EOF
+```        
+
+Configure cmdline.txt
+```
+SERIALNUM="37b65dae"
+echo "console=serial0,115200 console=tty1 root=/dev/nfs nfsroot=192.168.1.45:/nfs/$SERIALNUM,vers=4.1,proto=tcp rw ip=dhcp rootwait" | sudo tee /tftpboot/$SERIALNUM/cmdline.txt
+sudo chmod 777 /tftpboot/base/cmdline.txt
+```
+**You MUST change the serial number to that of your board, and use the correct IP address of the server (e.g. 192.168.1.45)**
+        
 ### Restart all the services
 ```
 sudo systemctl enable dnsmasq
@@ -120,12 +155,16 @@ sudo systemctl enable rpcbind
 sudo systemctl restart rpcbind
 sudo systemctl enable nfs-kernel-server
 sudo systemctl restart nfs-kernel-server
-```        
+```
+        
 ## Other resources
 
 My shell scripts to automate some of this process:
 
 Other articles that could be useful
-https://www.raspberrypi.com/documentation/computers/remote-access.html#network-boot-your-raspberry-pi
-https://linuxhit.com/raspberry-pi-pxe-boot-netbooting-a-pi-4-without-an-sd-card/
-https://williamlam.com/2020/07/two-methods-to-network-boot-raspberry-pi-4.html
+- https://www.raspberrypi.com/documentation/computers/remote-access.html#network-boot-your-raspberry-pi
+- https://linuxhit.com/raspberry-pi-pxe-boot-netbooting-a-pi-4-without-an-sd-card/
+- https://williamlam.com/2020/07/two-methods-to-network-boot-raspberry-pi-4.html
+- https://hackaday.com/2019/11/11/network-booting-the-pi-4/
+- https://codestrian.com/index.php/2020/02/14/setting-up-a-pi-cluster-with-netboot/
+- https://linuxhit.com/raspberry-pi-pxe-boot-netbooting-a-pi-4-without-an-sd-card/
