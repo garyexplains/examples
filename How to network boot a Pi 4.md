@@ -17,7 +17,7 @@ e.g. dc:a6:32:03:22:20
 ```
 grep Serial /proc/cpuinfo | cut -d ' ' -f 2 | cut -c 8-16
 ```
-e.g. 047b45dcb
+e.g. 037b65dae
 
 You can also find the serial number on the boot screen. Boot the Pi without a micro SD card to see the boot screen and the information.
 ```
@@ -97,10 +97,35 @@ sleep 1
 sudo umount dev sys proc
 sudo touch boot/ssh
 ```
+Configure /etc/fstab for the client
+```
+SERIALNUM="37b65dae"
+echo | sudo tee /nfs/$SERIALNUM/etc/fstab
+echo "proc /proc proc defaults 0 0" | sudo tee -a /nfs/$SERIALNUM/etc/fstab
+echo "192.168.1.45:/tftpboot /boot nfs defaults,vers=4.1,proto=tcp 0 0" | sudo tee -a /nfs/$SERIALNUM/etc/fstab
+```
+**You MUST change the serial number to that of your board, and use the correct IP address of the server (e.g. 192.168.1.45)**
+        
+Export the /nfs/piboard1 file system created earlier, and the TFTP boot folder.
 
+```
+echo "/nfs/piboard1 *(rw,sync,no_subtree_check,no_root_squash)" | sudo tee -a /etc/exports
+echo "/tftpboot *(rw,sync,no_subtree_check,no_root_squash)" | sudo tee -a /etc/exports
+```
+### Restart all the services
+```
+sudo systemctl enable dnsmasq
+sudo systemctl restart dnsmasq
+sudo systemctl enable rpcbind
+sudo systemctl restart rpcbind
+sudo systemctl enable nfs-kernel-server
+sudo systemctl restart nfs-kernel-server
+```        
 ## Other resources
 
 My shell scripts to automate some of this process:
 
 Other articles that could be useful
-
+https://www.raspberrypi.com/documentation/computers/remote-access.html#network-boot-your-raspberry-pi
+https://linuxhit.com/raspberry-pi-pxe-boot-netbooting-a-pi-4-without-an-sd-card/
+https://williamlam.com/2020/07/two-methods-to-network-boot-raspberry-pi-4.html
