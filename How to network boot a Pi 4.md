@@ -160,6 +160,8 @@ sudo systemctl restart nfs-kernel-server
 ## Other resources
 
 My shell scripts to automate some of this process:
+- https://github.com/garyexplains/examples/blob/master/prep_pxeboot_ge.sh
+- https://github.com/garyexplains/examples/blob/master/add_pxe_client.sh
 
 Other articles that could be useful
 - https://www.raspberrypi.com/documentation/computers/remote-access.html#network-boot-your-raspberry-pi
