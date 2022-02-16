@@ -19,6 +19,7 @@ grep Serial /proc/cpuinfo | cut -d ' ' -f 2 | cut -c 8-16
 ```
 e.g. 047b45dcb
 
+You can also find the serial number on the boot screen. Boot the Pi without a micro SD card to see the boot screen and the information.
 ```
 sudo raspi-config
 ```
@@ -44,7 +45,13 @@ sudo tcpdump -i eth0 port bootpc | grep dc:a6
 ```
 
 ## Prepare the server board
-You server needs to have a fixed IP address.
+
+### Install the packages needed
+```
+sudo apt update
+sudo apt install -y nfs-kernel-server dnsmasq unzip nmap kpartx rsync
+```
+### Your server needs to have a fixed IP address.
 
 *Note: The offical way to do this is using systemd and to create two files 10-eth0.netdev and a 11-eth0.network.
 Using this method didn't work as expecgted for me and the PXE boot messages where not getting to Dnsmasq.
@@ -66,6 +73,30 @@ EOF
 ```
 
 Change `192.168.1.45` etc to fit your network setup.
+
+### Create the root file system that will be served over NFS
+
+The client Raspberry Pi will need a root file system to boot from: we will use a copy of the server’s root filesystem and place it in /nfs/<SERIAL> where <SERIAL> is the board's serial number without the leading zeros, e.g. 37b65dae
+
+```
+sudo mkdir -p /nfs/<SERIAL>
+sudo rsync -xa --progress --exclude /nfs / /nfs/<SERIAL>
+```
+
+Delete SSH keys and enable the ssh server
+ 
+```
+cd /nfs/<SERIAL>
+sudo mount --bind /dev dev
+sudo mount --bind /sys sys
+sudo mount --bind /proc proc
+sudo chroot . rm -f /etc/ssh/ssh_host_*
+sudo chroot . dpkg-reconfigure openssh-server
+sudo chroot . systemctl enable ssh
+sleep 1
+sudo umount dev sys proc
+sudo touch boot/ssh
+```
 
 ## Other resources
 
