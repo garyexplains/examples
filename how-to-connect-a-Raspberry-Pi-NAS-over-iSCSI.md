@@ -22,8 +22,8 @@ Many NAS devices support iSCSI. This is how you do it on a Synology NAS running 
 * Install the "SAN Manager" if it isn't already installed.
 * Open the SAN Manager
    - Click on iSCSI
-   - Click Create
-   - Click Next
+   - Click Add (*Note: If you already have an iSCSI Target, click Create*)
+   - Use the default values and click Next
    - Pick "Creatr a new LUN" and click Next
    - Enter the size you want (in GB) ane click Next
    - Click Done.
