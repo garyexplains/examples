@@ -1,11 +1,11 @@
-# How to connect a Raspberry Pi to remote stroage on a NAS over iSCSI
+# How to connect a Raspberry Pi to remote storage on a NAS over iSCSI
 
 ## Introduction
 iSCSI provides block-level access to storage devices by carrying SCSI commands over a TCP/IP network. A NAS, like one from Synology, can act as an iSCSI remote storage device.
 
 ### SCSI
 The Small Computer System Interface is a set of standards for physically connecting and transferring data between computers and peripheral devices.
-The SCSI standards define commands, protocols, electrical, optical and logical interfaces. SCSI-1 was published in 1986!
+The SCSI standards define commands, protocols, electrical, optical, and logical interfaces. SCSI-1 was published in 1986!
 
 ### iSCSI
 There are two parties in an iSCSI setup… the client and the server.
@@ -18,7 +18,7 @@ Many NAS devices support iSCSI. This is how you do it on a Synology NAS running 
 
 ## Discover and connect Pi to Target
 It is important to always use `sudo` when running these iSCSI commands. Some of the commands will work without sudo but the records, status, and database of current connections
-is stored on a per user basis, so when you switch between root and pi the results are different.
+is stored on a per-user basis, so when you switch between root and pi the results are different.
 
 Install open-iscsi.
 ```
@@ -27,9 +27,9 @@ sudo apt -y install open-iscsi
 ```
 
 To set the Target edit `/etc/iscsi/initiatorname.iscsi`
-``` 
+```
 sudo nano /etc/iscsi/initiatorname.iscsi
-``` 
+```
 Set InitiatorName to the same IQN you set on the iSCSI target server
 
 ```
@@ -63,7 +63,7 @@ Confirm the established session with the Target
 sudo iscsiadm -m session -o show
 ```
 
-The remote iSCSI device should now appear as a block device on the the Pi. You should see `sda` now as a device. Use the following commands to check the status of `sda`
+The remote iSCSI device should now appear as a block device on the Pi. You should see `sda` now as a device. Use the following commands to check the status of `sda`
 
 ```
 dmesg | grep scsi
@@ -139,6 +139,5 @@ sudo mkfs.ext4 /dev/sda1
 ```
 
 ## Mount it permanently
-The remote iSCSI drive can only be mounted after boot up has completed. This means the networking is up and open-iscsi is running.
-
+The remote iSCSI drive can only be mounted after boot-up has been completed. This means the networking is up and open-iscsi is running.
 
