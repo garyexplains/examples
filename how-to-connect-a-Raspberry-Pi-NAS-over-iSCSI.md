@@ -189,3 +189,15 @@ sudo /etc/mount_iscsi.sh &
 
 ## Reboot
 Restart your Pi. Wait a few seconds after the full boot has completed and check that the iSCSI Target is mounted on `/iscsimnt`
+
+### Troubleshooting
+
+You can disconnect (logout) of a Target with:
+```
+sudo iscsiadm -m node --logout
+```
+
+To delete the whole discovery database use:
+```
+sudo iscsiadm -m node -o delete
+```
