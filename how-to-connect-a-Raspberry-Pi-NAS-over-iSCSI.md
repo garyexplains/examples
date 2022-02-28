@@ -16,6 +16,20 @@ There are two parties in an iSCSI setup… the client and the server.
 ## Create iSCSI Target on NAS
 Many NAS devices support iSCSI. This is how you do it on a Synology NAS running DSM 7.
 
+* Open the DSM webpage and loging.
+* Open Package Center
+* Search for SAN
+* Install the "SAN Manager" if it isn't already installed.
+* Open the SAN Manager
+   - Click on iSCSI
+   - Click Create
+   - Click Next
+   - Pick "Creatr a new LUN" and click Next
+   - Enter the size you want (in GB) ane click Next
+   - Click Done.
+
+Note the IQN, it will be something like `iqn.2000-01.com.synology:MYNAS.Target-1.73d9a1ba16c`, you will need it when you edit `/etc/iscsi/initiatorname.iscsi`.
+
 ## Discover and connect Pi to Target
 It is important to always use `sudo` when running these iSCSI commands. Some of the commands will work without sudo but the records, status, and database of current connections
 is stored on a per-user basis, so when you switch between root and pi the results are different.
@@ -172,3 +186,6 @@ Add this line near the bottom, but before `exit 0`
 ```
 sudo /etc/mount_iscsi.sh &
 ```
+
+## Reboot
+Restart your Pi. Wait a few seconds after the full boot has completed and check that the iSCSI Target is mounted on `/iscsimnt`
