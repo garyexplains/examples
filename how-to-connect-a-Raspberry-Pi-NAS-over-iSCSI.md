@@ -56,7 +56,7 @@ Login to the Target
 ```
 sudo iscsiadm -m node --login
 ```
-This shoudl be done even if you aren't using authentication
+This should be done even if you aren't using authentication
 
 Confirm the established session with the Target
 ```
@@ -107,6 +107,7 @@ Now that there is a block device (i.e. `sda`) on your Pi, it can be partitioned 
 You might find this video useful: [How to Partition and Format a Disk in Linux](https://www.youtube.com/watch?v=JCFlsslBvX8)
 
 ### Partition the disk
+Assuming that the iSCSI Target is seen as `/dev/sda` by your Raspberry Pi:
 
 ```
 sudo fdisk /dev/sda
@@ -141,3 +142,33 @@ sudo mkfs.ext4 /dev/sda1
 ## Mount it permanently
 The remote iSCSI drive can only be mounted after boot-up has been completed. This means the networking is up and open-iscsi is running.
 
+```
+sudo nano /etc/mount_iscsi.sh
+```
+
+Add these lines:
+
+```
+#!/bin/sh
+sleep 60
+mount /dev/sda1 /iscsimnt
+```
+Where `/iscsimnt` is the mount point you want to use. Make sure you do a `sudo mkdir -p /iscsimnt` to create the mount point.
+
+Give the file execute permission:
+
+```
+sudo chmod +x /etc/mount_iscsi.sh
+```
+
+Now edit `/etc/rc.local` and add a line to call the new script. `rc.local` is executed at the end of each multiuser runlevel.
+
+```
+sudo nano /etc/rc.local
+```
+
+Add this line near the bottom, but before `exit 0`
+
+```
+sudo /etc/mount_iscsi.sh &
+```
