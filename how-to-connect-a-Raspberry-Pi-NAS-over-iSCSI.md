@@ -26,8 +26,8 @@ Many NAS devices support iSCSI. This is how you do it on a Synology NAS running 
    - Click on iSCSI
    - Click Add (*Note: If you already have an iSCSI Target, click Create*)
    - Use the default values and click Next
-   - Pick "Creatr a new LUN" and click Next
-   - Enter the size you want (in GB) ane click Next
+   - Pick "Create a new LUN" and click Next
+   - Enter the size you want (in GB) and click Next
    - Click Done.
 
 Note the IQN, it will be something like `iqn.2000-01.com.synology:MYNAS.Target-1.73d9a1ba16c`, you will need it when you edit `/etc/iscsi/initiatorname.iscsi`.
@@ -190,7 +190,7 @@ sudo /etc/mount_iscsi.sh &
 ```
 
 ## Reboot
-Restart your Pi. Wait a few seconds after the full boot has completed and check that the iSCSI Target is mounted on `/iscsimnt`
+Restart your Pi. Wait a few seconds after the full boot has completed and then check that the iSCSI Target is mounted on `/iscsimnt`
 
 ### Troubleshooting
 
