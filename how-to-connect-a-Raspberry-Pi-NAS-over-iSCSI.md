@@ -46,13 +46,42 @@ To set the Target edit `/etc/iscsi/initiatorname.iscsi`
 ```
 sudo nano /etc/iscsi/initiatorname.iscsi
 ```
-Set InitiatorName to the same IQN you set on the iSCSI target server
+Set InitiatorName to the same IQN you set on the iSCSI target server.
+
+Now we need to change some of the Open-iSCSI default configuration.
 
 ```
 sudo nano /etc/iscsi/iscsid.conf
 ```
-- ??? node.startup = automatic
-- ??? CHAPS
+
+Find the "Startup settings" section and comment out `node.startup = manual` and uncomment `node.startup = automatic`
+```
+#*****************
+# Startup settings
+#*****************
+
+# To request that the iscsi initd scripts startup a session set to "automatic".
+node.startup = automatic
+#
+# To manually startup the session set to "manual". The default is manual.
+#node.startup = manual
+```
+
+If you set and username and password for the Target then go to the "CHAP Settings" section and set a CHAP username and password for initiator
+```
+# *************
+# CHAP Settings
+# *************
+
+# To enable CHAP authentication set node.session.auth.authmethod
+# to CHAP. The default is None.
+node.session.auth.authmethod = CHAP
+
+# To set a CHAP username and password for initiator
+# authentication by the target(s), uncomment the following lines:
+node.session.auth.username = gary
+node.session.auth.password = not12345678
+```
 
 Restart iSCSI services.
 ```
