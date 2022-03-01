@@ -16,6 +16,8 @@ There are two parties in an iSCSI setup… the client and the server.
 ## Create iSCSI Target on NAS
 Many NAS devices support iSCSI. This is how you do it on a Synology NAS running DSM 7.
 
+**Note: If you setup iSCSI and have active connections to the Target, your NAS won't power down for any scheduled shutdowns you may have in your Power Schedule.**
+
 * Open the DSM webpage and loging.
 * Open Package Center
 * Search for SAN
