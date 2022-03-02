@@ -218,6 +218,9 @@ Add this line near the bottom, but before `exit 0`
 sudo /etc/mount_iscsi.sh &
 ```
 
+### Alternative
+It should be possible to mount the iSCSI drive via the `/etc/fstab` file. According to this comment under my video https://www.youtube.com/watch?v=80HgEhlq_pA&lc=UgwCAwXe7tRfYQkl7LV4AaABAg you need to add "_netdev,x-systemd.requires=iscsi.service" to the mount options.
+
 ## Reboot
 Restart your Pi. Wait a few seconds after the full boot has completed and then check that the iSCSI Target is mounted on `/iscsimnt`
 
