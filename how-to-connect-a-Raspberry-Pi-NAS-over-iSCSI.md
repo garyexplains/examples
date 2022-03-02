@@ -42,7 +42,7 @@ sudo apt update
 sudo apt -y install open-iscsi
 ```
 
-The  iSCSI qualified name (IQN) of the Pi is defined in `/etc/iscsi/initiatorname.iscsi`. During installation the initial IQN will be generated. If you wish to generate new IQN the `iscsi-iname` utility can be used which prints out new IQN.
+The  iSCSI qualified name (IQN) of the Pi is defined in `/etc/iscsi/initiatorname.iscsi`. During installation the initial IQN will be generated. If you wish to create a new IQN then use the `iscsi-iname` utility, it will print out new IQN for you.
 
 Now we need to change some of the Open-iSCSI default configuration.
 
