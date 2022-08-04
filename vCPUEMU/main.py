@@ -42,7 +42,7 @@ DUMPDISPLAY = True
 
 registers = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
 pc = 0
-mainmem = bytearray(65525) # 64K, last 1K (starting at 0xFBFF) for char display
+mainmem = bytearray(0x10000) # 64K, last 1K (starting at 0xFBFF) for char display
 flag_z = 0
 flag_gt = 0
 flag_lt = 0
