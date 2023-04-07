@@ -1,4 +1,4 @@
-Using an I²C AHT21 sensor with Qwiic (SparkFun)/STEMMA QT (Adafruit) connector on a Marble Pico
+Using an I²C AHT21 sensor with Qwiic (SparkFun)/STEMMA QT (Adafruit) connector on a Marble Pico via MicroPython
 
 Video: TBD
 
