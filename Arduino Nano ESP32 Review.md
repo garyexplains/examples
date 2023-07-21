@@ -10,7 +10,7 @@ You might find the following videos, documents and code useful:
 
 # Arduino Nano ESP32
 The Nano ESP32 brings the ESP32-S3 to the world of Arduino and MicroPython programming. It uses the
-well-known Arduino Nano form factor in mind and includes Wi-Fi and Bluetooth. It supports Arduino and MicroPython programming and works (from August 2023 onwards) with Arduino IoT Cloud.
+well-known Arduino Nano form factor and includes Wi-Fi and Bluetooth. It supports Arduino and MicroPython programming and works (from August 2023 onwards) with Arduino IoT Cloud.
 
 ## ESP32-S3
 The processor used by the board is the u-blox® NORA-W106 (ESP32-S3).
