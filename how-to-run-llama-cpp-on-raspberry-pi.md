@@ -73,5 +73,9 @@ Try this:
 ```
 Replace `llama-2-7b-chat.Q2_K.gguf` with your preferred model.
 
+## Performance
+The lower the quantization, the better the performance, but the lower the accuracy. An interesting test is whether a higher quantized 7B model is more accurate than a lower quantized 13B model. Let me know if you find out!
+
+For a Raspberry Pi you should stick with Q4 or lower.
 
 
