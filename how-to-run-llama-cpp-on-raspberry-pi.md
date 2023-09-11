@@ -3,8 +3,10 @@ Here is my step-by-step guide to running Large Language Models (LLMs) using llam
 
 ## Links
 
+- [Introducing Code Llama, a state-of-the-art large language model for coding](https://ai.meta.com/blog/code-llama-large-language-model-coding/)
 - [llama.cpp](https://github.com/ggerganov/llama.cpp)
 - [Llama-2-7b-Chat-GGUF](https://huggingface.co/TheBloke/Llama-2-7b-Chat-GGUF) - ([Q4_K_S](https://huggingface.co/TheBloke/Llama-2-7b-Chat-GGUF/resolve/main/llama-2-7b-chat.Q4_K_S.gguf)) - ([Q2_K](https://huggingface.co/TheBloke/Llama-2-7b-Chat-GGUF/resolve/main/llama-2-7b-chat.Q2_K.gguf))
+- [Llama 2 13B Chat](https://huggingface.co/TheBloke/Llama-2-13B-chat-GGUF) - ([Q4_K_S](https://huggingface.co/TheBloke/Llama-2-13B-chat-GGUF/resolve/main/llama-2-13b-chat.Q4_K_S.gguf))
 - [CodeLlama-7B-Instruct-GGUF](https://huggingface.co/TheBloke/CodeLlama-7B-Instruct-GGUF) - ([Q4_K_S](https://huggingface.co/TheBloke/CodeLlama-7B-Instruct-GGUF/resolve/main/codellama-7b-instruct.Q4_K_S.gguf))
 - ~~[CodeLlama 7B Instruct - GGML](https://huggingface.co/TheBloke/CodeLlama-7B-Instruct-GGML/tree/main) - ([Q4_K_S](https://huggingface.co/TheBloke/CodeLlama-7B-Instruct-GGML/blob/main/codellama-7b-instruct.ggmlv3.Q4_K_S.bin))~~
 
@@ -47,9 +49,29 @@ Change directory back to the main llama.cpp directory, where the `main` binary h
 
 For example:
 ```
-./main -m models/codellama-7b-instruct.Q4_K_S.gguf -p "Building a website can be done in 10 simple steps:\nStep 1:" -n 400 -e
+./main -m models/llama-2-7b-chat.Q4_K_S.gguf -p "Building a website can be done in 10 simple steps:\nStep 1:" -n 400 -e
 ```
 
+Or:
+
+```
+./main -m models/codellama-7b-instruct.Q4_K_S.gguf -p "in python, write a function to create a Fibonacci sequence" -n 400 -e
+```
+
+## Interactive chat
+
+Try this:
+
+```
+./main  -m models/llama-2-7b-chat.Q2_K.gguf --color \
+       --ctx_size 2048 \
+       -n -1 \
+       -ins -b 256 \
+       --top_k 10000 \
+       --temp 0.2 \
+       --repeat_penalty 1.1
+```
+Replace `llama-2-7b-chat.Q2_K.gguf` with your preferred model.
 
 
 
