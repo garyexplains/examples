@@ -1,5 +1,5 @@
 # How to Run a ChatGPT-like AI Bot on a Raspberry Pi
-Here is my step-by-step guide to running Large Language Models (LLMs) using llama.cpp on a Raspberry Pi
+Here is my step-by-step guide to running Large Language Models (LLMs) using llama.cpp on a Raspberry Pi. These instructions accompany my video [How to Run a ChatGPT-like AI on Your Raspberry Pi](https://youtu.be/idZctq7WIq4).
 
 ## Links
 
