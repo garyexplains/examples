@@ -14,7 +14,7 @@ Here is my step-by-step guide to running Large Language Models (LLMs) using llam
 To start you need to have the C/C++ compiler, and tools like make and git.
 ```
 sudo apt update
-sudo apt install git g++ build-essential
+sudo apt install git g++ wget build-essential
 ```
 
 ## Download and compile llama.cpp
