@@ -18,7 +18,6 @@ sudo apt install git g++ build-essential
 ```
 
 ## Download and compile llama.cpp
-
 ```
 git clone https://github.com/ggerganov/llama.cpp.git
 cd llama.cpp
@@ -26,8 +25,11 @@ make -j
 ```
 
 ## Download a LLM
-
 You now need to download a language model. Pick one of the model below or download the model of your choice. Make sure you download the GGUF version (not the GGML variant).
+
+These model files are several Gigabytes each, so make sure you have enough free space. If your SD Card is doesn't have the space you can try using some external storage, even a USB flash drive.
+
+You can check the free space on the drive which holds your home directory using `df -h ~`
 ### Download a Llama 2 Chat 7B @ Q4_K_S
 ```
 cd models
@@ -47,7 +49,6 @@ wget https://huggingface.co/TheBloke/CodeLlama-7B-Instruct-GGUF/resolve/main/cod
 ```
 
 ## Test the LLM
-
 Change directory back to the main llama.cpp directory, where the `main` binary has been built (i.e. `cd ..`)
 
 ```
@@ -60,15 +61,12 @@ For example:
 ```
 
 Or:
-
 ```
 ./main -m models/codellama-7b-instruct.Q4_K_S.gguf -p "in python, write a function to create a Fibonacci sequence" -n 400 -e
 ```
 
 ## Interactive chat
-
 Try this:
-
 ```
 ./main  -m models/llama-2-7b-chat.Q2_K.gguf --color \
        --ctx_size 2048 \
