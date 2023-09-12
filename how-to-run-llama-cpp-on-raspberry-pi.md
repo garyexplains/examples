@@ -10,6 +10,13 @@ Here is my step-by-step guide to running Large Language Models (LLMs) using llam
 - [CodeLlama-7B-Instruct-GGUF](https://huggingface.co/TheBloke/CodeLlama-7B-Instruct-GGUF) - ([Q4_K_S](https://huggingface.co/TheBloke/CodeLlama-7B-Instruct-GGUF/resolve/main/codellama-7b-instruct.Q4_K_S.gguf))
 - ~~[CodeLlama 7B Instruct - GGML](https://huggingface.co/TheBloke/CodeLlama-7B-Instruct-GGML/tree/main) - ([Q4_K_S](https://huggingface.co/TheBloke/CodeLlama-7B-Instruct-GGML/blob/main/codellama-7b-instruct.ggmlv3.Q4_K_S.bin))~~
 
+## Prepare development environment
+To start you need to have the C/C++ compiler, and tools like make and git.
+```
+sudo apt update
+sudo apt install git g++ build-essential
+```
+
 ## Download and compile llama.cpp
 
 ```
