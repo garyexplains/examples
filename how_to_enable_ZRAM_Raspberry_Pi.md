@@ -75,4 +75,8 @@ NAME       ALGORITHM DISKSIZE   DATA  COMPR  TOTAL STREAMS MOUNTPOINT
 ```
 
 Above you can see that 432MB of main memory have been swapped to ZRAM, but the actual amount of RAM used by the ZRAM is 165MB. At this point `top` or `htop` will report
-~450MB of swap space is being used
+~450MB of swap space is being used:
+
+```
+MiB Swap:   2148.0 total,   1686.8 free,    __461.1 used.__   1051.5 avail Mem
+```
