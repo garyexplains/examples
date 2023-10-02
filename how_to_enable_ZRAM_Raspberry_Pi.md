@@ -1,8 +1,11 @@
 # How to enable ZRAM on the Raspberry Pi
 
-This document includes some written notes that accompany my video ?????
+This document includes some written notes that accompany my video .....
 
-This applies to Raspberry Pi OS based on Debian 11 (bullseye).
+Test on Raspberry Pi OS based on Debian 11 (bullseye).
+
+- 64-bit version on a Raspberry Pi 4 with 4GB RAM 
+- 32-bit version on a Raspberry Pi Zero 2 with 512MB of RAM
 
 Before you start it is best to make sure your system is up to date:
 
