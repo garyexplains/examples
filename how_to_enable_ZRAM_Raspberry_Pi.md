@@ -27,10 +27,10 @@ NAME       ALGORITHM DISKSIZE DATA COMPR TOTAL STREAMS MOUNTPOINT
 ```
 
 ## Configuration
-You can edit `/etc/default/zram-swap` to change the compression algorithm or swap allocation. Before you do that it is essential to note that
+You can edit `/etc/default/zramswap` to change the compression algorithm or swap allocation. Before you do that it is essential to note that
 the ZRAM device size refers to the __uncompressed data__ size, actual memory utilization will be ~2-3x smaller than the zram device size due to compression.
 
-`sudo vi /etc/default/zram-swap`
+`sudo vi /etc/default/zramswap`
 
 Here is an example:
 
@@ -78,5 +78,5 @@ Above you can see that 432MB of main memory have been swapped to ZRAM, but the a
 ~450MB of swap space is being used:
 
 ```
-MiB Swap:   2148.0 total,   1686.8 free,    __461.1 used.__   1051.5 avail Mem
+MiB Swap:   2148.0 total,   1686.8 free,    461.1 used.   1051.5 avail Mem
 ```
