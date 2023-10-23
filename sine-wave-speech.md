@@ -1,6 +1,6 @@
 # Sine-Wave Speech
 
-Here are some notes, links, and resources to accompany my video: TBA
+Here are some notes, links, and resources to accompany my video: [Sine-Wave Speech Will Blow Your Mind Plus Teach You Something About Pattern Recognition and AI](https://youtu.be/zFUvswVDTDE)
 
 ## Notes
 Sine-wave speech is synthesized by using a few (typically three or four) time-varying sinusoids that mimic the frequency and amplitude patterns of the resonance peaks of natural speech.
