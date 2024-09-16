@@ -1,0 +1,144 @@
+---------------------------
+STEP 1a
+ls ~/.pico-sdk/sdk/2.0.0/
+
+
+---------------------------
+STEP 1a
+ls ~/.pico-sdk/sdk/2.0.0/
+
+
+ls ~/.pico-sdk/toolchain/
+13_2_Rel1  RISCV_RPI_2_0_0_2
+
+
+
+---------------------------
+STEP 2 - Set up project
+$ mkdir universal
+$ cd universal
+$ code main.c
+
+
+---------------------------
+STEP 2a
+$ code CMakeLists.txt
+
+
+---------------------------
+STEP 2b
+$ cp ~/.pico-sdk/sdk/2.0.0/external/pico_sdk_import.cmake .
+
+---------------------------
+STEP 2c
+$ ls
+CMakeLists.txt  main.c  pico_sdk_import.cmake
+
+
+---------------------------
+STEP 2d
+$ mkdir buildpico
+$ mkdir buildpico2a
+$ mkdir buildpico2r
+
+---------------------------
+STEP 2 - Build for Pico 2 Arm
+$ cd buildpico2a
+$ export PICO_BOARD=pico2
+$ export PICO_SDK_PATH=~/.pico-sdk/sdk/2.0.0/
+$ export PICO_PLATFORM=rp2350-arm-s
+$ export PICO_COMPILER=pico_arm_gcc
+$ export PICO_TOOLCHAIN_PATH=~/.pico-sdk/toolchain/13_2_Rel1/
+$ cmake ..
+$ make
+
+
+---------------------------
+STEP 2 - Build finished
+$ file main.elf
+main.elf: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), statically linked, with debug_info, not stripped
+
+$ file main.uf2
+main.uf2: UF2 firmware image, family 0xe48bff57, address 0x10ffff00, 2 total blocks
+
+
+
+
+---------------------------
+STEP 2 - Build for Pico 1 (Cortex-M0+)
+$ cd ../buildpico
+$ export PICO_BOARD=pico
+$ export PICO_SDK_PATH=~/.picofile-sdk/sdk/2.0.0/
+$ export PICO_PLATFORM=rp2040
+$ export PICO_COMPILER=pico_arm_gcc
+$ export PICO_TOOLCHAIN_PATH=~/.pico-sdk/toolchain/13_2_Rel1/
+$ cmake ..
+$ make
+
+
+---------------------------
+STEP 2 - Build finished
+$ file main.elf
+main.elf: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), statically linked, with debug_info, not stripped
+
+$ file main.uf2 
+main.uf2: UF2 firmware image, family Raspberry Pi RP2040, address 0x10000000, 94 total blocks
+
+
+
+---------------------------
+STEP 2 - Build for Pico 2 Hazard3
+$ cd ../buildpico2r
+$ export PICO_BOARD=pico2
+$ export PICO_SDK_PATH=~/.pico-sdk/sdk/2.0.0/
+$ export PICO_PLATFORM=rp2350-riscv
+$ export PICO_COMPILER=pico_riscv_gcc
+$ export PICO_TOOLCHAIN_PATH=~/.pico-sdk/toolchain/RISCV_RPI_2_0_0_2/
+$ cmake ..
+$ make
+
+
+---------------------------
+STEP 2 - Build finished
+file main.elf
+main.elf: ELF 32-bit LSB executable, UCB RISC-V, RVC, soft-float ABI, version 1 (SYSV), statically linked, with debug_info, not stripped
+
+$ file main.uf2 
+main.uf2: UF2 firmware image, family 0xe48bff57, address 0x10ffff00, 2 total blocks
+
+
+
+
+
+---------------------------
+STEP 3 - Combine
+$ cd ..
+$ ~/.pico-sdk/picotool/2.0.0/picotool/picotool \
+link main.bin \
+buildpico/main.bin \
+buildpico2a/main.bin \
+buildpico2r/main.bin \
+--pad 0x1000
+
+---------------------------
+STEP 3 - Make RP2040 .uf2 file
+
+$ ~/.pico-sdk/picotool/2.0.0/picotool/picotool \
+uf2 convert main.bin rp2040.uf2 \
+--family rp2040 --offset 0x10000000
+
+---------------------------
+STEP 3 - Make RP2350 .uf2 file
+
+$ ~/.pico-sdk/picotool/2.0.0/picotool/picotool \
+uf2 convert main.bin rp2350.uf2 \
+--family absolute --offset 0x10000000
+
+---------------------------
+STEP 3 - Combined .uf2 file
+
+$ cat rp2040.uf2 rp2350.uf2 > main.uf2
+
+---------------------------
+Example
+https://github.com/raspberrypi/pico-examples/tree/master/universal
