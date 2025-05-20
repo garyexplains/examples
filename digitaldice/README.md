@@ -1,5 +1,5 @@
 # Digital Dice
-Source code for my Digital Dice video:
+Source code for my Digital Dice video: https://youtu.be/95XQGXdYqRI
 
 ## What You Need
 
