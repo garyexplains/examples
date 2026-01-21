@@ -33,7 +33,7 @@ You can check the free space on the drive which holds your home directory using 
 ### Download a Llama 2 Chat 7B @ Q4_K_S
 ```
 cd models
-wget https://huggingface.co/TheBloke/Llama-2-7b-Chat-GGUF/resolve/main/llama-2-7b-chat.Q4_K_S.gguf)
+wget https://huggingface.co/TheBloke/Llama-2-7b-Chat-GGUF/resolve/main/llama-2-7b-chat.Q4_K_S.gguf
 ```
 
 ### Download a Llama 2 Chat 7B @ Q2_K
