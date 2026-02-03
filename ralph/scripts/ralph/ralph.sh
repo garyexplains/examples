@@ -91,7 +91,7 @@ for i in $(seq 1 $MAX_ITERATIONS); do
   if [[ "$TOOL" == "amp" ]]; then
     OUTPUT=$(cat "$SCRIPT_DIR/prompt.md" | amp --dangerously-allow-all 2>&1 | tee /dev/stderr) || true
   elif [[ "$TOOL" == "codex" ]]; then
-    OUTPUT=$(cat "$SCRIPT_DIR/CODEX.md" | codex exec --yolo --skip-git-repo-check - 2>&1 | tee /dev/stderr) || true
+    OUTPUT=$(codex exec --yolo --skip-git-repo-check < "$SCRIPT_DIR/CODEX.md" 2>&1 | tee /dev/stderr) || true
   else
     # Claude Code: use --dangerously-skip-permissions for autonomous operation, --print for output
     OUTPUT=$(claude --dangerously-skip-permissions --print < "$SCRIPT_DIR/CLAUDE.md" 2>&1 | tee /dev/stderr) || true
