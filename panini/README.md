@@ -6,7 +6,9 @@ It rotates through 4 OLED screens every 5 seconds in a loop:
 1. Shows the IP address (first one from Wi-Fi → Ethernet → others), CPU temp, CPU usage %, RAM usage %.
 2. hostname, uptime, available RAM (GB), total RAM (GB)
 3. Top 4 processes sorted by CPU usage
-4. Top 4 proceses sorted by MEM usage.
+4. Top 4 processes sorted by MEM usage.
+
+And just for fun, there are also two surprise screens (a rotating cube and bouncing balls) which appear randomly, but not often. 
 
 # References
 https://roboco.tw/blog/panini-oled
