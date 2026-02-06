@@ -10,6 +10,14 @@ It rotates through 4 OLED screens every 5 seconds in a loop:
 
 And just for fun, there are also two surprise screens (a rotating cube and bouncing balls) which appear randomly, but not often. 
 
+# Photos
+![Panini OLED IP address etc](panini-oled-photos/panini_oled_sysinfo_1.jpg?raw=true)
+![Panini OLED hostname etc](panini-oled-photos/panini_oled_sysinfo_2.jpg?raw=true)
+![Panini OLED CPU usage etc](panini-oled-photos/panini_oled_sysinfo_3.jpg?raw=true)
+![Panini OLED MEM usage etc](panini-oled-photos/panini_oled_sysinfo_4.jpg?raw=true)
+![Panini OLED 3D cube etc](panini-oled-photos/panini_oled_sysinfo_cube.jpg?raw=true)
+![Panini OLED balls etc](panini-oled-photos/panini_oled_sysinfo_ball.jpg?raw=true)
+
 # References
 https://roboco.tw/blog/panini-oled
 
