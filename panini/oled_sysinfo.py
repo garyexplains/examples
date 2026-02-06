@@ -1,5 +1,7 @@
 import time
 import subprocess
+import random
+import math
 import board
 import busio
 from PIL import Image, ImageDraw, ImageFont
@@ -164,53 +166,152 @@ def get_top_processes(sort_key):
         return ["(no process data)"]
     return top_lines
 
+def init_balls(num_balls=5):
+    balls = []
+    for _ in range(num_balls):
+        r = random.randint(2, 4)
+        x = random.uniform(r, width - r)
+        y = random.uniform(r, height - r)
+        vx = random.choice([-1, 1]) * random.uniform(0.8, 1.8)
+        vy = random.choice([-1, 1]) * random.uniform(0.8, 1.8)
+        balls.append({"x": x, "y": y, "vx": vx, "vy": vy, "r": r})
+    return balls
+
+def draw_rotating_cube(t):
+    vertices = [
+        (-1, -1, -1), (1, -1, -1), (1, 1, -1), (-1, 1, -1),
+        (-1, -1, 1), (1, -1, 1), (1, 1, 1), (-1, 1, 1),
+    ]
+    edges = [
+        (0, 1), (1, 2), (2, 3), (3, 0),
+        (4, 5), (5, 6), (6, 7), (7, 4),
+        (0, 4), (1, 5), (2, 6), (3, 7),
+    ]
+
+    ax = t * 1.2
+    ay = t * 0.9
+    az = t * 0.7
+    sinx, cosx = math.sin(ax), math.cos(ax)
+    siny, cosy = math.sin(ay), math.cos(ay)
+    sinz, cosz = math.sin(az), math.cos(az)
+
+    projected = []
+    scale = 30
+    cam_dist = 4.0
+    cx = width // 2
+    cy = height // 2
+
+    for x, y, z in vertices:
+        y1 = y * cosx - z * sinx
+        z1 = y * sinx + z * cosx
+        x2 = x * cosy + z1 * siny
+        z2 = -x * siny + z1 * cosy
+        x3 = x2 * cosz - y1 * sinz
+        y3 = x2 * sinz + y1 * cosz
+
+        factor = scale / (z2 + cam_dist)
+        sx = int(cx + x3 * factor)
+        sy = int(cy + y3 * factor)
+        projected.append((sx, sy))
+
+    for a, b in edges:
+        draw.line((projected[a][0], projected[a][1], projected[b][0], projected[b][1]), fill=255)
+
+def draw_bouncing_balls(balls):
+    for ball in balls:
+        ball["x"] += ball["vx"]
+        ball["y"] += ball["vy"]
+
+        r = ball["r"]
+        if ball["x"] - r <= 0 or ball["x"] + r >= width - 1:
+            ball["vx"] *= -1
+            ball["x"] = max(r, min(width - 1 - r, ball["x"]))
+        if ball["y"] - r <= 0 or ball["y"] + r >= height - 1:
+            ball["vy"] *= -1
+            ball["y"] = max(r, min(height - 1 - r, ball["y"]))
+
+        x0 = int(ball["x"] - r)
+        y0 = int(ball["y"] - r)
+        x1 = int(ball["x"] + r)
+        y1 = int(ball["y"] + r)
+        draw.ellipse((x0, y0, x1, y1), outline=255, fill=255)
+
 # --- main loop ---
 print("Starting system monitor loop. Press Ctrl+C to exit.")
 rotation_start = time.monotonic()
+special_mode = None
+special_start = 0.0
+last_special_end = time.monotonic()
+balls = init_balls()
 while True:
     try:
         # canvas clear
         draw.rectangle((0, 0, width, height), outline=0, fill=0)
+        now = time.monotonic()
+        frame_sleep = 1.0
 
-        elapsed = int(time.monotonic() - rotation_start)
-        screen = (elapsed // 5) % 4
+        # Special screens: 5-second random interruptions
+        if special_mode is not None:
+            special_elapsed = now - special_start
+            if special_mode == "cube":
+                draw_rotating_cube(special_elapsed)
+            else:
+                draw_bouncing_balls(balls)
 
-        # Screen 1: original system summary
-        if screen == 0:
-            ip_text = get_ip_address()
-            cpu_temp_text = get_cpu_temperature()
-            cpu_usage_text = get_cpu_usage()
-            mem_usage_text = get_mem_usage()
+            frame_sleep = 0.05
 
-            draw.text((0, 0), ip_text, font=font, fill=255)
-            draw.text((0, 16), cpu_temp_text, font=font, fill=255)
-            draw.text((0, 32), cpu_usage_text, font=font, fill=255)
-            draw.text((0, 48), mem_usage_text, font=font, fill=255)
-
-        # Screen 2: host, uptime, available and total RAM (GB)
-        elif screen == 1:
-            draw.text((0, 0), get_hostname(), font=font, fill=255)
-            draw.text((0, 16), get_uptime(), font=font, fill=255)
-            draw.text((0, 32), get_ram_available_gb(), font=font, fill=255)
-            draw.text((0, 48), get_ram_total_gb(), font=font, fill=255)
-
-        # Screen 3: top 4 by CPU
-        elif screen == 2:
-            draw.text((0, 0), "Top CPU", font=small_font, fill=255)
-            for idx, line in enumerate(get_top_processes("cpu")):
-                draw.text((0, 12 + idx * 13), line, font=small_font, fill=255)
-
-        # Screen 4: top 4 by MEM
+            if special_elapsed >= 5.0:
+                special_mode = None
+                last_special_end = now
+                # Keep normal screen timing consistent by pausing rotation during special screen.
+                rotation_start += special_elapsed
         else:
-            draw.text((0, 0), "Top MEM", font=small_font, fill=255)
-            for idx, line in enumerate(get_top_processes("mem")):
-                draw.text((0, 12 + idx * 13), line, font=small_font, fill=255)
+            elapsed = int(now - rotation_start)
+            screen = (elapsed // 5) % 4
+
+            # Screen 1: original system summary
+            if screen == 0:
+                ip_text = get_ip_address()
+                cpu_temp_text = get_cpu_temperature()
+                cpu_usage_text = get_cpu_usage()
+                mem_usage_text = get_mem_usage()
+
+                draw.text((0, 0), ip_text, font=font, fill=255)
+                draw.text((0, 16), cpu_temp_text, font=font, fill=255)
+                draw.text((0, 32), cpu_usage_text, font=font, fill=255)
+                draw.text((0, 48), mem_usage_text, font=font, fill=255)
+
+            # Screen 2: host, uptime, available and total RAM (GB)
+            elif screen == 1:
+                draw.text((0, 0), get_hostname(), font=font, fill=255)
+                draw.text((0, 16), get_uptime(), font=font, fill=255)
+                draw.text((0, 32), get_ram_available_gb(), font=font, fill=255)
+                draw.text((0, 48), get_ram_total_gb(), font=font, fill=255)
+
+            # Screen 3: top 4 by CPU
+            elif screen == 2:
+                draw.text((0, 0), "Top CPU", font=small_font, fill=255)
+                for idx, line in enumerate(get_top_processes("cpu")):
+                    draw.text((0, 12 + idx * 13), line, font=small_font, fill=255)
+
+            # Screen 4: top 4 by MEM
+            else:
+                draw.text((0, 0), "Top MEM", font=small_font, fill=255)
+                for idx, line in enumerate(get_top_processes("mem")):
+                    draw.text((0, 12 + idx * 13), line, font=small_font, fill=255)
+
+            # About one random special display per minute on average.
+            if (now - last_special_end) >= 60.0 and random.random() < 0.2:
+                special_mode = random.choice(["cube", "balls"])
+                special_start = now
+                if special_mode == "balls":
+                    balls = init_balls()
 
         # display
         display.image(image)
         display.show()
 
-        time.sleep(1)
+        time.sleep(frame_sleep)
 
     except KeyboardInterrupt:
         print("\nExiting. Clearing display.")
