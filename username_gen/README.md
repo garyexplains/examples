@@ -12,6 +12,8 @@ Perfect for creating gamer tags, usernames, account names, or creative handles.
   - Lowercase (default) – all words forced to lowercase
   - Capitalized (`-c`) – each word starts with a capital letter
 - Option to add a random 2 or 4-digit number at the end
+- Clean output by default (no line numbers)
+- Optional line numbers with `--linenumbers`
 - Saves generated usernames to a text file
 - Easy to customize word lists
 - Command-line interface with helpful options
@@ -67,6 +69,7 @@ python username_generator.py -n 50 -s "-" -o my_usernames
 | `-s`, `--separator`  | Separator between words (`_`, `-`, `.`, `+`)    | (none)      |
 | `-c`, `--capitalize` | Capitalize each word                             | False       |
 | `--add_number`       | Add random number at the end                     | False       |
+| `--linenumbers`      | Show line numbers (1., 2., etc.) in console output | False    |
 | `-o`, `--output`     | Save results to a text file                      | None        |
 | `--files`            | Custom paths to the four word list files         | default     |
 
