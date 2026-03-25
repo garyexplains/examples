@@ -5,7 +5,6 @@ from datetime import datetime
 def load_words(filename):
     """Load words from a text file, one per line"""
     with open(filename, 'r', encoding='utf-8') as f:
-        # Strip whitespace and remove empty lines
         words = [line.strip() for line in f if line.strip()]
     return words
 
@@ -16,20 +15,17 @@ def generate_username(words1, words2, words3, words4, separator="", capitalize=F
     w4 = random.choice(words4)
     
     if capitalize:
-        # Capitalize each word (e.g. DavidSmithRunningPony)
         username = (w1.capitalize() +
                     separator + w2.capitalize() +
                     separator + w3.capitalize() +
                     separator + w4.capitalize())
     else:
-        # Force everything to lowercase
         username = (w1.lower() +
                     separator + w2.lower() +
                     separator + w3.lower() +
                     separator + w4.lower())
     
     if add_number:
-        # Add a random 2 or 4 digit number
         num = random.choice([random.randint(10, 99), random.randint(1000, 9999)])
         username += str(num)
     
@@ -46,9 +42,11 @@ def main():
                         choices=['', '_', '-', '.', '+'],
                         help="Separator between words (default: none)")
     parser.add_argument('-c', '--capitalize', action='store_true',
-                        help="Capitalize each word (e.g. DavidSmithRunningPony)")
+                        help="Capitalize each word")
     parser.add_argument('--add_number', action='store_true',
                         help="Add a random number at the end")
+    parser.add_argument('--linenumbers', action='store_true',
+                        help="Show line numbers in output (default: hidden)")
     parser.add_argument('--files', nargs=4, 
                         default=['words1.txt', 'words2.txt', 'words3.txt', 'words4.txt'],
                         help="Paths to the four word list files")
@@ -77,6 +75,8 @@ def main():
         print("=" * 60)
         
         usernames = []
+        show_line_numbers = args.linenumbers   # Only show if --linenumbers is used
+        
         for i in range(args.number):
             username = generate_username(
                 list1, list2, list3, list4,
@@ -85,7 +85,11 @@ def main():
                 add_number=args.add_number
             )
             usernames.append(username)
-            print(f"{i+1:3d}. {username}")
+            
+            if show_line_numbers:
+                print(f"{i+1:3d}. {username}")
+            else:
+                print(username)
         
         # Save to file if requested
         if args.output:
