@@ -1,4 +1,7 @@
 # Number of unique layers in an XOR closed loop
+## OEIS
+I am trying to get this sequence into the OEIS [A396572](https://oeis.org/draft/A396572)
+
 ## Sequence
 2, 5, 4, 4, 8, 9, 8, 8, 32, 8, 64, 16, 16, 17, 16, 16, 512, 16, 64, 64, 2048, 16, 1024, 128, 512, 32, 16384, 32, 32, 33, 32, 32, 4096, 32, 87382, 1024, 4096, 32, 1024, 128, 128, 128, 4096
 
