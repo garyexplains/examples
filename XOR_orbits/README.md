@@ -14,9 +14,61 @@ If you then repeat this and use XOR on layer 1 you get ['A^B^B^C', 'B^C^A^C', 'A
 
 So a loop of 3 numbers (3 vertices), a triangle, has two unique layers, the original [A, B, C] and layer 1 ['A^B', 'B^C', 'A^C'].
 
+In the example below you can see that layer 2 is in fact layer 1 but just in a different order.
+```
+Layer 0:
+['A', 'B', 'C']
+Layer 1:
+['A^B', 'B^C', 'A^C']
+Layer 2:
+['A^C', 'A^B', 'B^C']
+Cycle repeats at layer 2.
+```
+
 If you try this for closed loops with 4 vertices or 5, etc you get a different number of unique layers (as shown in the above sequence) before the layers start repeating.
 
 Interestingly they repeat in a cyclic fashion. For example, for 5 vertices there are 4 unique layers (layers 0 to 3). Layer 4 is a repeat of layer 1 (in a different order) and layer 5 is repeat of layer 2, etc.
+
+Here is a loop of 7 numbers:
+```
+# 7
+Layer 0:
+['A', 'B', 'C', 'D', 'E', 'F', 'G']
+Layer 1:
+['A^B', 'B^C', 'C^D', 'D^E', 'E^F', 'F^G', 'A^G']
+Layer 2:
+['A^C', 'B^D', 'C^E', 'D^F', 'E^G', 'A^F', 'B^G']
+Layer 3:
+['A^B^C^D', 'B^C^D^E', 'C^D^E^F', 'D^E^F^G', 'A^E^F^G', 'A^B^F^G', 'A^B^C^G']
+Layer 4:
+['A^E', 'B^F', 'C^G', 'A^D', 'B^E', 'C^F', 'D^G']
+Layer 5:
+['A^B^E^F', 'B^C^F^G', 'A^C^D^G', 'A^B^D^E', 'B^C^E^F', 'C^D^F^G', 'A^D^E^G']
+Layer 6:
+['A^C^E^G', 'A^B^D^F', 'B^C^E^G', 'A^C^D^F', 'B^D^E^G', 'A^C^E^F', 'B^D^F^G']
+Layer 7:
+['B^C^D^E^F^G', 'A^C^D^E^F^G', 'A^B^D^E^F^G', 'A^B^C^E^F^G', 'A^B^C^D^F^G', 'A^B^C^D^E^G', 'A^B^C^D^E^F']
+Layer 8:
+['A^B', 'B^C', 'C^D', 'D^E', 'E^F', 'F^G', 'A^G']
+Cycle repeats at layer 8.
+```
+
+### When n is a power of 2
+When n is a power of 2 (i.e. 4, 8, 16, 32, etc) then the sequecne always reaches 0. The step to reach 0 adds a extra layer, so the total number of unique layers is n + 1.
+
+```
+Layer 0:
+['A', 'B', 'C', 'D']
+Layer 1:
+['A^B', 'B^C', 'C^D', 'A^D']
+Layer 2:
+['A^C', 'B^D', 'A^C', 'B^D']
+Layer 3:
+['A^B^C^D', 'A^B^C^D', 'A^B^C^D', 'A^B^C^D']
+Layer 4:
+['0', '0', '0', '0']
+Cycle repeats at layer 5.
+```
 
 ## In other words
 Cyclic Adjacent-XOR
