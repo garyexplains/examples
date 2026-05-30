@@ -100,15 +100,10 @@ Because the XOR operation is linear, the repeated application of adjacent XORs f
 
 The C program breaks n down into its power-of-2 component (s) and its odd multiplier (m) so that n=2s⋅m.
 
-__The math:__
+#### The math:
 Instead of simulating the layers, it finds the multiplicative order of 2 modulo m (searching for k where 2k≡±1(modm)).
 
 It then calculates the total number of unique states mathematically, which is 2s+k (or 2s+1 if n is a perfect power of 2).
-
-#### The Advantage:
-It takes a fraction of a millisecond to solve n=1024.
-
-The only reason the C program is so long is that the mathematical answers get so massive (numbers with over 150 decimal digits) that it requires a custom arbitrary-precision (BigInt) engine to print the result.
 
 ### More math
 For a ring size n, write:
