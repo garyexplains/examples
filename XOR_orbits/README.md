@@ -6,17 +6,17 @@ I am trying to get this sequence into the OEIS [A396572](https://oeis.org/draft/
 2, 5, 4, 4, 8, 9, 8, 8, 32, 8, 64, 16, 16, 17, 16, 16, 512, 16, 64, 64, 2048, 16, 1024, 128, 512, 32, 16384, 32, 32, 33, 32, 32, 4096, 32, 87382, 1024, 4096, 32, 1024, 128, 128, 128, 4096
 
 ## Intro
-You have a sequence of nodes in a closed loop, with numbers at the vertices, say A,B,C that form the loop AB,BC,CA (let's called this layer 0).
+You have a sequence of nodes in a closed loop, with numbers at the vertices, say A,B,C that form the loop AB,BC,CA (let's call this layer 0).
 
 Perform XOR (^) on each connection so A XOR B, B XOR C, C XOR A results in a new layer (layer 1): ['A^B', 'B^C', 'A^C'].
 
 If you then repeat this and use XOR on layer 1 you get ['A^B^B^C', 'B^C^A^C', 'A^C^A^B'] which simplifies to ['A^C', 'B^A', 'C^B'] which is the same as layer 1, but just a different order.
 
-So a loop of 3 number (3 vertices), a triangle, has two unique layers, the original [A, B, C] and layer 1 ['A^B', 'B^C', 'A^C'].
+So a loop of 3 numbers (3 vertices), a triangle, has two unique layers, the original [A, B, C] and layer 1 ['A^B', 'B^C', 'A^C'].
 
 If you try this for closed loops with 4 vertices or 5, etc you get a different number of unique layers (as shown in the above sequence) before the layers start repeating.
 
-Interesting they repeat in a cyclic fashion. For example for 5 vertices there are 4 unique layers (layers 0 to 3). Layer 4 is a repeat of layer 1 (in a different order) and layer 5 is repeat of layer 2, etc.
+Interestingly they repeat in a cyclic fashion. For example, for 5 vertices there are 4 unique layers (layers 0 to 3). Layer 4 is a repeat of layer 1 (in a different order) and layer 5 is repeat of layer 2, etc.
 
 ## In other words
 Cyclic Adjacent-XOR
@@ -29,9 +29,9 @@ The question is: How many unique layers exist before the pattern repeats?
 
 ## Simulation vs number theory
 ### Simulation
-There are some different programs here in this folder. The Python programs do "simulation". 
+There are some different programs here in this folder. The Python programs do "simulation".
 
-They create the starting layer, calculates the exact XOR expressions for the next layer using layer[i] ^ layer[(i + 1) % n], finds the canonical (minimum) rotation, and saves it to a memory set().
+They create the starting layer, calculate the exact XOR expressions for the next layer using layer[i] ^ layer[(i + 1) % n], find the canonical (minimum) rotation, and save it to a memory set().
 
 It keeps simulating layer after layer until it finds a sequence it has already seen.
 
@@ -156,3 +156,14 @@ Then the count is:
 unless m = 1, in which case:
 
 `count = n + 1`
+
+## Power of 2 sequence
+So every number in the sequence is actually a power of 2, except when n is a power of 2, then the answer is n + 1.
+
+This means there is an alternative sequence which is just to list the exponents (and note when n is a power of 2).
+
+1, 2 (+1), 2, 2, 3, 3 (+1), 3, 3, 5, 3, 6, 4, 4, 4 (+1), 4, 4, 9, 4, 6, 6, 11, 4, 10, 7, 9, 5, 14, 5, 5, 5 (+1), 5, 5, 12, 5, 18, 10, 12, 5, 10, 7, 7, 7, 12, 12, 23, 5, 21, 11, 8, 8, 26, 10, 20, 6, 9, 15, 29, 6, 30, 6, 6, 6 (+1)
+
+Without noting n is power of 2
+
+1, 2 , 2, 2, 3, 3 , 3, 3, 5, 3, 6, 4, 4, 4 , 4, 4, 9, 4, 6, 6, 11, 4, 10, 7, 9, 5, 14, 5, 5, 5 , 5, 5, 12, 5, 18, 10, 12, 5, 10, 7, 7, 7, 12, 12, 23, 5, 21, 11, 8, 8, 26, 10, 20, 6, 9, 15, 29, 6, 30, 6, 6, 6
