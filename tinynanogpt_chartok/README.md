@@ -26,7 +26,7 @@ Open PowerShell or Command Prompt in the project directory:
 
 ```powershell
 py -m venv .venv
-.venv\\Scripts\\activate
+.venv\Scripts\activate
 ```
 
 Upgrade `pip`:
@@ -52,7 +52,7 @@ python -m pip install --upgrade pip
 
 After activation, `python` and `pip` refer to the versions inside the virtual environment.
 
-\---
+---
 
 # Windows
 
@@ -113,7 +113,7 @@ Intel GPU support is hardware- and driver-dependent. Consult the current PyTorch
 
 AMD ROCm builds of PyTorch are generally intended for Linux rather than native Windows.
 
-\---
+---
 
 # Linux
 
@@ -187,7 +187,7 @@ python -m pip install numpy tqdm
 
 The exact ROCm version must match a currently available PyTorch build and must support the installed AMD GPU. AMD ROCm PyTorch packages are primarily supported on Linux.
 
-After installation, PyTorch continues to use the `torch.cuda` Python interface for many ROCm operations. Therefore, `torch.cuda.is\_available()` may return `True` on an AMD ROCm system even though the computer does not contain an NVIDIA GPU.
+After installation, PyTorch continues to use the `torch.cuda` Python interface for many ROCm operations. Therefore, `torch.cuda.is_available()` may return `True` on an AMD ROCm system even though the computer does not contain an NVIDIA GPU.
 
 ## Intel GPU installation
 
@@ -200,7 +200,7 @@ python -m pip install numpy tqdm
 
 The Intel GPU driver and hardware must meet the requirements documented by PyTorch.
 
-\---
+---
 
 # macOS
 
@@ -253,7 +253,7 @@ Applications must then select the `mps` device:
 ```python
 import torch
 
-if torch.backends.mps.is\_available():
+if torch.backends.mps.is_available():
     device = torch.device("mps")
 else:
     device = torch.device("cpu")
@@ -282,34 +282,34 @@ The expected output on Apple Silicon is:
 arm64
 ```
 
-If the output is `x86\_64`, install an ARM64 version of Python and recreate the virtual environment.
+If the output is `x86_64`, install an ARM64 version of Python and recreate the virtual environment.
 
-\---
+---
 
 # Verify the installation
 
 Run:
 
 ```bash
-python -c "import torch, numpy, tqdm; print('PyTorch:', torch.\_\_version\_\_); print('NumPy:', numpy.\_\_version\_\_); print('tqdm:', tqdm.\_\_version\_\_)"
+python -c "import torch, numpy, tqdm; print('PyTorch:', torch.__version__); print('NumPy:', numpy.__version__); print('tqdm:', tqdm.__version__)"
 ```
 
 ## Check the selected accelerator
 
-Create a file named `check\_torch.py` containing:
+Create a file named `check_torch.py` containing:
 
 ```python
 import torch
 
-print(f"PyTorch version: {torch.\_\_version\_\_}")
+print(f"PyTorch version: {torch.__version__}")
 
-if torch.cuda.is\_available():
+if torch.cuda.is_available():
     print("GPU acceleration is available through CUDA or ROCm.")
-    print(f"Device: {torch.cuda.get\_device\_name(0)}")
-elif hasattr(torch, "xpu") and torch.xpu.is\_available():
+    print(f"Device: {torch.cuda.get_device_name(0)}")
+elif hasattr(torch, "xpu") and torch.xpu.is_available():
     print("Intel XPU acceleration is available.")
-    print(f"Device: {torch.xpu.get\_device\_name(0)}")
-elif torch.backends.mps.is\_available():
+    print(f"Device: {torch.xpu.get_device_name(0)}")
+elif torch.backends.mps.is_available():
     print("Apple Metal acceleration is available.")
     print("Device: MPS")
 else:
@@ -320,7 +320,7 @@ else:
 Run it with:
 
 ```bash
-python check\_torch.py
+python check_torch.py
 ```
 
 ## Test a tensor on the selected device
@@ -328,11 +328,11 @@ python check\_torch.py
 ```python
 import torch
 
-if torch.cuda.is\_available():
+if torch.cuda.is_available():
     device = torch.device("cuda")
-elif hasattr(torch, "xpu") and torch.xpu.is\_available():
+elif hasattr(torch, "xpu") and torch.xpu.is_available():
     device = torch.device("xpu")
-elif torch.backends.mps.is\_available():
+elif torch.backends.mps.is_available():
     device = torch.device("mps")
 else:
     device = torch.device("cpu")
@@ -344,7 +344,7 @@ print(f"PyTorch is working on: {device}")
 print(y.shape)
 ```
 
-\---
+---
 
 # Troubleshooting
 
@@ -401,7 +401,7 @@ nvidia-smi
 Then inspect PyTorch:
 
 ```bash
-python -c "import torch; print(torch.\_\_version\_\_); print(torch.version.cuda); print(torch.cuda.is\_available())"
+python -c "import torch; print(torch.__version__); print(torch.version.cuda); print(torch.cuda.is_available())"
 ```
 
 If `torch.version.cuda` prints `None`, a CPU-only build of PyTorch is installed. Uninstall it and install the CUDA build selected by the official PyTorch installer:
@@ -417,12 +417,12 @@ Then run the appropriate CUDA installation command.
 Run:
 
 ```bash
-python -c "import torch; print('Built:', torch.backends.mps.is\_built()); print('Available:', torch.backends.mps.is\_available())"
+python -c "import torch; print('Built:', torch.backends.mps.is_built()); print('Available:', torch.backends.mps.is_available())"
 ```
 
-If `is\_built()` is false, reinstall a current native macOS build of PyTorch.
+If `is_built()` is false, reinstall a current native macOS build of PyTorch.
 
-If `is\_built()` is true but `is\_available()` is false, check the macOS version, the Mac hardware, and whether Python is running as ARM64. PyTorch distinguishes between an installation that was not built with MPS and a compatible build running on a system where MPS cannot be used.
+If `is_built()` is true but `is_available()` is false, check the macOS version, the Mac hardware, and whether Python is running as ARM64. PyTorch distinguishes between an installation that was not built with MPS and a compatible build running on a system where MPS cannot be used.
 
 ## Reinstall all three packages
 
@@ -443,7 +443,7 @@ If PyTorch was previously installed without GPU support, installing a GPU-enable
 Run:
 
 ```bash
-python -c "import torch; print('PyTorch:', torch.\_\_version\_\_); print('CUDA build:', torch.version.cuda); print('CUDA available:', torch.cuda.is\_available())"
+python -c "import torch; print('PyTorch:', torch.__version__); print('CUDA build:', torch.version.cuda); print('CUDA available:', torch.cuda.is_available())"
 ```
 
 On an NVIDIA system, a CPU-only installation will normally show:
@@ -485,7 +485,7 @@ python -m pip install --upgrade pip
 
 NumPy and tqdm do not normally need to be removed.
 
-\---
+---
 
 ## Replace CPU-only PyTorch with NVIDIA CUDA support
 
@@ -518,7 +518,7 @@ That command may install a build that does not match the intended accelerator or
 Verify the new installation:
 
 ```bash
-python -c "import torch; print('PyTorch:', torch.\_\_version\_\_); print('CUDA build:', torch.version.cuda); print('CUDA available:', torch.cuda.is\_available()); print('GPU:', torch.cuda.get\_device\_name(0) if torch.cuda.is\_available() else 'Not detected')"
+python -c "import torch; print('PyTorch:', torch.__version__); print('CUDA build:', torch.version.cuda); print('CUDA available:', torch.cuda.is_available()); print('GPU:', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'Not detected')"
 ```
 
 A successful installation should report:
@@ -529,7 +529,7 @@ CUDA available: True
 
 The CUDA version embedded in the PyTorch package does not necessarily need to match the CUDA Toolkit installed system-wide. For normal use, the important requirement is a sufficiently recent NVIDIA driver.
 
-\---
+---
 
 ## Replace CPU-only PyTorch with AMD ROCm support
 
@@ -552,12 +552,12 @@ The exact ROCm repository identifier must come from the current PyTorch installa
 Verify the installation:
 
 ```bash
-python -c "import torch; print('HIP build:', torch.version.hip); print('GPU available:', torch.cuda.is\_available()); print('GPU:', torch.cuda.get\_device\_name(0) if torch.cuda.is\_available() else 'Not detected')"
+python -c "import torch; print('HIP build:', torch.version.hip); print('GPU available:', torch.cuda.is_available()); print('GPU:', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'Not detected')"
 ```
 
-PyTorch uses much of the `torch.cuda` Python API for both CUDA and ROCm. Therefore, `torch.cuda.is\_available()` can return `True` on an AMD ROCm system.
+PyTorch uses much of the `torch.cuda` Python API for both CUDA and ROCm. Therefore, `torch.cuda.is_available()` can return `True` on an AMD ROCm system.
 
-\---
+---
 
 ## Replace CPU-only PyTorch with Intel XPU support
 
@@ -576,16 +576,16 @@ python -m pip install torch torchvision torchaudio --index-url https://download.
 Verify it with:
 
 ```bash
-python -c "import torch; print('XPU available:', hasattr(torch, 'xpu') and torch.xpu.is\_available())"
+python -c "import torch; print('XPU available:', hasattr(torch, 'xpu') and torch.xpu.is_available())"
 ```
 
 When available, display the device name:
 
 ```bash
-python -c "import torch; print(torch.xpu.get\_device\_name(0) if hasattr(torch, 'xpu') and torch.xpu.is\_available() else 'Intel XPU not detected')"
+python -c "import torch; print(torch.xpu.get_device_name(0) if hasattr(torch, 'xpu') and torch.xpu.is_available() else 'Intel XPU not detected')"
 ```
 
-\---
+---
 
 ## Apple Silicon: replacing an Intel or unsuitable PyTorch installation
 
@@ -603,7 +603,7 @@ The result should be:
 arm64
 ```
 
-If it reports `x86\_64`, Python is probably running through Rosetta. Install an ARM64 version of Python and create a new virtual environment. Reusing a virtual environment created with an Intel version of Python is not recommended.
+If it reports `x86_64`, Python is probably running through Rosetta. Install an ARM64 version of Python and create a new virtual environment. Reusing a virtual environment created with an Intel version of Python is not recommended.
 
 Remove the existing PyTorch packages:
 
@@ -621,7 +621,7 @@ python -m pip install numpy tqdm
 Verify MPS support:
 
 ```bash
-python -c "import torch; print('MPS built:', torch.backends.mps.is\_built()); print('MPS available:', torch.backends.mps.is\_available())"
+python -c "import torch; print('MPS built:', torch.backends.mps.is_built()); print('MPS available:', torch.backends.mps.is_available())"
 ```
 
 A usable Apple GPU installation should report:
@@ -636,7 +636,7 @@ Applications must explicitly select the `mps` device:
 ```python
 import torch
 
-if torch.backends.mps.is\_available():
+if torch.backends.mps.is_available():
     device = torch.device("mps")
 else:
     device = torch.device("cpu")
@@ -646,7 +646,7 @@ print(f"Using: {device}")
 
 Installing a newer PyTorch package does not automatically make existing code use the Apple GPU. The model and its tensors must be moved to the `mps` device.
 
-\---
+---
 
 # Installing MLX after previously installing PyTorch
 
@@ -663,7 +663,7 @@ There is no need to uninstall PyTorch unless the project does not use it.
 Verify MLX:
 
 ```bash
-python -c "import mlx.core as mx; print('MLX imported successfully'); print(mx.default\_device())"
+python -c "import mlx.core as mx; print('MLX imported successfully'); print(mx.default_device())"
 ```
 
 A simple MLX test is:
@@ -677,7 +677,7 @@ y = x @ x
 mx.eval(y)
 
 print(y.shape)
-print(mx.default\_device())
+print(mx.default_device())
 ```
 
 Apple’s official MLX installation documentation specifies that MLX can be installed with `pip` on an Apple Silicon computer.
@@ -695,7 +695,7 @@ The `mlx-lm` package provides tools for running and fine-tuning language models 
 Verify it with:
 
 ```bash
-python -m mlx\_lm.generate --help
+python -m mlx_lm.generate --help
 ```
 
 ## PyTorch MPS versus MLX
@@ -722,7 +722,7 @@ model.to("mps")
 
 That code continues to use PyTorch’s MPS backend. Similarly, MLX arrays are not PyTorch tensors and cannot generally be passed directly to a PyTorch model without conversion.
 
-\---
+---
 
 # Clean reinstall when acceleration still does not work
 
@@ -741,7 +741,7 @@ Create it again:
 
 ```powershell
 py -m venv .venv
-.venv\\Scripts\\Activate.ps1
+.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
 ```
 
@@ -767,4 +767,3 @@ python -m pip install --upgrade pip
 Then install the appropriate PyTorch, ROCm, MPS-compatible, or MLX packages.
 
 Creating a fresh environment is often more reliable than repeatedly installing different PyTorch builds into the same environment.
-
