@@ -1,0 +1,157 @@
+<html>
+
+<style>
+
+.container {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+.button{
+    height:200px;
+    width:200px;
+}
+
+.center {
+  text-align: center;
+  margin: auto;
+  width: 60%;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+.img {
+  margin-bottom: 15px
+  border: 5px solid #555;
+  border-radius: 5px;
+}
+
+img {
+  border: 5px solid #555;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+/* CSS */
+.button-74 {
+  background-color: #fbeee0;
+  border: 2px solid #422800;
+  border-radius: 30px;
+  box-shadow: #422800 4px 4px 0 0;
+  color: #422800;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 600;
+  font-size: 18px;
+  padding: 0 18px;
+  line-height: 50px;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-74:hover {
+  background-color: #fff;
+}
+
+.button-74:active {
+  box-shadow: #422800 2px 2px 0 0;
+  transform: translate(2px, 2px);
+}
+
+@media (min-width: 768px) {
+  .button-74 {
+    min-width: 120px;
+    padding: 0 25px;
+  }
+}
+</style>
+<head>
+    <title>picamera MJPEG Take a snap</title>
+</head>
+<body>
+<div class="center">
+    <h1>Take snap</h1>
+    <div class="container">
+        <img id="camdisplay" src="stream.mjpg" width="640" height="480" />
+        <div class="centered"><h1 id="counter"></h1></div>
+    </div>
+    <br/>
+    <button id="snap" class="button-74">
+        TAKE A SNAP !!
+    </button>
+</div>
+
+
+<script>
+	function create_UUID(){
+		var dt = new Date().getTime();
+		var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+			var r = (dt + Math.random()*16)%16 | 0;
+			dt = Math.floor(dt/16);
+			return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+		});
+		return uuid;
+	}
+
+	function capturePic() {
+		// Creating Our XMLHttpRequest object
+        var xhr = new XMLHttpRequest();
+
+        // Making our connection
+        var url = '/snap';
+        xhr.open("GET", url, true);
+
+        // function execute after request is successful
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+				let uuid = create_UUID()
+                console.log("Picture captured");
+				let camdisplay = document.getElementById("camdisplay");
+				camdisplay.setAttribute("src", "/lastSnappedImage?V=" + uuid);
+
+				setTimeout(function () {
+					camdisplay.setAttribute("src", "stream.mjpg");
+				}, 4000);
+            }
+        }
+        // Sending our request
+        xhr.send();
+	}
+
+    function snap() {
+		let count = 5
+		let x = setInterval(function() {
+
+			if (count == -1) {
+				clearInterval(x);
+				document.getElementById("counter").innerHTML = "";
+			}
+
+			else if (count == 0) {
+				document.getElementById("counter").innerHTML = "SNAP";
+				capturePic()
+			}
+			else {
+				document.getElementById("counter").innerHTML = count;
+			}
+			count--;
+		}, 1000)
+    }
+
+	let btn = document.getElementById("snap");
+    btn.addEventListener('click', event => {
+      snap();
+    });
+</script>
+</body>
+</html>
