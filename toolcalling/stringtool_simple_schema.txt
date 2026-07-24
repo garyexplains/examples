@@ -1,0 +1,13 @@
+{
+  "type": "function",
+  "name": "reverse",
+  "description": "Reverse the characters in a string.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "s": { "type": "string", "description": "The string to reverse." }
+    },
+    "required": ["s"],
+    "additionalProperties": false
+  }
+}
